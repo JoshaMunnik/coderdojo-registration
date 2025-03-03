@@ -74,7 +74,7 @@ The implementation supports English and Dutch language.
 
 To add a language perform the following steps:
 - Add a new record to the `languages` table.
-- Update `/registration_site/serc/Model/Value/Language.php`.
+- Update `/registration_site/src/Model/Value/Language.php`.
 - Create a folder with correct language code in `/registration_site/resources/locales/` folder.
 - Add a new `default.po` to the created folder.
 - Add email templates for the new language to the `/registration_site/templates/emails/html/` 
