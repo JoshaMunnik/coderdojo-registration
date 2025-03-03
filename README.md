@@ -84,5 +84,5 @@ To create a `po` file, one can use [Poedit](https://poedit.net/).
 
 ## License
 
-The project is licensed under the GPL-3.0 license. See the [gnu-gpl-v3.0.md]() file for more
-information.
+The project is licensed under the GPL-3.0 license. See the [gnu-gpl-v3.0.md](gnu-gpl-v3.0.md) file 
+for more information.
