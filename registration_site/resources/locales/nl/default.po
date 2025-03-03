@@ -1,0 +1,1131 @@
+# LANGUAGE translation of CakePHP Application
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: 2025-03-03 16:19+0000\n"
+"PO-Revision-Date: 2025-03-03 17:22+0100\n"
+"Last-Translator: \n"
+"Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
+"Language: nl\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 3.5\n"
+
+#: src/Controller/AccountController.php:147
+msgid "Your account has been created. Please login."
+msgstr "Het account is aangemaakt. Gelieve in te loggen."
+
+#: src/Controller/AccountController.php:150
+msgid "An error occurred with the database, your account has not been created."
+msgstr ""
+"Er is een fout opgetreden met de database, het account is niet aangemaakt."
+
+#: src/Controller/AccountController.php:177
+msgid ""
+"An error occurred with the database, your reset token has not been created."
+msgstr ""
+"Er is een fout opgetreden met de database, het reset-token is niet gemaakt."
+
+#: src/Controller/AccountController.php:184
+msgid "An email has been sent to you with instructions to reset your password."
+msgstr ""
+"Er is een e-mail verzonden met instructies om het wachtwoord opnieuw in te "
+"stellen."
+
+#: src/Controller/AccountController.php:204
+msgid "Your password has been reset. Please login."
+msgstr "U heeft uw wachtwoord gereset. U kunt nu inloggen."
+
+#: src/Controller/AccountController.php:207
+msgid "An error occurred with the database, your password has not been reset."
+msgstr ""
+"Er is een fout opgetreden met de database, het wachtwoord is niet opnieuw "
+"ingesteld."
+
+#: src/Controller/AccountController.php:230
+msgid "Invalid or unknown credentials."
+msgstr "Ongeldige of onbekende inloggegevens."
+
+#: src/Controller/AdministratorController.php:45
+msgid "Caches have been cleared."
+msgstr "De caches zijn opgeschoond."
+
+#: src/Controller/EventWorkshopsController.php:75
+msgid "The workshop has been removed."
+msgstr "De workshop is verwijderd."
+
+#: src/Controller/EventWorkshopsController.php:90
+#: templates/EventWorkshops/index.php:61 templates/Participants/index.php:52
+#: templates/Participants/manage_checkins.php:75
+#: templates/element/dialog/add_event_workshop.php:34
+msgid "Workshop"
+msgstr "Workshop"
+
+#: src/Controller/EventWorkshopsController.php:91
+#: templates/EventWorkshops/index.php:62 templates/Events/index.php:60
+msgid "Places"
+msgstr "Plaatsen"
+
+#: src/Controller/EventWorkshopsController.php:92
+#: templates/EventWorkshops/index.php:63 templates/Events/index.php:58
+#: templates/Participants/manage_checkins.php:50 templates/Users/index.php:40
+msgid "Participants"
+msgstr "Deelnemers"
+
+#: src/Controller/EventWorkshopsController.php:93
+#: templates/EventWorkshops/index.php:64
+msgid "Laptops"
+msgstr "Laptops"
+
+#: src/Controller/EventWorkshopsController.php:158
+msgid "The workshop {0} has been updated."
+msgstr "De workshop {0} is bijgewerkt."
+
+#: src/Controller/EventWorkshopsController.php:163
+#: src/Controller/EventWorkshopsController.php:201
+msgid "The workshop could not be saved in the database."
+msgstr "De workshop kon niet worden opgeslagen in de database."
+
+#: src/Controller/EventWorkshopsController.php:196
+msgid "The workshop {0} has been added to the event for {1}."
+msgstr "De workshop {0} is aan het evenement voor {1} toegevoegd."
+
+#: src/Controller/EventsController.php:62
+msgid "The event for {0} has been removed."
+msgstr "Het evenement voor {0} is verwijderd."
+
+#: src/Controller/EventsController.php:85
+msgid "The event for {0} has been anonymized."
+msgstr "Het evenement voor {0} is geanonimiseerd."
+
+#: src/Controller/EventsController.php:112
+msgid "The event for {0} has been updated."
+msgstr "Het evenement voor {0} is bijgewerkt."
+
+#: src/Controller/EventsController.php:116
+#: src/Controller/EventsController.php:147
+msgid "The event could not be saved to the database."
+msgstr "Het evenement kon niet worden opgeslagen in de database."
+
+#: src/Controller/EventsController.php:142
+msgid "The event for {0} has been added."
+msgstr "Het evenement voor {0} is toegevoegd."
+
+#: src/Controller/ParticipantsController.php:142
+msgid "Participant {0} does not belong to this event."
+msgstr "Deelnemer {0} maakt geen deel uit van dit evenement."
+
+#: src/Controller/ParticipantsController.php:148
+msgid "Participant {0} has been removed."
+msgstr "Deelnemer {0} is verwijderd."
+
+#: src/Controller/ParticipantsController.php:165
+#: templates/Participants/index.php:49
+#: templates/Participants/manage_checkins.php:72
+msgid "Participant name"
+msgstr "Naam van de deelnemer"
+
+#: src/Controller/ParticipantsController.php:166
+#: templates/Participants/index.php:50
+msgid "User email"
+msgstr "Gebruiker E-mail"
+
+#: src/Controller/ParticipantsController.php:167
+#: templates/Participants/index.php:51
+#: templates/Participants/manage_checkins.php:73
+msgid "User name"
+msgstr "Gebruikersnaam"
+
+#: src/Controller/ParticipantsController.php:168
+msgid "First workshop"
+msgstr "Eerste workshop"
+
+#: src/Controller/ParticipantsController.php:169
+#: templates/Participants/index.php:53
+msgid "Backup workshop"
+msgstr "Reserve workshop"
+
+#: src/Controller/ParticipantsController.php:170
+#: templates/Participants/manage_checkins.php:74 templates/Users/edit.php:62
+#: templates/Users/index.php:38
+msgid "Language"
+msgstr "Taal"
+
+#: src/Controller/ParticipantsController.php:171
+#: templates/Participants/index.php:54
+msgid "Laptop"
+msgstr "Laptop"
+
+#: src/Controller/ParticipantsController.php:172
+#: templates/Participants/index.php:55
+msgid "Participated"
+msgstr "Deelgenomen"
+
+#: src/Controller/ParticipantsController.php:187
+#: src/Controller/ParticipantsController.php:249
+#: templates/Participants/index.php:83
+#: templates/Participants/manage_checkins.php:89
+msgid "yes"
+msgstr "ja"
+
+#: src/Controller/ParticipantsController.php:220
+msgid "participating"
+msgstr "neemt deel"
+
+#: src/Controller/ParticipantsController.php:223
+msgid "waiting position: {0}"
+msgstr "wachtpositie: {0}"
+
+#: src/Controller/ParticipantsController.php:226
+msgid "NOT participating"
+msgstr "Neemt NIET deel"
+
+#: src/Controller/ParticipantsController.php:252
+#: templates/Participants/index.php:87
+#: templates/Participants/manage_checkins.php:90
+msgid "no"
+msgstr "nee"
+
+#: src/Controller/UserController.php:141 src/Controller/UserController.php:164
+#: src/Controller/UserController.php:199 src/Controller/UserController.php:386
+msgid "Participant not found."
+msgstr "De deelnemer is niet gevonden."
+
+#: src/Controller/UserController.php:179
+msgid "Failed to save workshop selection."
+msgstr "Kan de workshop keuze niet opslaan."
+
+#: src/Controller/UserController.php:208
+msgid "Failed to remove workshop."
+msgstr "De workshop kon niet verwijderd worden."
+
+#: src/Controller/UserController.php:350 src/Controller/UserController.php:382
+msgid "Participant could not be saved."
+msgstr "De deelnemer kon niet worden opgeslagen."
+
+#: src/Controller/UsersController.php:71
+msgid "User {0} removed"
+msgstr "Gebruiker {0} is verwijderd"
+
+#: src/Controller/UsersController.php:112
+msgid "User {0} updated"
+msgstr "Gebruiker {0} is bijgewerkt"
+
+#: src/Controller/UsersController.php:113
+msgid "User {0} created"
+msgstr "Gebruiker {0} is aangemaakt"
+
+#: src/Controller/UsersController.php:117
+msgid "Failed to save user to the database"
+msgstr "Kan de gebruiker niet opslaan in de database"
+
+#: src/Controller/WorkshopsController.php:69
+msgid "Workshop {0} has been removed."
+msgstr "Workshop {0} is verwijderd."
+
+#: src/Controller/WorkshopsController.php:107
+msgid "Workshop {0} updated"
+msgstr "Workshop {0} is bijgewerkt"
+
+#: src/Controller/WorkshopsController.php:108
+msgid "Workshop {0} created"
+msgstr "Workshop {0} is aangemaakt"
+
+#: src/Controller/WorkshopsController.php:112
+msgid "Failed to save workshop to the database"
+msgstr "Kan de workshop niet opslaan in de database"
+
+#: src/Lib/Controller/AdministratorControllerBase.php:25
+msgid "You must be logged in to access this page."
+msgstr "Je moet ingelogd zijn om toegang te krijgen tot deze pagina."
+
+#: src/Lib/Controller/AdministratorControllerBase.php:30
+msgid "You do not have the right credentials to access this page."
+msgstr ""
+"U beschikt niet over de authorizatie om toegang te krijgen tot deze pagina."
+
+#: src/Lib/Controller/ApplicationControllerBase.php:240
+msgid "You are not logged in."
+msgstr "Je bent niet ingelogd."
+
+#: src/Lib/Controller/ApplicationControllerBase.php:294
+msgid "Your profile has been updated."
+msgstr "Uw profiel is aangepast."
+
+#: src/Lib/Controller/ApplicationControllerBase.php:299
+msgid "Your profile could not be saved."
+msgstr "Het profiel kon niet worden opgeslagen."
+
+#: src/Lib/Controller/ApplicationControllerBase.php:329
+msgid "Your password has been updated."
+msgstr "Je wachtwoord is bijgewerkt."
+
+#: src/Lib/Controller/ApplicationControllerBase.php:332
+msgid "An error occurred with the database, your password has not changed."
+msgstr ""
+"Er is een fout opgetreden met de database, het wachtwoord is niet gewijzigd."
+
+#: src/Lib/Controller/ApplicationControllerBase.php:336
+msgid "The current password is invalid."
+msgstr "Het huidige wachtwoord is ongeldig."
+
+#: src/Lib/Model/View/ViewModelBase.php:64
+msgid "The {0} is required"
+msgstr "De {0} is vereist"
+
+#: src/Model/Value/Language.php:96
+msgid "English"
+msgstr "Engels"
+
+#: src/Model/Value/Language.php:97
+msgid "Nederlands"
+msgstr "Nederlands"
+
+#: src/Model/Value/ParticipantType.php:36
+msgid "Children"
+msgstr "Kinderen"
+
+#: src/Model/Value/ParticipantType.php:37
+msgid "All"
+msgstr "Alle"
+
+#: src/Model/View/Account/ForgotPasswordViewModel.php:41
+#: src/Model/View/Account/LoginViewModel.php:61
+#: src/Model/View/Account/RegistrationViewModel.php:93
+#: src/Model/View/Users/EditUserViewModel.php:95
+msgid "email"
+msgstr "e-mail"
+
+#: src/Model/View/Account/ForgotPasswordViewModel.php:56
+#: src/Model/View/Account/LoginViewModel.php:78
+#: src/Model/View/Account/RegistrationViewModel.php:113
+msgid "The email can not be empty."
+msgstr "De e-mail mag niet leeg zijn."
+
+#: src/Model/View/Account/ForgotPasswordViewModel.php:57
+#: src/Model/View/Account/LoginViewModel.php:79
+#: src/Model/View/Account/RegistrationViewModel.php:114
+msgid "The email is not valid."
+msgstr "De e-mail is niet geldig."
+
+#: src/Model/View/Account/LoginViewModel.php:62
+#: src/Model/View/Account/RegistrationViewModel.php:94
+#: src/Model/View/Users/EditUserViewModel.php:97
+msgid "password"
+msgstr "wachtwoord"
+
+#: src/Model/View/Account/LoginViewModel.php:63
+msgid "remember me"
+msgstr "onthoud mij"
+
+#: src/Model/View/Account/LoginViewModel.php:80
+#: src/Model/View/Account/RegistrationViewModel.php:116
+msgid "The password can not be empty."
+msgstr "Het wachtwoord mag niet leeg zijn."
+
+#: src/Model/View/Account/RegistrationViewModel.php:95
+#: src/Model/View/Account/ResetPasswordViewModel.php:63
+msgid "confirm password"
+msgstr "wachtwoord bevestigen"
+
+#: src/Model/View/Account/RegistrationViewModel.php:96
+#: src/Model/View/EditProfileViewModel.php:77
+#: src/Model/View/Users/EditUserViewModel.php:96
+#: src/Model/View/Workshops/EditWorkshopViewModel.php:177
+msgid "name"
+msgstr "naam"
+
+#: src/Model/View/Account/RegistrationViewModel.php:97
+#: src/Model/View/EditProfileViewModel.php:78
+#: src/Model/View/Users/EditUserViewModel.php:98
+msgid "phone"
+msgstr "telefoon"
+
+#: src/Model/View/Account/RegistrationViewModel.php:98
+#: src/Model/View/Users/EditUserViewModel.php:100
+msgid "mailing list"
+msgstr "mailinglijst"
+
+#: src/Model/View/Account/RegistrationViewModel.php:115
+#: src/Model/View/EditProfileViewModel.php:93
+msgid "The name can not be empty."
+msgstr "De naam mag niet leeg zijn."
+
+#: src/Model/View/Account/RegistrationViewModel.php:117
+#: src/Model/View/Account/ResetPasswordViewModel.php:79
+#: src/Model/View/ChangePasswordViewModel.php:81
+msgid "The confirm password can not be empty."
+msgstr "Het bevestigingswachtwoord mag niet leeg zijn."
+
+#: src/Model/View/Account/RegistrationViewModel.php:119
+#: src/Model/View/Account/ResetPasswordViewModel.php:81
+#: src/Model/View/ChangePasswordViewModel.php:84
+msgid "The new passwords are not equal."
+msgstr "De nieuwe wachtwoorden zijn niet gelijk."
+
+#: src/Model/View/Account/RegistrationViewModel.php:121
+msgid "You must agree to the terms."
+msgstr "U moet akkoord gaan met de voorwaarden."
+
+#: src/Model/View/Account/RegistrationViewModel.php:146
+msgid "There is already a registration for the email address."
+msgstr "Er is al een registratie voor het e-mailadres."
+
+#: src/Model/View/Account/ResetPasswordViewModel.php:62
+#: src/Model/View/ChangePasswordViewModel.php:64
+msgid "new password"
+msgstr "nieuw wachtwoord"
+
+#: src/Model/View/Account/ResetPasswordViewModel.php:78
+#: src/Model/View/ChangePasswordViewModel.php:80
+msgid "The new password can not be empty."
+msgstr "Het nieuwe wachtwoord mag niet leeg zijn."
+
+#: src/Model/View/ChangePasswordViewModel.php:63
+msgid "current password"
+msgstr "huidig wachtwoord"
+
+#: src/Model/View/ChangePasswordViewModel.php:65
+msgid "confirm new password"
+msgstr "bevestig wachtwoord"
+
+#: src/Model/View/ChangePasswordViewModel.php:82
+msgid "The current password can not be empty."
+msgstr "Het huidige wachtwoord mag niet leeg zijn."
+
+#: src/Model/View/EventWorkshops/EditEventWorkshopViewModel.php:86
+msgid "place count"
+msgstr "aantal plaatsen"
+
+#: src/Model/View/EventWorkshops/EditEventWorkshopViewModel.php:87
+msgid "workshop"
+msgstr "workshop"
+
+#: src/Model/View/EventWorkshops/EditEventWorkshopViewModel.php:102
+msgid "The number of places must be greater than 0."
+msgstr "Het aantal plaatsen moet groter zijn dan 0."
+
+#: src/Model/View/EventWorkshops/EditEventWorkshopViewModel.php:134
+msgid "The number of places can not be decreased while the signup is active."
+msgstr ""
+"Het aantal plaatsen kan niet worden verminderd terwijl de event aanmelding "
+"actief is."
+
+#: src/Model/View/Events/EditEventViewModel.php:73
+msgid "event date"
+msgstr "gebeurtenis datum"
+
+#: src/Model/View/Events/EditEventViewModel.php:74
+msgid "signup date"
+msgstr "aanmelding"
+
+#: src/Model/View/Events/EditEventViewModel.php:75
+msgid "participant type"
+msgstr "Deelnemers doelgroep"
+
+#: src/Model/View/Events/EditEventViewModel.php:118
+msgid "The signup date must start before the date of the event."
+msgstr "De aanmeldingsdatum moet ingaan vóór de datum van het evenement."
+
+#: src/Model/View/Users/EditUserViewModel.php:99
+msgid "administrator"
+msgstr "beheerder"
+
+#: src/Model/View/Users/EditUserViewModel.php:101
+msgid "disable emails"
+msgstr "geen e-mails"
+
+#: src/Model/View/Users/EditUserViewModel.php:143
+msgid "There is already a user for the email address."
+msgstr "Er is al een gebruiker voor dit e-mailadres."
+
+#: src/Model/View/Workshops/EditWorkshopViewModel.php:180
+msgid "description"
+msgstr "omschrijving"
+
+#: src/Model/View/Workshops/EditWorkshopViewModel.php:183
+msgid "laptop"
+msgstr "laptop"
+
+#: src/Service/EmailService.php:41
+msgid "Reset Password for {0} registration site"
+msgstr "Nieuw wachtwoord voor {0} registratie site"
+
+#: src/Service/EmailService.php:69
+msgid "Welcome at the {0} registration site"
+msgstr "Welkom bij de {0} registratie site"
+
+#: src/Service/EmailService.php:106 src/Service/EmailService.php:152
+msgid "Registered for {0} at the {1} event"
+msgstr "Geregistreerd voor {0} voor het {1} evenement"
+
+#: src/Service/EmailService.php:197
+msgid "Update for {0} at the {1} event"
+msgstr "Aanpassing voor {0} voor het {1} evenement"
+
+#: src/Service/EmailService.php:239
+msgid "Removed {0} from workshop {1}"
+msgstr "{0} is verwijderd van de workshop {1}"
+
+#: templates/Account/login.php:22
+msgid "Login"
+msgstr "Inloggen"
+
+#: templates/Account/login.php:29 templates/Users/edit.php:22
+#: templates/Users/index.php:36 templates/element/dialog/forgot_password.php:22
+#: templates/element/dialog/register_user.php:19
+msgid "Email"
+msgstr "E-mail"
+
+#: templates/Account/login.php:37 templates/Users/edit.php:39
+#: templates/element/dialog/register_user.php:27
+msgid "Password"
+msgstr "Wachtwoord"
+
+#: templates/Account/login.php:45
+msgid "Keep me logged in."
+msgstr "Onthoud mijn inlog."
+
+#: templates/Account/login.php:50
+msgid "Sign in"
+msgstr "Inloggen"
+
+#: templates/Account/login.php:56
+msgid "Forgot your password?"
+msgstr "Wachtwoord vergeten?"
+
+#: templates/Account/login.php:64
+msgid "Don't have an account yet?"
+msgstr "Heb je nog geen account?"
+
+#: templates/Account/reset_password.php:13
+msgid "Reset password"
+msgstr "Wachtwoord herstellen"
+
+#: templates/Account/reset_password.php:20
+#: templates/element/dialog/change_password.php:28
+msgid "New password"
+msgstr "Nieuw wachtwoord"
+
+#: templates/Account/reset_password.php:28
+#: templates/element/dialog/change_password.php:37
+#: templates/element/dialog/register_user.php:36
+msgid "Confirm password"
+msgstr "Bevestig wachtwoord"
+
+#: templates/Account/reset_password.php:34
+#: templates/element/dialog/change_password.php:46
+#: templates/element/dialog/edit_event_workshop.php:47
+#: templates/element/dialog/edit_profile.php:37
+msgid "Update"
+msgstr "Bijwerken"
+
+#: templates/Account/reset_password_error.php:1
+msgid "The provided code is no longer valid."
+msgstr "De verstrekte code is niet meer geldig."
+
+#: templates/Administrator/index.php:25
+msgid "Home for administrator"
+msgstr "Start pagina voor de beheerder"
+
+#: templates/Administrator/index.php:29 templates/Events/index.php:59
+#: templates/Events/index.php:87 templates/Workshops/index.php:23
+msgid "Workshops"
+msgstr "Workshops"
+
+#: templates/Administrator/index.php:33
+msgid "Events"
+msgstr "Evenementen"
+
+#: templates/Administrator/index.php:37 templates/Users/index.php:25
+msgid "Users"
+msgstr "Gebruikers"
+
+#: templates/Administrator/index.php:41
+msgid "Clear caches"
+msgstr "Wis de caches"
+
+#: templates/Administrator/index.php:45 templates/User/index.php:57
+msgid "Edit profile"
+msgstr "Profiel bewerken"
+
+#: templates/Administrator/index.php:52 templates/User/index.php:64
+msgid "Change password"
+msgstr "Wachtwoord wijzigen"
+
+#: templates/Administrator/index.php:58 templates/User/index.php:70
+msgid "Logout"
+msgstr "Logout"
+
+#: templates/Administrator/index.php:60
+msgid "Participant page"
+msgstr "Deelnemers pagina"
+
+#: templates/EventWorkshops/index.php:35
+msgid "Event for {0}"
+msgstr "Evenement voor {0}"
+
+#: templates/EventWorkshops/index.php:39 templates/Workshops/index.php:26
+#: templates/element/dialog/add_event_workshop.php:25
+#: templates/element/workshop_cell.php:30
+#: templates/element/workshop_cell.php:45
+msgid "Add workshop"
+msgstr "Voeg workshop toe"
+
+#: templates/EventWorkshops/index.php:46 templates/Participants/index.php:37
+msgid "Download"
+msgstr "Download"
+
+#: templates/EventWorkshops/index.php:50 templates/Participants/index.php:40
+#: templates/Participants/manage_checkins.php:53
+msgid "Back to events"
+msgstr "Terug naar evenementen"
+
+#: templates/EventWorkshops/index.php:56 templates/Workshops/index.php:32
+#: templates/element/dialog/select_participant_workshop.php:46
+msgid "No workshops"
+msgstr "Geen workshops"
+
+#: templates/Events/index.php:33
+msgid "{0} Events"
+msgstr "{0} Evenementen"
+
+#: templates/Events/index.php:37 templates/element/dialog/add_event.php:15
+msgid "Add event"
+msgstr "Evenement toevoegen"
+
+#: templates/Events/index.php:46 templates/Users/index.php:30
+#: templates/Workshops/index.php:28
+msgid "Home"
+msgstr "Home"
+
+#: templates/Events/index.php:50
+msgid "No events"
+msgstr "Geen evenementen"
+
+#: templates/Events/index.php:55 templates/element/dialog/add_event.php:20
+#: templates/element/dialog/edit_event.php:26
+msgid "Event date"
+msgstr "Evenement datum"
+
+#: templates/Events/index.php:56 templates/element/dialog/add_event.php:30
+#: templates/element/dialog/edit_event.php:36
+msgid "Signup date"
+msgstr "Aanmelding"
+
+#: templates/Events/index.php:57
+msgid "Audience"
+msgstr "Doelgroep"
+
+#: templates/Events/index.php:96 templates/Events/index.php:104
+msgid "Anonymize"
+msgstr "Anonimiseer"
+
+#: templates/Home/index.php:11
+msgid "Welcome"
+msgstr "Welkom"
+
+#: templates/Home/index.php:12
+msgid "To login or register click:"
+msgstr "Om je aan te melden of te registreren, klik:"
+
+#: templates/Home/index.php:14
+msgid "Login or register"
+msgstr "Aanmelden of registreren"
+
+#: templates/Participants/index.php:30
+msgid "Participants for {0}"
+msgstr "Aantal deelnemers voor {0}"
+
+#: templates/Participants/index.php:34
+msgid "Checkins"
+msgstr "Inchecken"
+
+#: templates/Participants/index.php:44
+#: templates/Participants/manage_checkins.php:67
+msgid "No participants"
+msgstr "Geen deelnemers"
+
+#: templates/Participants/manage_checkins.php:45
+msgid "Checkin manager for {0}"
+msgstr "Checkin manager voor {0}"
+
+#: templates/Participants/manage_checkins.php:60
+msgid "filter"
+msgstr "filteren"
+
+#: templates/Participants/manage_checkins.php:76
+msgid "Checkin"
+msgstr "Inchecken"
+
+#: templates/User/index.php:53
+msgid "Welcome {0}"
+msgstr "Welkom {0}"
+
+#: templates/User/index.php:72
+msgid "Administrator page"
+msgstr "Beheerders pagina"
+
+#: templates/User/index.php:77
+msgid "At the moment there are no planned events."
+msgstr "Op dit moment zijn er geen geplande evenementen."
+
+#: templates/User/index.php:80
+msgid "The next {0} event will take place at {1}."
+msgstr "Het volgende {0} evenement vindt plaats op {1}."
+
+#: templates/User/index.php:88
+msgid "You can now sign up your child(ren) for the {0} event at {1}."
+msgstr "Je kan je kind(eren) nu inschrijven voor het {0} evenement op {1}."
+
+#: templates/User/index.php:94
+msgid ""
+"You can now sign up yourself and/or other participants for the {0} event at "
+"{1}."
+msgstr ""
+"Je kunt je nu zelf en/of andere deelnemers aanmelden voor het {0} event op "
+"{1}."
+
+#: templates/User/index.php:167
+msgid "Add child"
+msgstr "Kind toevoegen"
+
+#: templates/User/index.php:168 templates/element/dialog/add_participant.php:17
+msgid "Add participant"
+msgstr "Cursist toevoegen"
+
+#: templates/User/remove_from_workshop.php:23
+msgid "Confirm"
+msgstr "Bevestig"
+
+#: templates/User/remove_from_workshop.php:25
+msgid "Remove {0} from workshop {1} for {2} event at {3}."
+msgstr "Meld {0} af voor de workshop {1} voor het {2} evenement op {3}."
+
+#: templates/User/remove_from_workshop.php:36
+#: templates/element/dialog/remove_event.php:29
+#: templates/element/dialog/remove_event_workshop.php:29
+#: templates/element/dialog/remove_participant_from_event.php:33
+#: templates/element/dialog/remove_participant_from_user.php:30
+#: templates/element/dialog/remove_participant_workshop.php:34
+#: templates/element/dialog/remove_user.php:34
+#: templates/element/dialog/remove_workshop.php:30
+msgid "Yes, remove"
+msgstr "Ja, verwijderen"
+
+#: templates/User/remove_from_workshop_error.php:10
+msgid "Error"
+msgstr "Fout"
+
+#: templates/User/remove_from_workshop_error.php:12
+msgid ""
+"An error occurred while trying to remove the participant from the workshop."
+msgstr ""
+"Er is een fout opgetreden tijdens het verwijderen van de deelnemer van de "
+"workshop."
+
+#: templates/User/remove_from_workshop_success.php:10
+msgid "Success"
+msgstr "Succes"
+
+#: templates/User/remove_from_workshop_success.php:11
+msgid "The participant has been removed from the workshop."
+msgstr "De deelnemer is afgemeld voor de workshop."
+
+#: templates/Users/edit.php:15
+msgid "Create user"
+msgstr "Maak nieuwe gebruiker aan"
+
+#: templates/Users/edit.php:15
+msgid "Edit user"
+msgstr "Gebruiker bewerken"
+
+#: templates/Users/edit.php:30 templates/Users/index.php:37
+#: templates/Workshops/edit.php:23 templates/Workshops/index.php:37
+#: templates/element/dialog/add_participant.php:23
+#: templates/element/dialog/edit_participant.php:27
+#: templates/element/dialog/edit_profile.php:20
+#: templates/element/dialog/register_user.php:45
+msgid "Name"
+msgstr "Naam"
+
+#: templates/Users/edit.php:40
+msgid "Password (leave empty to keep current password)"
+msgstr "Wachtwoord (laat leeg om het huidige wachtwoord te behouden)"
+
+#: templates/Users/edit.php:48
+msgid "Phone number"
+msgstr "Telefoonnummer"
+
+#: templates/Users/edit.php:56
+msgid "User is an administrator"
+msgstr "De gebruiker is een beheerder"
+
+#: templates/Users/edit.php:72
+msgid "User is on the mailing list"
+msgstr "Gebruiker staat op de mailinglijst"
+
+#: templates/Users/edit.php:79
+msgid "Do not send emails to this user (user is a test user)"
+msgstr "Vertuur geen emails naar deze gebruiker (dit is een test gebruiker)"
+
+#: templates/Users/edit.php:83 templates/Workshops/edit.php:41
+msgid "Save"
+msgstr "Opslaan"
+
+#: templates/Users/edit.php:85 templates/Workshops/edit.php:43
+#: templates/element/dialog/add_event.php:57
+#: templates/element/dialog/add_event_workshop.php:62
+#: templates/element/dialog/add_participant.php:46
+#: templates/element/dialog/change_password.php:48
+#: templates/element/dialog/edit_event.php:63
+#: templates/element/dialog/edit_event_workshop.php:52
+#: templates/element/dialog/edit_participant.php:51
+#: templates/element/dialog/edit_profile.php:39
+#: templates/element/dialog/forgot_password.php:36
+#: templates/element/dialog/register_user.php:86
+#: templates/element/dialog/select_participant_workshop.php:74
+msgid "Cancel"
+msgstr "Annuleren"
+
+#: templates/Users/index.php:28
+msgid "Add user"
+msgstr "Gebruiker toevoegen"
+
+#: templates/Users/index.php:39
+msgid "Created"
+msgstr "Aangemaakt"
+
+#: templates/Workshops/edit.php:17
+msgid "Create workshop"
+msgstr "Maak workshop aan"
+
+#: templates/Workshops/edit.php:17
+msgid "Edit workshop"
+msgstr "Wijzig workshop"
+
+#: templates/Workshops/edit.php:27
+msgid "Description"
+msgstr "Omschrijving"
+
+#: templates/Workshops/edit.php:37
+msgid "User can use own laptop"
+msgstr "Deelnemer kan eigen laptop gebruiken"
+
+#: templates/element/dialog/add_event.php:40
+#: templates/element/dialog/edit_event.php:46
+msgid "Target audience"
+msgstr "Doelgroep"
+
+#: templates/element/dialog/add_event.php:43
+#: templates/element/dialog/edit_event.php:49
+msgid "Choose an audience type"
+msgstr "Kies een doelgroeptype"
+
+#: templates/element/dialog/add_event.php:52
+#: templates/element/dialog/add_event_workshop.php:57
+#: templates/element/dialog/add_participant.php:41
+msgid "Add"
+msgstr "Toevoegen"
+
+#: templates/element/dialog/add_event_workshop.php:38
+#: templates/element/dialog/select_participant_workshop.php:20
+msgid "Select workshop"
+msgstr "Kies een workshop"
+
+#: templates/element/dialog/add_event_workshop.php:45
+#: templates/element/dialog/edit_event_workshop.php:35
+msgid "Max places"
+msgstr "Max aantal plaatsen"
+
+#: templates/element/dialog/add_participant.php:32
+#: templates/element/dialog/edit_participant.php:37
+msgid "Has own laptop"
+msgstr "Kan een eigen laptop meenemen"
+
+#: templates/element/dialog/anonymize_event.php:20
+msgid "Confirm anonymize"
+msgstr "Bevestig het anonimiseren"
+
+#: templates/element/dialog/anonymize_event.php:27
+msgid "Are you sure you want to anonymize the participants the event for {0}?"
+msgstr ""
+"Weet je zeker dat je de deelnemers voor het evenement van {0} wilt "
+"anonimiseren?"
+
+#: templates/element/dialog/anonymize_event.php:30
+msgid "Anonymizing the participants will perform the following actions:"
+msgstr "Anonimiseren van de deelnemers voert de volgende wijzigingen uit:"
+
+#: templates/element/dialog/anonymize_event.php:32
+msgid "Clear name of participant."
+msgstr "Wist de naam van de deelnemer."
+
+#: templates/element/dialog/anonymize_event.php:33
+msgid "Remove reference to user from the participant."
+msgstr "Verwijdert de referentie van de deelnamer naar de gebruiker."
+
+#: templates/element/dialog/anonymize_event.php:36
+msgid "This action can not be undone!"
+msgstr "Deze actie kan niet ongedaan gemaakt worden!"
+
+#: templates/element/dialog/anonymize_event.php:39
+msgid "Yes, anonymize"
+msgstr "Ja, anonimiseer"
+
+#: templates/element/dialog/anonymize_event.php:40
+#: templates/element/dialog/remove_event.php:30
+#: templates/element/dialog/remove_event_workshop.php:30
+#: templates/element/dialog/remove_participant_from_event.php:34
+#: templates/element/dialog/remove_participant_from_user.php:33
+#: templates/element/dialog/remove_participant_workshop.php:35
+#: templates/element/dialog/remove_user.php:35
+#: templates/element/dialog/remove_workshop.php:31
+msgid "No, cancel"
+msgstr "Nee, annuleer"
+
+#: templates/element/dialog/change_password.php:14
+msgid "Change your password"
+msgstr "Wachtwoord wijzigen"
+
+#: templates/element/dialog/change_password.php:19
+msgid "Current password"
+msgstr "Huidig wachtwoord"
+
+#: templates/element/dialog/edit_event.php:17
+msgid "Update event"
+msgstr "Werk evenement bij"
+
+#: templates/element/dialog/edit_event_workshop.php:22
+msgid "Update workshop"
+msgstr "Werk workshop bij"
+
+#: templates/element/dialog/edit_event_workshop.php:31
+msgid "Workshop: {0}"
+msgstr "Workshop: {0}"
+
+#: templates/element/dialog/edit_participant.php:18
+msgid "Update participant"
+msgstr "Werk deelnemer bij"
+
+#: templates/element/dialog/edit_profile.php:15
+msgid "Edit your profile"
+msgstr "Wijzig je profiel"
+
+#: templates/element/dialog/edit_profile.php:29
+#: templates/element/dialog/register_user.php:54
+msgid "Phone number (optional)"
+msgstr "Telefoonnummer (optioneel)"
+
+#: templates/element/dialog/forgot_password.php:14
+msgid "Forgot password"
+msgstr "Wachtwoord vergeten"
+
+#: templates/element/dialog/forgot_password.php:16
+msgid ""
+"Please enter your email address. An email will be sent with instructions on "
+"how to reset your password."
+msgstr ""
+"Er is een e-mail naar u verzonden met instructies om uw wachtwoord opnieuw "
+"in te stellen."
+
+#: templates/element/dialog/forgot_password.php:31
+msgid "Send email"
+msgstr "Verstuur email"
+
+#: templates/element/dialog/register_user.php:14
+#: templates/element/dialog/register_user.php:81
+msgid "Register"
+msgstr "Registreren"
+
+#: templates/element/dialog/register_user.php:63
+msgid "Join mailing list"
+msgstr "Ik wil graag mailing emails ontvangen."
+
+#: templates/element/dialog/register_user.php:72
+msgid "Agree to terms and conditions"
+msgstr "Akkoord met voorwaarden"
+
+#: templates/element/dialog/remove_event.php:20
+#: templates/element/dialog/remove_event_workshop.php:20
+#: templates/element/dialog/remove_participant_from_event.php:20
+#: templates/element/dialog/remove_participant_from_user.php:20
+#: templates/element/dialog/remove_participant_workshop.php:22
+#: templates/element/dialog/remove_user.php:20
+#: templates/element/dialog/remove_workshop.php:21
+msgid "Confirm remove"
+msgstr "Bevestig het verwijderen"
+
+#: templates/element/dialog/remove_event.php:26
+msgid "Are you sure you want to remove the event for {0}?"
+msgstr "Weet je zeker dat je het evenement voor {0} wilt verwijderen?"
+
+#: templates/element/dialog/remove_event_workshop.php:26
+msgid "Are you sure you want to remove workshop {0} from the event?"
+msgstr "Weet je zeker dat je workshop {0} van het evenement wilt verwijderen?"
+
+#: templates/element/dialog/remove_participant_from_event.php:30
+#: templates/element/dialog/remove_participant_from_user.php:26
+msgid "Are you sure you want to remove {0}?"
+msgstr "Weet je zeker dat je {0} wilt verwijderen?"
+
+#: templates/element/dialog/remove_participant_workshop.php:31
+msgid "Are you sure you want to remove {0} from the workshop {1}?"
+msgstr "Weet je zeker dat je {1} voor de workshop {0} wilt afmelden?"
+
+#: templates/element/dialog/remove_user.php:27
+msgid "Are you sure you want to remove the user {0}?"
+msgstr "Weet je zeker dat je de gebruiker {0} wilt verwijderen?"
+
+#: templates/element/dialog/remove_user.php:30
+msgid ""
+"Related participants for pending events will removed, other related "
+"participants will be anonymized."
+msgstr ""
+"Gerelateerde deelnemers voor toekomstige evenementen worden verwijderd. Alle "
+"andere gerelateerde deelnemers worden geanonimiseerd."
+
+#: templates/element/dialog/remove_workshop.php:27
+msgid "Are you sure you want to remove the workshop {0}?"
+msgstr "Weet je zeker dat je de workshop {0} wilt verwijderen?"
+
+#: templates/element/dialog/select_participant_workshop.php:40
+msgid "Loading workshops..."
+msgstr "Bezig met laden van de workshops..."
+
+#: templates/element/dialog/select_participant_workshop.php:51
+msgid "Previous"
+msgstr "Vorige"
+
+#: templates/element/dialog/select_participant_workshop.php:58
+msgid "Next"
+msgstr "Volgende"
+
+#: templates/element/dialog/select_participant_workshop.php:67
+msgid "Select"
+msgstr "Selecteer"
+
+#: templates/element/dialog/select_participant_workshop.php:87
+msgid "Available"
+msgstr "Beschikbaar"
+
+#: templates/element/dialog/select_participant_workshop.php:94
+msgid "Full, waiting list: {0}"
+msgstr "Vol, wachtlijst: {0}"
+
+#: templates/element/dialog/select_participant_workshop.php:102
+msgid "Full"
+msgstr "Vol"
+
+#: templates/element/workshop_cell.php:31
+#: templates/element/workshop_cell.php:46
+msgid "Add backup workshop"
+msgstr "Reserve workshop toevoegen"
+
+#: templates/element/workshop_cell.php:57
+msgid "Participating"
+msgstr "Neemt deel"
+
+#: templates/element/workshop_cell.php:59
+msgid "Not participating"
+msgstr "Neemt niet deel"
+
+#: templates/element/workshop_cell.php:62
+msgid "Waiting position: {0}"
+msgstr "Wachtpositie: {0}"
+
+#: templates/element/workshop_cell.php:68
+msgid "Choose other"
+msgstr "Kies andere"
+
+#: templates/element/workshop_cell.php:79
+msgid "Remove"
+msgstr "Verwijderen"
+
+#: templates/layout/default.php:21
+msgid "{0} Signup"
+msgstr "{0} Registratie"
+
+#: templates/layout/error.php:36
+msgid "Back"
+msgstr "Terug"
+
+#~ msgid "last visit date"
+#~ msgstr "datum laatste bezoek"
+
+#~ msgid "name (en)"
+#~ msgstr "naam (en)"
+
+#~ msgid "description (en)"
+#~ msgstr "beschrijving (en)"
+
+#~ msgid "name (nl)"
+#~ msgstr "naam (nl)"
+
+#~ msgid "description (nl)"
+#~ msgstr "beschrijving (nl)"
+
+#~ msgid "Dutch"
+#~ msgstr "Nederlands"
+
+#~ msgid "Select workshop for {0}"
+#~ msgstr "Selecteer workshop voor {0}"
+
+#~ msgid "Workshop has been removed."
+#~ msgstr "De workshop is verwijderd."
+
+#~ msgid "language"
+#~ msgstr "taal"
+
+#~ msgid "long description"
+#~ msgstr "lange beschrijving"
+
+#~ msgid "short description"
+#~ msgstr "korte omschrijving"
+
+#~ msgid "image"
+#~ msgstr "afbeelding"
+
+#~ msgid "Edit"
+#~ msgstr "Bewerken"
+
+#~ msgid "Coderdojo events"
+#~ msgstr "CoderDojo-evenementen"
+
+#~ msgid "waiting list: {0}"
+#~ msgstr "wachtlijst: {0}"
+
+#~ msgid "Are you sure you want to remove workshop {0} for {1}?"
+#~ msgstr "Weet je zeker dat je de workshop {0} voor {1} wilt verwijderen?"
+
+#~ msgid "Unselect"
+#~ msgstr "Deselecteer"
+
+#~ msgid "Coderdojo Signup"
+#~ msgstr "Coderdojo Aanmelden"
+
+#, fuzzy
+#~| msgid "long description"
+#~ msgid "Description)"
+#~ msgstr "Lange beschrijving"
+
+#, fuzzy
+#~ msgid "registration date"
+#~ msgstr "Datum van registratie"
+
+#~ msgid "workshop 2"
+#~ msgstr "workshop 2"
+
+#~ msgid "can leave"
+#~ msgstr "mag zelfstandig vertrekken"
+
+#, fuzzy
+#~ msgid "tablet"
+#~ msgstr "tablet"
+
+#~ msgid "Register new account?"
+#~ msgstr "Nieuw account registreren?"
