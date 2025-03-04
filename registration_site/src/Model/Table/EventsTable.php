@@ -9,7 +9,6 @@ use App\Model\Entity\EventWorkshopEntity;
 use App\Model\Entity\ParticipantEntity;
 use App\Model\Tables;
 use Cake\Datasource\Exception\RecordNotFoundException;
-use Cake\I18n\FrozenTime;
 use DateTime;
 
 /**
@@ -166,8 +165,12 @@ class EventsTable extends TableWithTimestamp
    *
    * @return void
    */
-  public function anonymize(EventEntity $event): void
+  public function anonymizeParticipants(EventEntity $event): void
   {
+    // only finished events can be anonymized
+    if (!$event->isFinished()) {
+      return;
+    }
     $this->Participants->updateQuery()
       ->set([
         ParticipantEntity::NAME => '',
@@ -177,6 +180,27 @@ class EventsTable extends TableWithTimestamp
         ParticipantEntity::EVENT_ID => $event->id,
       ])
       ->execute();
+  }
+
+  /**
+   * Adds absent participants entries for the event. This method should be called before
+   * participants are anonymized. Else the method can not store the absent information for a user
+   * since anonymized no longer are linked to users.
+   *
+   * @param EventEntity $event
+   *
+   * @return void
+   */
+  public function addAbsentParticipants(EventEntity $event): void
+  {
+    // action can only be performed on finished events
+    if (!$event->isFinished()) {
+      return;
+    }
+    $users = Tables::users()->getAllUsersWithAbsentParticipants($event);
+    foreach($users as $user) {
+      Tables::absentParticipants()->addUserAndEvent($user, $event);
+    }
   }
 
   /**

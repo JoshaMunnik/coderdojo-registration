@@ -108,8 +108,7 @@ class ParticipantsController extends AdministratorControllerBase
     }
     $participant = Tables::participants()->getForId($viewData->participant_id);
     $previousCheckInData = $participant->checkin_date;
-    $participant->checkin_date = $viewData->checked_in ? new DateTime() : null;
-    if (Tables::participants()->save($participant)) {
+    if (Tables::participants()->checkin($participant, $viewData->checked_in)) {
       $this->set('root', ['success' => true, 'checked_in' => $viewData->checked_in]);
     }
     else {

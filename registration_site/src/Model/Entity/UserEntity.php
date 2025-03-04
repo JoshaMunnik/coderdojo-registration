@@ -30,6 +30,7 @@ use Random\RandomException;
  * @property bool $disable_email
  *
  * @property ParticipantEntity[] $participants
+ * @property AbsentParticipantEntity[] $absent_participants
  */
 class UserEntity extends Entity implements IEntityWithId, IEntityWithTimestamp
 {

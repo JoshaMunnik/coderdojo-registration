@@ -1,54 +1,41 @@
 <?php
 
-use App\Controller\EventsController;
-use App\Controller\ParticipantsController;
+use App\Controller\UsersController;
 use App\Model\Constant\HtmlAction;
 use App\Model\Constant\HtmlData;
 use App\Model\Constant\HtmlStorageKey;
-use App\Model\Entity\EventEntity;
-use App\Model\Entity\EventWorkshopEntity;
 use App\Model\Entity\ParticipantEntity;
+use App\Model\Entity\UserEntity;
 use App\Model\Enum\ButtonColorEnum;
 use App\Model\Enum\ButtonIconEnum;
 use App\Model\Enum\CellDataTypeEnum;
 use App\Model\Enum\ContentPositionEnum;
-use App\Model\View\Participants\RemoveParticipantViewModel;
+use App\Model\View\IdViewModel;
 use App\View\ApplicationView;
 
 /**
  * @var ApplicationView $this
  * @var ParticipantEntity[] $participants
- * @var EventEntity $event
- * @var EventWorkshopEntity[] $eventWorkshops
+ * @var UserEntity $user;
  */
 
 const REMOVE_DIALOG = 'remove';
-foreach ($eventWorkshops as $eventWorkshop) {
-  $eventWorkshops[$eventWorkshop->id] = $eventWorkshop;
-}
 ?>
-<?= $this->Styling->title(__('Participants for {0}', $event->getEventDateAsText())) ?>
+<?= $this->Styling->title(__('Participants for {0}', $user->name)) ?>
 <?= $this->element('messages') ?>
 <?= $this->Styling->beginPageButtons() ?>
 <?= $this->Styling->linkButton(
-  __('Checkins'), [ParticipantsController::MANAGE_CHECKIN, $event->id]
-) ?>
-<?= $this->Styling->linkButton(
-  __('Download'), [ParticipantsController::DOWNLOAD, $event->id]
-) ?>
-<?= $this->Styling->linkButton(
-  __('Back to events'), EventsController::INDEX, ButtonColorEnum::SECONDARY
+  __('Back to users'), UsersController::INDEX, ButtonColorEnum::SECONDARY
 ) ?>
 <?= $this->Styling->endPageButtons() ?>
 <?php if (empty($participants)) {
   echo $this->Styling->smallTitle(__('No participants'));
 }
 else {
-  echo $this->Styling->beginSortedTable(HtmlStorageKey::EVENT_PARTICIPANTS_TABLE, true);
+  echo $this->Styling->beginSortedTable(HtmlStorageKey::USER_PARTICIPANTS_TABLE, true);
   echo $this->Styling->sortedTableHeader([
     __('Participant name') => CellDataTypeEnum::TEXT,
-    __('User email') => CellDataTypeEnum::TEXT,
-    __('User name') => CellDataTypeEnum::TEXT,
+    __('Event') => CellDataTypeEnum::DATE,
     __('Workshop') => CellDataTypeEnum::TEXT,
     __('Backup workshop') => CellDataTypeEnum::TEXT,
     __('Laptop') => CellDataTypeEnum::TEXT,
@@ -56,13 +43,20 @@ else {
     null,
   ]);
   foreach ($participants as $participant) {
+    $eventWorkshops = [];
+    if ($participant->event_workshop_1_id != null) {
+      $eventWorkshops[$participant->event_workshop_1_id] = $participant->workshop_1;
+    }
+    if ($participant->event_workshop_2_id != null) {
+      $eventWorkshops[$participant->event_workshop_2_id] = $participant->workshop_2;
+    }
     $workshop1 = $participant->event_workshop_1_id == null
       ? '-'
       : $this->element(
         'workshop_cell',
         [
           'participant' => $participant,
-          'eventWorkshop' => $eventWorkshops[$participant->event_workshop_1_id],
+          'eventWorkshop' => $participant->workshop_1,
           'buttons' => false,
         ]
       );
@@ -72,11 +66,11 @@ else {
         'workshop_cell',
         [
           'participant' => $participant,
-          'eventWorkshop' => $eventWorkshops[$participant->event_workshop_2_id],
+          'eventWorkshop' => $participant->workshop_2,
           'buttons' => false,
         ]
       );
-    $finished = $event->isFinished()
+    $finished = $participant->event->isFinished()
       ?
       (
       $participant->checkin_date
@@ -92,8 +86,7 @@ else {
     echo $this->Styling->sortedTableRow(
       [
         $participant->name,
-        $participant->user?->email ?? '-',
-        $participant->user?->name ?? '-',
+        $participant->event->event_date,
         [$workshop1 => ContentPositionEnum::CENTER],
         [$workshop2 => ContentPositionEnum::CENTER],
         [$this->Styling->checkedCheckbox($participant->has_laptop) => ContentPositionEnum::CENTER],
@@ -113,10 +106,11 @@ else {
     );
   }
   echo $this->element(
-    'dialog/remove_participant_from_event',
+    'dialog/remove_participant_from_user',
     [
       'id' => REMOVE_DIALOG,
-      'data' => new RemoveParticipantViewModel(false, $event->id)
+      'data' => new IdViewModel(),
+      'postUrl' => [UsersController::REMOVE_PARTICIPANT],
     ]
   );
 } ?>

@@ -57,7 +57,8 @@ class TestCaseBase extends TestCase
   }
 
   /**
-   * Asserts that two list of entities are equal.
+   * Checks if two lists contains entities with the same id. For every found pair, the optional
+   * testCallback is called that can perform more tests.
    *
    * @param IEntityWithId[] $expectedEntities
    * @param IEntityWithId[] $actualEntities

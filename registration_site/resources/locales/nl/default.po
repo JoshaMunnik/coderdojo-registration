@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: 2025-03-04 11:02+0000\n"
-"PO-Revision-Date: 2025-03-04 12:03+0100\n"
+"PO-Revision-Date: 2025-03-04 23:27+0100\n"
 "Last-Translator: \n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
 "Language: nl\n"
@@ -465,7 +465,7 @@ msgstr "aanmelding"
 
 #: src/Model/View/Events/EditEventViewModel.php:75
 msgid "participant type"
-msgstr "Deelnemers doelgroep"
+msgstr "deelnemers doelgroep"
 
 #: src/Model/View/Events/EditEventViewModel.php:118
 msgid "The signup date must start before the date of the event."
@@ -673,7 +673,7 @@ msgstr "Aanmelden of registreren"
 
 #: templates/Participants/index.php:30
 msgid "Participants for {0}"
-msgstr "Aantal deelnemers voor {0}"
+msgstr "Deelnemers voor {0}"
 
 #: templates/Participants/index.php:34
 msgid "Checkins"

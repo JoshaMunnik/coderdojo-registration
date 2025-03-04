@@ -28,6 +28,10 @@ const REMOVE_DIALOG = 'remove';
 <?= $this->Styling->beginPageButtons() ?>
 <?= $this->Styling->linkButton(__('Add user'), [UsersController::EDIT]) ?>
 <?= $this->Styling->linkButton(
+  __('Download'),
+  [UsersController::DOWNLOAD],
+) ?>
+<?= $this->Styling->linkButton(
   __('Home'), AdministratorController::INDEX, ButtonColorEnum::SECONDARY
 ) ?>
 <?= $this->Styling->endPageButtons() ?>
@@ -52,7 +56,8 @@ foreach ($tabs as $administrator => $label) {
       __('Language') => [CellDataTypeEnum::TEXT, CellStylingEnum::TIGHT],
       __('Created') => [CellDataTypeEnum::DATE, CellStylingEnum::TIGHT],
       __('Last visit') => [CellDataTypeEnum::DATE, CellStylingEnum::TIGHT],
-      __('Participants') => [CellDataTypeEnum::NUMBER, CellStylingEnum::TIGHT],
+      //__('Participants') => [CellDataTypeEnum::NUMBER, CellStylingEnum::TIGHT],
+      //__('Absents') => [CellDataTypeEnum::NUMBER, CellStylingEnum::TIGHT],
       null,
     ]);
     foreach ($filteredUsers as $user) {
@@ -64,9 +69,28 @@ foreach ($tabs as $administrator => $label) {
           Language::getName($user->language_id),
           $user->created,
           [$user->last_visit_date?->format('Y-m-d') ?? '' => CellStylingEnum::DATE],
-          [count($user->participants) => ContentPositionEnum::END],
+          //[count($user->participants) => ContentPositionEnum::END],
+          //[count($user->absent_participants) => ContentPositionEnum::END],
         ],
         [
+          empty($user->participants) ?
+            $this->Styling->tableStaticButton(
+              __('Participants')
+            )
+            :
+            $this->Styling->tableLinkButton(
+              __('Participants({0})', count($user->participants)),
+              [UsersController::PARTICIPANTS, $user->id]
+            ),
+          empty($user->absent_participants) ?
+            $this->Styling->tableStaticButton(
+              __('Absents')
+            )
+            :
+            $this->Styling->tableLinkButton(
+              __('Absents({0})', count($user->absent_participants)),
+              [UsersController::ABSENT_PARTICIPANTS, $user->id]
+            ),
           $this->Styling->tableLinkIconButton(
             ButtonIconEnum::EDIT,
             [UsersController::EDIT, $user->id]

@@ -31,7 +31,7 @@ class EventsTableTest extends TestCaseBase {
   }
 
   public function testAnonymizeParticipants() {
-    $event1 = $this->createActiveEvent();
+    $event1 = $this->createFinishedEvent();
     $event2 = $this->createPendingEvent();
     $user1 = $this->createUser();
     $user2 = $this->createUser();
@@ -49,7 +49,7 @@ class EventsTableTest extends TestCaseBase {
     $participant2_1_2 = $this->createParticipant($user2, $event1, $eventWorkshop1_2);
     $participant2_2_1 = $this->createParticipant($user2, $event2, $eventWorkshop2_1);
     $participant2_2_2 = $this->createParticipant($user2, $event2, $eventWorkshop2_2);
-    Tables::events()->anonymize($event1);
+    Tables::events()->anonymizeParticipants($event1);
     $participants = Tables::participants()->getAll();
     $this->assertEqualEntities([
       $participant1_1_1, $participant1_1_2, $participant1_2_1, $participant1_2_2,

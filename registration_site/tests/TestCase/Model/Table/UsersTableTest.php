@@ -106,6 +106,25 @@ class UsersTableTest extends TestCaseBase
     );
   }
 
+  public function testGetAbsentParticipants() {
+    $user1 = $this->createUser();
+    $user2 = $this->createUser();
+    $user3 = $this->createUser();
+    $event = $this->createFinishedEvent();
+    $workshop = $this->createWorkshop();
+    $eventWorkshop = $this->createEventWorkshop($event, $workshop);
+    $participant1_1 = $this->createParticipant($user1, $event, $eventWorkshop);
+    $participant1_2 = $this->createParticipant($user1, $event, $eventWorkshop);
+    $participant2_1 = $this->createParticipant($user2, $event, $eventWorkshop);
+    $participant2_2 = $this->createParticipant($user2, $event, $eventWorkshop);
+    $participant3_1 = $this->createParticipant($user3, $event, $eventWorkshop);
+    $participant3_2 = $this->createParticipant($user3, $event, $eventWorkshop);
+    Tables::participants()->checkin($participant2_1);
+    Tables::participants()->checkin($participant2_2);
+    $actualUsers = Tables::users()->getAllUsersWithAbsentParticipants($event);
+    $this->assertEqualEntities([$user1, $user3], $actualUsers);
+  }
+
   public function testRemoveUserWithParticipantsForMultipleEvents()
   {
     $user = $this->createUser();

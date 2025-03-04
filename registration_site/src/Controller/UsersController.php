@@ -11,6 +11,8 @@ use App\Model\View\Users\EditUserViewModel;
 use App\Tool\FileTool;
 use App\Tool\ParticipantTool;
 use Cake\Http\Response;
+use DateTime;
+use DateTimeImmutable;
 
 /**
  * {@link UsersController} manages the users.
@@ -22,6 +24,11 @@ class UsersController extends AdministratorControllerBase
   public const INDEX = [self::class, 'index'];
   public const EDIT = [self::class, 'edit'];
   public const REMOVE = [self::class, 'remove'];
+  public const PARTICIPANTS = [self::class, 'participants'];
+  public const REMOVE_PARTICIPANT = [self::class, 'remove-participant'];
+  public const DOWNLOAD = [self::class, 'download'];
+  public const ABSENT_PARTICIPANTS = [self::class, 'absent-participants'];
+  public const REMOVE_ABSENT_PARTICIPANT = [self::class, 'remove-absent-participant'];
 
   #endregion
 
@@ -34,7 +41,7 @@ class UsersController extends AdministratorControllerBase
    */
   public function index(): ?Response
   {
-    $this->set('users', Tables::users()->getAllWithParticipants());
+    $this->set('users', Tables::users()->getAllWithParticipantsAndAbsentParticipants());
     return null;
   }
 
@@ -78,17 +85,89 @@ class UsersController extends AdministratorControllerBase
   }
 
   /**
-   * Download a CSV file with the participants for an event.
+   * Shows all participants for a user.
+   *
+   * @param $id
+   *
+   * @return Response|null
+   */
+  public function participants($id): ?Response
+  {
+    $user = Tables::users()->getForId($id);
+    $participants = Tables::participants()->getAllForUserWithEventAndWorkshops($user);
+    $this->set('user', $user);
+    $this->set('participants', $participants);
+    return null;
+  }
+
+  /**
+   * Removes a participant.
+   *
+   * @return Response|null
+   */
+  public function removeParticipant(): ?Response
+  {
+    if (!$this->isSubmit()) {
+      return $this->redirect(self::INDEX);
+    }
+    $viewData = new IdViewModel();
+    if (!$viewData->patch($this->getRequest()->getData())) {
+      return $this->redirect(self::INDEX);
+    }
+    $participant = Tables::participants()->getForId($viewData->id);
+    Tables::participants()->delete($participant);
+    ParticipantTool::checkParticipatingStatusForAllEvents();
+    $this->success(__('Participant {0} removed', $participant->name));
+    return $this->redirect(self::PARTICIPANTS, $participant->user_id);
+  }
+
+  /**
+   * Shows all participants for a user.
+   *
+   * @param $id
+   *
+   * @return Response|null
+   */
+  public function absentParticipants($id): ?Response
+  {
+    $user = Tables::users()->getForId($id);
+    $absents = Tables::absentParticipants()->getAllForUserWithEvent($user);
+    $this->set('user', $user);
+    $this->set('absents', $absents);
+    return null;
+  }
+
+  /**
+   * Removes a participant.
+   *
+   * @return Response|null
+   */
+  public function removeAbsentParticipant(): ?Response
+  {
+    if (!$this->isSubmit()) {
+      return $this->redirect(self::INDEX);
+    }
+    $viewData = new IdViewModel();
+    if (!$viewData->patch($this->getRequest()->getData())) {
+      return $this->redirect(self::INDEX);
+    }
+    $absent = Tables::absentParticipants()->getForId($viewData->id);
+    $event = Tables::events()->getForId($absent->event_id);
+    Tables::absentParticipants()->delete($absent);
+    ParticipantTool::checkParticipatingStatusForAllEvents();
+    $this->success(__('Absent for event at {0} removed', $event->getEventDateAsText()));
+    return $this->redirect(self::ABSENT_PARTICIPANTS, $absent->user_id);
+  }
+
+  /**
+   * Downloads a CSV file with the workshops for an event.
    *
    * @param string $id
    *
    * @return Response
    */
-  public function download(string $id): Response
-  {
-    $event = Tables::events()->getForId($id);
-    $participants = Tables::participants()->getAllForEventWithUser($event);
-    $eventWorkshops = Tables::eventWorkshops()->getAllForEvent($event);
+  public function download(): Response {
+    $users = Tables::users()->getAllWithParticipantsAndAbsentParticipants();
     $headers = [
       __('Email'),
       __('Name'),
@@ -97,32 +176,28 @@ class UsersController extends AdministratorControllerBase
       __('Created'),
       __('Last visit'),
       __('Participants'),
+      __('Absents'),
       __('Mailing list'),
-
+      __('Administrator'),
     ];
     $data = [];
-    foreach ($participants as $participant) {
+    foreach($users as $user) {
       $data[] = [
-        $participant->name,
-        $participant->user?->email ?? '-',
-        $participant->user?->name ?? '-',
-        $this->getWorkshopInformation(
-          $participant, $participant->event_workshop_1_id, $eventWorkshops
-        ),
-        $this->getWorkshopInformation(
-          $participant, $participant->event_workshop_2_id, $eventWorkshops
-        ),
-        $participant->user != null ? Language::getName($participant->user->language_id) : '',
-        $participant->has_laptop ? __('yes') : '',
-        $this->getParticipatedStatus($event, $participant, $eventWorkshops),
+        $user->email,
+        $user->name,
+        $user->phone,
+        Language::getName($user->language_id),
+        $user->created->format('Y-m-d H:i:s'),
+        $user->last_visit_date?->format('Y-m-d H:i:s') ?? '',
+        count($user->participants),
+        count($user->absent_participants),
+        $user->mailing_list ? __('Yes') : '',
+        $user->administrator ? __('Yes') : '',
       ];
     }
-    return $this->exportCsv(
-      FileTool::addDate('participants.csv', $event->event_date->toNative()), $data, $headers
-    );
+    $filename = FileTool::addDate('users.csv', new DateTimeImmutable());
+    return $this->exportCsv($filename, $data, $headers);
   }
-
-
 
   #endregion
 

@@ -79,11 +79,11 @@ class EventWorkshopsController extends AdministratorControllerBase
   /**
    * Downloads a CSV file with the workshops for an event.
    *
-   * @param $id
+   * @param string $id
    *
    * @return Response
    */
-  public function download($id): Response {
+  public function download(string $id): Response {
     $event = Tables::events()->getForId($id);
     $eventWorkshops = Tables::eventWorkshops()->getAllForEvent($event);
     $headers = [

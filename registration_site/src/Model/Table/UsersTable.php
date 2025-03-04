@@ -4,6 +4,8 @@ namespace App\Model\Table;
 
 use App\Lib\Model\Entity\IEntityWithId;
 use App\Lib\Model\Table\TableWithTimestamp;
+use App\Model\Entity\AbsentParticipantEntity;
+use App\Model\Entity\EventEntity;
 use App\Model\Entity\ParticipantEntity;
 use App\Model\Entity\UserEntity;
 use App\Model\Tables;
@@ -29,6 +31,9 @@ class UsersTable extends TableWithTimestamp
     $this
       ->hasMany(ParticipantsTable::getDefaultAlias())
       ->setForeignKey(ParticipantEntity::USER_ID);
+    $this
+      ->hasMany(AbsentParticipantsTable::getDefaultAlias())
+      ->setForeignKey(AbsentParticipantEntity::USER_ID);
   }
 
   /**
@@ -161,15 +166,18 @@ class UsersTable extends TableWithTimestamp
   }
 
   /**
-   * Gets all user entities.
+   * Gets all user entities with related participants.
    *
    * @return UserEntity[]
    */
-  public function getAllWithParticipants(): array
+  public function getAllWithParticipantsAndAbsentParticipants(): array
   {
     return $this
       ->find('all')
-      ->contain([ParticipantsTable::getDefaultAlias()])
+      ->contain([
+        ParticipantsTable::getDefaultAlias(),
+        AbsentParticipantsTable::getDefaultAlias()
+      ])
       ->all()
       ->toList();
   }
@@ -221,6 +229,26 @@ class UsersTable extends TableWithTimestamp
     }
     // as last step delete the user
     $this->delete($user);
+  }
+
+  /**
+   * Gets all users that have one or more participants for the event that don't have a check in
+   * date. This method does not check if the event is pending, active or finished.
+   *
+   * @param EventEntity $event
+   * @return UserEntity[]
+   */
+  public function getAllUsersWithAbsentParticipants(EventEntity $event): array
+  {
+    return $this
+      ->find('all')
+      ->matching(ParticipantsTable::getDefaultAlias(), fn($query) => $query->where([
+          ParticipantEntity::CHECKIN_DATE.' IS' => null,
+          ParticipantEntity::EVENT_ID => $event->id
+        ]
+      ))
+      ->all()
+      ->toList();
   }
 
   #endregion

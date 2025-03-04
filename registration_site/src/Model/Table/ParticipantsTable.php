@@ -126,8 +126,8 @@ class ParticipantsTable extends TableWithTimestamp
   /**
    * Finds all participants for a user and event.
    *
-   * @param string $userId
-   * @param string $eventId
+   * @param UserEntity $user
+   * @param EventEntity $event
    *
    * @return ParticipantEntity[] The participants for the user and event.
    */
@@ -137,6 +137,29 @@ class ParticipantsTable extends TableWithTimestamp
       ->where([
         $this->prefix(ParticipantEntity::USER_ID) => $user->id,
         $this->prefix(ParticipantEntity::EVENT_ID) => $event->id,
+      ])
+      ->orderBy($this->prefix(ParticipantEntity::CREATED))
+      ->all()
+      ->toList();
+  }
+
+  /**
+   * Finds all participants for a user. Include related event and workshops.
+   *
+   * @param UserEntity $user
+   *
+   * @return ParticipantEntity[] The participants for the user and event.
+   */
+  public function getAllForUserWithEventAndWorkshops(UserEntity $user): array
+  {
+    return $this->find()
+      ->contain([
+        EventsTable::getDefaultAlias(),
+        self::WORKSHOP_1,
+        self::WORKSHOP_2,
+      ])
+      ->where([
+        $this->prefix(ParticipantEntity::USER_ID) => $user->id,
       ])
       ->orderBy($this->prefix(ParticipantEntity::CREATED))
       ->all()
@@ -266,6 +289,19 @@ class ParticipantsTable extends TableWithTimestamp
       : null;
     return $this->save($participant) !== false;
   }
+
+  /**
+   * @param ParticipantEntity $participant
+   * @param bool $checkin
+   *
+   * @return bool
+   */
+  public function checkin(ParticipantEntity $participant, bool $checkin = true): bool
+  {
+    $participant->checkin_date = $checkin ? new DateTime() : null;
+    return $this->save($participant) !== false;
+  }
+
 
   #endregion
 }

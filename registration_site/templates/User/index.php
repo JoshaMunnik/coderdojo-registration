@@ -105,8 +105,29 @@ foreach ($eventWorkshops as $eventWorkshop) {
       <div class="cd-participant__row"></div>
       <div class="cd-participant__name">
         <?= $this->Styling->smallTitle($participant->name) ?>
+        <div class="cd-participant__actions cd-participant__actions--at-name">
+          <?= $this->Styling->iconButton(
+            ButtonIconEnum::EDIT,
+            ButtonColorEnum::PRIMARY,
+            [
+              HtmlAction::SHOW_DIALOG => '#'.EDIT_PARTICIPANT,
+              HtmlData::PARTICIPANT_ID => $participant->id,
+              HtmlData::PARTICIPANT_NAME => $participant->name,
+              HtmlData::PARTICIPANT_HAS_LAPTOP => $participant->has_laptop ? '1' : '0',
+            ]
+          ) ?>
+          <?= $this->Styling->iconButton(
+            ButtonIconEnum::REMOVE,
+            ButtonColorEnum::DANGER,
+            [
+              HtmlAction::SHOW_DIALOG => '#'.REMOVE_PARTICIPANT,
+              HtmlData::PARTICIPANT_ID => $participant->id,
+              HtmlData::PARTICIPANT_NAME => $participant->name,
+            ]
+          ) ?>
+        </div>
       </div>
-      <div class="cd-participant__workshop">
+      <div class="cd-participant__first-workshop">
         <?= $this->element('workshop_cell', [
           'participant' => $participant,
           'eventWorkshop' => $participant->event_workshop_1_id == null
@@ -120,7 +141,7 @@ foreach ($eventWorkshops as $eventWorkshop) {
           'buttons' => true,
         ]) ?>
       </div>
-      <div class="cd-participant__workshop">
+      <div class="cd-participant__backup-workshop">
         <?= $this->element('workshop_cell', [
           'participant' => $participant,
           'eventWorkshop' => $participant->event_workshop_2_id == null
@@ -136,7 +157,7 @@ foreach ($eventWorkshops as $eventWorkshop) {
           'buttons' => true,
         ]) ?>
       </div>
-      <div class="cd-participant__actions">
+      <div class="cd-participant__actions cd-participant__actions--at-end">
         <?= $this->Styling->iconButton(
           ButtonIconEnum::EDIT,
           ButtonColorEnum::PRIMARY,
@@ -182,7 +203,8 @@ foreach ($eventWorkshops as $eventWorkshop) {
     'dialog/remove_participant_from_user',
     [
       'data' => new IdViewModel(),
-      'id' => REMOVE_PARTICIPANT
+      'id' => REMOVE_PARTICIPANT,
+      'postUrl' => UserController::REMOVE_PARTICIPANT,
     ]
   ) ?>
   <?= $this->element(

@@ -78,7 +78,8 @@ class EventsController extends AdministratorControllerBase
       return $this->redirect(AdministratorController::INDEX);
     }
     $event = Tables::events()->getForId($viewData->id);
-    Tables::events()->anonymize($event);
+    Tables::events()->addAbsentParticipants($event);
+    Tables::events()->anonymizeParticipants($event);
     $eventDate = $event->event_date->format('Y-m-d');
     return $this->redirectWithSuccess(
       self::INDEX,

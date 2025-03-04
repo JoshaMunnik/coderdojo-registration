@@ -23,4 +23,5 @@ readonly class HtmlData
   const USER_ID = 'data-user-id';
   const USER_NAME = 'data-user-name';
   const CHECKIN_BUTTON = 'data-checkin-button';
+  const ABSENT_PARTICIPANT_ID = 'data-absent-participant-id';
 }
