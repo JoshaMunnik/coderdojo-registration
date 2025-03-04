@@ -5,8 +5,10 @@ namespace App\Controller;
 use App\Lib\Controller\AdministratorControllerBase;
 use App\Model\Entity\UserEntity;
 use App\Model\Tables;
+use App\Model\Value\Language;
 use App\Model\View\IdViewModel;
 use App\Model\View\Users\EditUserViewModel;
+use App\Tool\FileTool;
 use App\Tool\ParticipantTool;
 use Cake\Http\Response;
 
@@ -67,13 +69,60 @@ class UsersController extends AdministratorControllerBase
     $currentUser = $this->user();
     $user = Tables::users()->getForId($viewData->id);
     Tables::users()->deleteAndUpdateParticipants($user);
-    ParticipantTool::checkAllEvents();
+    ParticipantTool::checkParticipatingStatusForAllEvents();
     $this->success(__('User {0} removed', $user->name));
     if ($currentUser->id === $user->id) {
       return $this->redirect(AccountController::LOGOUT);
     }
     return $this->redirect(self::INDEX);
   }
+
+  /**
+   * Download a CSV file with the participants for an event.
+   *
+   * @param string $id
+   *
+   * @return Response
+   */
+  public function download(string $id): Response
+  {
+    $event = Tables::events()->getForId($id);
+    $participants = Tables::participants()->getAllForEventWithUser($event);
+    $eventWorkshops = Tables::eventWorkshops()->getAllForEvent($event);
+    $headers = [
+      __('Email'),
+      __('Name'),
+      __('Phone'),
+      __('Language'),
+      __('Created'),
+      __('Last visit'),
+      __('Participants'),
+      __('Mailing list'),
+
+    ];
+    $data = [];
+    foreach ($participants as $participant) {
+      $data[] = [
+        $participant->name,
+        $participant->user?->email ?? '-',
+        $participant->user?->name ?? '-',
+        $this->getWorkshopInformation(
+          $participant, $participant->event_workshop_1_id, $eventWorkshops
+        ),
+        $this->getWorkshopInformation(
+          $participant, $participant->event_workshop_2_id, $eventWorkshops
+        ),
+        $participant->user != null ? Language::getName($participant->user->language_id) : '',
+        $participant->has_laptop ? __('yes') : '',
+        $this->getParticipatedStatus($event, $participant, $eventWorkshops),
+      ];
+    }
+    return $this->exportCsv(
+      FileTool::addDate('participants.csv', $event->event_date->toNative()), $data, $headers
+    );
+  }
+
+
 
   #endregion
 

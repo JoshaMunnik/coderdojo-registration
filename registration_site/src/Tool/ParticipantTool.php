@@ -8,8 +8,6 @@ use App\Model\Entity\ParticipantEntity;
 use App\Model\Entity\UserEntity;
 use App\Model\Tables;
 use App\Service\EmailService;
-use Cake\I18n\DateTime;
-use Exception;
 
 /**
  * Tool for participants. Some methods will send out emails.
@@ -78,159 +76,60 @@ class ParticipantTool
    *
    * @return bool
    */
-  public static function deleteParticipant(ParticipantEntity $participant): bool {
+  public static function deleteParticipant(ParticipantEntity $participant): bool
+  {
     if (!Tables::participants()->delete($participant)) {
       return false;
-    };
+    }
     $event = Tables::events()->getForId($participant->event_id);
     if (!$event->hasActiveSignup()) {
       return true;
     }
-    if  ($participant->event_workshop_1_id !== null) {
-      ParticipantTool::checkParticipatingStatusForWorkshop(
-        $event, $participant->event_workshop_1_id
-      );
-    }
-    if  ($participant->event_workshop_2_id !== null) {
-      ParticipantTool::checkParticipatingStatusForWorkshop(
-        $event, $participant->event_workshop_2_id
-      );
+    if (
+      ($participant->event_workshop_1_id !== null)  || ($participant->event_workshop_2_id !== null)
+    ) {
+      ParticipantTool::checkParticipatingStatusForEvent($event);
     }
     return true;
   }
 
   /**
-   * Checks the participating status for all workshops. If the event does not have an active
-   * signup nothing happens.
+   * Checks the participating status for all workshops for all events that currently have an
+   * active signup.
+   *
+   * @return void
+   */
+  public static function checkParticipatingStatusForAllEvents(): void
+  {
+    $events = Tables::events()->getAll();
+    foreach ($events as $event) {
+      self::checkParticipatingStatusForEvent($event);
+    }
+  }
+
+  /**
+   * Checks the participating status for all workshops in an event. If the event does not have
+   * active signup nothing happens.
    *
    * @param EventEntity $event
    *
    * @return void
    */
-  public static function checkAllWorkshops(EventEntity $event): void {
+  public static function checkParticipatingStatusForEvent(EventEntity $event): void
+  {
+    // ignore events that are not active
     if (!$event->hasActiveSignup()) {
       return;
     }
-    $workshops = Tables::eventWorkshops()->getAllForEvent($event->id);
-    foreach ($workshops as $workshop) {
-      self::checkParticipatingStatusForWorkshop($event, $workshop->id);
+    $allEventworkshops = Tables::eventWorkshops()->getAllForEvent($event);
+    $checkEventworkshops = [...$allEventworkshops];
+    while (!empty($checkEventworkshops)) {
+      $eventWorkshop = array_pop($checkEventworkshops);
+      self::checkSecondWorkshop($eventWorkshop, $allEventworkshops, $checkEventworkshops);
     }
-  }
-
-  /**
-   * Checks the participating status for all workshops for all events.
-   *
-   * @return void
-   */
-  public static function checkAllEvents(): void {
-    $events = Tables::events()->getAll();
-    foreach($events as $event) {
-      self::checkAllWorkshops($event);
+    foreach ($allEventworkshops as $eventWorkshop) {
+      self::checkParticipatingEmails($event, $eventWorkshop);
     }
-  }
-
-  /**
-   * Checks the participating status of every participating in a workshop.
-   *
-   * @param EventEntity $event
-   * @param string $workshopId
-   *
-   * @return void
-   */
-  public static function checkParticipatingStatusForWorkshop(
-    EventEntity $event,
-    string $workshopId,
-  ): void {
-    $eventWorkshop = Tables::eventWorkshops()->getForIdWithParticipants($workshopId);
-    $participants = Tables::participants()->getAllForWorkshop($workshopId);
-    foreach ($participants as $participant) {
-      $previousEventWorkshopId = self::checkParticipatingStatusForParticipant(
-        $event,
-        $eventWorkshop,
-        $participants,
-        $participant,
-      );
-      // participant left the backup workshop, check if other participant might have joined as
-      // an active participant
-      if ($previousEventWorkshopId != null) {
-        self::checkParticipatingStatusForWorkshop($event, $previousEventWorkshopId);
-      }
-    }
-  }
-
-  /**
-   * Checks if a participant is no longer in the waiting queue and is participating in a workshop.
-   *
-   * If a participant is now participating in workshop 1, remove them from workshop 2.
-   *
-   * Send out an email if no notification email was sent before.
-   *
-   * @param EventEntity $event
-   * @param EventWorkshopEntity $eventWorkshop
-   * @param ParticipantEntity[] $participants
-   * @param ParticipantEntity $participant
-   *
-   * @return null|string When not null, the method returns an id of a backup workshop, the
-   *   participant is no longer participating in.
-   */
-  public static function checkParticipatingStatusForParticipant(
-    EventEntity $event,
-    EventWorkshopEntity $eventWorkshop,
-    array $participants,
-    ParticipantEntity $participant,
-  ): ?string {
-    // make sure the participant is still attached to a user
-    if ($participant->user_id === null) {
-      return null;
-    }
-    $position = self::getPosition($participants, $participant);
-    if ($position < 0) {
-      return null;
-    }
-    if (
-      ($participant->event_workshop_1_id == $eventWorkshop->id) &&
-      ($position < $eventWorkshop->place_count)
-    ) {
-      // notify user that participant is now participating (do this only once)
-      if ($participant->event_workshop_1_notify_date == null) {
-        try {
-          $participant->event_workshop_1_notify_date = new DateTime();
-          $user = Tables::users()->getForId($participant->user_id);
-          EmailService::sendParticipatingEmail($user, $participant, $event, $eventWorkshop, false);
-          Tables::participants()->save($participant);
-        }
-        catch (Exception $exception) {
-          // ignore
-        }
-      }
-      // if participant is now participating in workshop 1, they no longer need the backup workshop
-      // so remove.
-      if ($participant->event_workshop_2_id != null) {
-        $previousEventWorkshopId = $participant->event_workshop_2_id;
-        Tables::participants()->removeFromWorkshop(
-          $participant, $participant->event_workshop_2_id
-        );
-        return $previousEventWorkshopId;
-      }
-    }
-    // check and notify user that participant is now participating in the backup workshop
-    // (do this only once)
-    elseif (
-      ($participant->event_workshop_2_id == $eventWorkshop->id) &&
-      ($position <= $eventWorkshop->place_count) &&
-      ($participant->event_workshop_2_notify_date == null)
-    ) {
-      try {
-        $participant->event_workshop_2_notify_date = new DateTime();
-        $user = Tables::users()->getForId($participant->user_id);
-        EmailService::sendParticipatingEmail($user, $participant, $event, $eventWorkshop, true);
-        Tables::participants()->save($participant);
-      }
-      catch (Exception $exception) {
-        // ignore
-      }
-    }
-    return null;
   }
 
   /**
@@ -238,7 +137,7 @@ class ParticipantTool
    * become the first workshop.
    *
    * A cancellation email is sent to the user. Also
-   * {@link self::checkParticipatingStatusForWorkshop} is* called to check anyone else now is
+   * {@link self::checkParticipatingStatusForEvent} is called to check anyone else now is
    * participating in the workshop.
    *
    * @param UserEntity $user
@@ -252,15 +151,10 @@ class ParticipantTool
   ): bool {
     $eventWorkshop = Tables::eventWorkshops()->getForId($participant->event_workshop_1_id);
     $event = Tables::events()->getForId($participant->event_id);
-    $participant->event_workshop_1_id = $participant->event_workshop_2_id;
-    $participant->event_workshop_1_join_date = $participant->event_workshop_2_join_date;
-    $participant->event_workshop_1_notify_date = $participant->event_workshop_2_notify_date;
-    $participant->event_workshop_2_id = null;
-    $participant->event_workshop_2_join_date = null;
-    $participant->event_workshop_2_notify_date = null;
+    $participant->moveBackupToFirstWorkshop();
     if (Tables::participants()->save($participant)) {
       EmailService::sendCancellationEmail($user, $participant, $event, $eventWorkshop);
-      self::checkParticipatingStatusForWorkshop($event, $eventWorkshop->id);
+      self::checkParticipatingStatusForEvent($event);
       return true;
     }
     return false;
@@ -269,7 +163,7 @@ class ParticipantTool
   /**
    * The participant is leaving the backup workshop.
    *
-   * A cancellation email is sent to the user. Also {@link checkParticipatingStatusForWorkshop} is
+   * A cancellation email is sent to the user. Also {@link checkParticipatingStatusForEvent} is
    * called to check anyone else now is participating in the workshop.
    *
    * @param UserEntity $user
@@ -283,12 +177,10 @@ class ParticipantTool
   ): bool {
     $eventWorkshop = Tables::eventWorkshops()->getForId($participant->event_workshop_2_id);
     $event = Tables::events()->getForId($participant->event_id);
-    $participant->event_workshop_2_id = null;
-    $participant->event_workshop_2_join_date = null;
-    $participant->event_workshop_2_notify_date = null;
+    $participant->clearBackupWorkshop();
     if (Tables::participants()->save($participant)) {
       EmailService::sendCancellationEmail($user, $participant, $event, $eventWorkshop);
-      self::checkParticipatingStatusForWorkshop($event, $eventWorkshop->id);
+      self::checkParticipatingStatusForEvent($event);
       return true;
     }
     return false;
@@ -297,7 +189,7 @@ class ParticipantTool
   /**
    * The participant is joining the first workshop. If the participant has already joined a first
    * workshop, the participant is removed and a call is made to
-   * {@link self::checkParticipatingStatusForWorkshop} to check if any other participant is now
+   * {@link self::checkParticipatingStatusForEvent} to check if any other participant is now
    * participating.
    *
    *
@@ -314,10 +206,12 @@ class ParticipantTool
     EventWorkshopEntity $eventWorkshop
   ): void {
     if ($participant->event_workshop_1_id != null) {
-      $previousWorkshopId = $participant->event_workshop_1_id;
-      Tables::participants()->removeFromWorkshop($participant, $previousWorkshopId);
-      self::addFirstWorkshop($user, $participant, $event, $eventWorkshop);
-      ParticipantTool::checkParticipatingStatusForWorkshop($event, $previousWorkshopId);
+      if (
+        Tables::participants()->removeFromWorkshop($participant, $participant->event_workshop_1_id)
+      ) {
+        self::addFirstWorkshop($user, $participant, $event, $eventWorkshop);
+        self::checkParticipatingStatusForEvent($event);
+      }
     }
     else {
       self::addFirstWorkshop($user, $participant, $event, $eventWorkshop);
@@ -344,10 +238,12 @@ class ParticipantTool
     EventWorkshopEntity $eventWorkshop
   ): void {
     if ($participant->event_workshop_2_id != null) {
-      $previousWorkshopId = $participant->event_workshop_2_id;
-      Tables::participants()->removeFromWorkshop($participant, $previousWorkshopId);
-      self::addBackupWorkshop($user, $participant, $event, $eventWorkshop);
-      ParticipantTool::checkParticipatingStatusForWorkshop($event, $previousWorkshopId);
+      if (
+        Tables::participants()->removeFromWorkshop($participant, $participant->event_workshop_2_id)
+      ) {
+        self::addBackupWorkshop($user, $participant, $event, $eventWorkshop);
+        ParticipantTool::checkParticipatingStatusForEvent($event);
+      }
     }
     else {
       self::addBackupWorkshop($user, $participant, $event, $eventWorkshop);
@@ -376,7 +272,7 @@ class ParticipantTool
     EventWorkshopEntity $eventWorkshop,
   ): void {
     Tables::participants()->addToFirstWorkshop($participant, $eventWorkshop);
-    $participants = Tables::participants()->getAllForWorkshop($eventWorkshop->id);
+    $participants = Tables::participants()->getAllForWorkshop($eventWorkshop);
     $position = ParticipantTool::getPosition($participants, $participant);
     EmailService::sendJoinFirstWorkshopEmail(
       $user,
@@ -405,7 +301,7 @@ class ParticipantTool
     EventWorkshopEntity $eventWorkshop,
   ): void {
     Tables::participants()->addToBackupWorkshop($participant, $eventWorkshop);
-    $participants = Tables::participants()->getAllForWorkshop($eventWorkshop->id);
+    $participants = Tables::participants()->getAllForWorkshop($eventWorkshop);
     $position = ParticipantTool::getPosition($participants, $participant);
     $firstWorkshop = Tables::eventWorkshops()->getForId($participant->event_workshop_1_id);
     EmailService::sendJoinBackupWorkshopEmail(
@@ -416,5 +312,65 @@ class ParticipantTool
       $eventWorkshop,
       $position
     );
+  }
+
+  /**
+   * Checks if any of the participating participants is participating in the workshop as their
+   * first choice. If they are, remove the backup workshop (if any).
+   *
+   * @param EventWorkshopEntity $eventWorkshop
+   * @param array $allEventWorkshops The key is the id and the value the entity
+   * @param array $checkEventWorkshops The keY is the id and the value the entity; this array gets
+   *   updated with every second workshop that needs to be checked.
+   *
+   * @return void
+   */
+  private static function checkSecondWorkshop(
+    EventWorkshopEntity $eventWorkshop,
+    array $allEventWorkshops,
+    array &$checkEventWorkshops
+  ): void {
+    $participants = Tables::participants()->getAllParticipatingForWorkshop($eventWorkshop);
+    foreach ($participants as $participant) {
+      // remove second workshop if the user is participating in the first workshop
+      if (
+        ($participant->event_workshop_1_id === $eventWorkshop->id) &&
+        ($participant->event_workshop_2_id !== null)
+      ) {
+        // if the workshop is already in the array, nothing changes; else add it so it gets checked
+        $checkEventWorkshops[$participant->event_workshop_2_id] =
+          $allEventWorkshops[$participant->event_workshop_2_id];
+        Tables::participants()->removeFromWorkshop($participant, $participant->event_workshop_2_id);
+      }
+    }
+  }
+
+  /**
+   * For all participants that are participating in a workshop, check if they have been notified.
+   * If not, send out an email.
+   *
+   * @param EventEntity $event
+   * @param EventWorkshopEntity $eventWorkshop
+   * @return void
+   */
+  private static function checkParticipatingEmails(
+    EventEntity $event,
+    EventWorkshopEntity $eventWorkshop
+  ): void {
+    $participants = Tables::participants()->getAllParticipatingForWorkshop($eventWorkshop);
+    foreach ($participants as $participant) {
+      if ($participant->hasNotBeenNotified($eventWorkshop)) {
+        $participant->notifyForWorkshop($eventWorkshop);
+        Tables::participants()->save($participant);
+        $user = Tables::users()->getForId($participant->user_id);
+        EmailService::sendParticipatingEmail(
+          $user,
+          $participant,
+          $event,
+          $eventWorkshop,
+          $participant->event_workshop_2_id === $eventWorkshop->id
+        );
+      }
+    }
   }
 }

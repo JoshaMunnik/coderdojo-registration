@@ -7,6 +7,7 @@ use App\Model\Data\EventWithCountsData;
 use App\Model\Entity\EventEntity;
 use App\Model\Entity\EventWorkshopEntity;
 use App\Model\Entity\ParticipantEntity;
+use App\Model\Tables;
 use Cake\Datasource\Exception\RecordNotFoundException;
 use Cake\I18n\FrozenTime;
 use DateTime;
@@ -102,7 +103,7 @@ class EventsTable extends TableWithTimestamp
     $now = new DateTime();
     /** @var EventEntity $event */
     foreach ($events as $event) {
-      $participatingCount = $this->EventWorkshops->getTotalParticipating($event->id);
+      $participatingCount = $this->getTotalParticipating($event);
       $result[] = new EventWithCountsData(
         $event,
         $participatingCount,
@@ -195,6 +196,26 @@ class EventsTable extends TableWithTimestamp
       ->all()
       ->toArray();
     return array_values($ids);
+  }
+
+  /**
+   * Gets the total number of participants actual participating for the event. Participants waiting
+   * in the queue are skipped.
+   * .
+   * @param EventEntity $event
+   *
+   * @return int
+   */
+  public function getTotalParticipating(EventEntity $event): int
+  {
+    $eventWorkshops = Tables::eventWorkshops()->getAllForEvent($event);
+    $result = 0;
+    foreach ($eventWorkshops as $eventWorkshop) {
+      $result += min(
+        $eventWorkshop->place_count, Tables::participants()->getCountForWorkshop($eventWorkshop)
+      );
+    }
+    return $result;
   }
 
   #endregion

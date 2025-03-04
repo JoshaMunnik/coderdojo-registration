@@ -55,10 +55,10 @@ class UserController extends ApplicationControllerBase
   {
     $event = Tables::events()->getNextEvent();
     $participants = $event != null
-      ? Tables::participants()->getAllForUserAndEvent($this->user()->id, $event->id)
+      ? Tables::participants()->getAllForUserAndEvent($this->user(), $event)
       : [];
     $eventWorkshops = $event != null
-      ? Tables::eventWorkshops()->getAllForEvent($event->id)
+      ? Tables::eventWorkshops()->getAllForEvent($event)
       : [];
     $this->set('editProfileData', $this->processEditProfile(self::INDEX));
     $this->set('changePasswordData', $this->processChangePassword(self::INDEX));
@@ -96,14 +96,14 @@ class UserController extends ApplicationControllerBase
   {
     $event = Tables::events()->getNextEvent();
     $eventWorkshops = $event != null
-      ? Tables::eventWorkshops()->getAllForEvent($event->id)
+      ? Tables::eventWorkshops()->getAllForEvent($event)
       : [];
     $workshopItems = [];
     foreach ($eventWorkshops as $eventWorkshop) {
       if ($eventWorkshop->isParticipating($id)) {
         continue;
       }
-      $participantCount = Tables::participants()->getCountForWorkshop($eventWorkshop->id);
+      $participantCount = Tables::participants()->getCountForWorkshop($eventWorkshop);
       $workshopItems[] = [
         'id' => $eventWorkshop->id,
         'name' => $eventWorkshop->getName(),

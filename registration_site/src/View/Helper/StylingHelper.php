@@ -8,6 +8,7 @@ use App\Model\Enum\ButtonIconEnum;
 use App\Model\Enum\CellDataTypeEnum;
 use App\Model\Enum\CellStylingEnum;
 use App\Model\Enum\ContentPositionEnum;
+use App\Model\Enum\GapEnum;
 use App\Tool\UrlTool;
 use Cake\View\Helper;
 use Cake\View\Helper\FormHelper;
@@ -25,6 +26,12 @@ class StylingHelper extends Helper
   #region configuration
 
   protected array $helpers = ['Html', 'Form'];
+
+  #endregion
+
+  #region private variables
+
+  private string $m_tabId = '';
 
   #endregion
 
@@ -648,11 +655,18 @@ class StylingHelper extends Helper
   }
 
   /**
+   * @param GapEnum $gap
    * @return string
    */
-  public function beginRow(): string
+  public function beginRow(GapEnum $gap = GapEnum::SMALL): string
   {
-    return '<div class="cd-layout__row">';
+    $gapClass = match ($gap) {
+      default => '',
+      GapEnum::SMALL => ' cd-layout__row--has-small-gap',
+      GapEnum::FORM => ' cd-layout__row--has-form-gap',
+      GapEnum::DIALOG => ' cd-layout__row--has-dialog-gap',
+    };
+    return '<div class="cd-layout__row'.$gapClass.'">';
   }
 
   /**
@@ -664,11 +678,18 @@ class StylingHelper extends Helper
   }
 
   /**
+   * @param GapEnum $gap
    * @return string
    */
-  public function beginColumn(): string
+  public function beginColumn(GapEnum $gap = GapEnum::SMALL): string
   {
-    return '<div class="cd-layout__column">';
+    $gapClass = match ($gap) {
+      default => '',
+      GapEnum::SMALL => ' cd-layout__column--has-small-gap',
+      GapEnum::FORM => ' cd-layout__column--has-form-gap',
+      GapEnum::DIALOG => ' cd-layout__column--has-dialog-gap',
+    };
+    return '<div class="cd-layout__column'.$gapClass.'">';
   }
 
   /**
@@ -790,20 +811,27 @@ class StylingHelper extends Helper
     bool $isActive = false
   ): string {
     $activeRow = $isActive ? ' cd-table__row--is-active' : '';
-    $activeCell = $isActive ? ' cd-table__cell--is-active' : '';
     $html = '<tr class="cd-table__row cd-table__row--is-data'.$activeRow.'">';
     foreach ($columns as $key => $value) {
       list($key, $value) = $this->checkTableCellEntry($key, $value);
       list($position, $attributes) = $this->checkTableCellValue($value);
-      $position = match ($position) {
+      $cssClasses = 'cd-table__cell cd-table__cell--is-data';
+      $cssClasses .= $this->getCellStylingClasses(is_array($value) ? $value : [$value]);
+      if ($key instanceof DateTimeInterface) {
+        $cssClasses .= ' cd-table__cell--is-date';
+      }
+      if ($isActive) {
+        $cssClasses .= ' cd-table__cell--is-active';
+      }
+      $cssClasses .= match ($position) {
         ContentPositionEnum::CENTER => ' cd-table__cell--at-center',
         ContentPositionEnum::END => ' cd-table__cell--at-right',
         default => '',
       };
       $attributes = ' '.$this->Html->templater()->formatAttributes($attributes);
-      $html .= '<td class="cd-table__cell cd-table__cell--is-data'.$position.$activeCell.'"'.$attributes.'>';
+      $html .= '<td class="'.$cssClasses.'"'.$attributes.'>';
       if ($key instanceof DateTimeInterface) {
-        $html .= $key->format('Y-m-d H:i');
+        $html .= str_replace(' ', '&nbsp;', $key->format('Y-m-d H:i'));
       }
       else {
         $html .= $key;
@@ -828,7 +856,7 @@ class StylingHelper extends Helper
    */
   public function beginPageButtons(): string
   {
-    return '<nav class="cd-layout__buttons cd-layout__buttons-wrap">';
+    return '<nav class="cd-layout__buttons cd-layout__buttons--wrap">';
   }
 
   /**
@@ -852,6 +880,45 @@ class StylingHelper extends Helper
    */
   public function endButtons(): string
   {
+    return '</div>';
+  }
+
+  /**
+   * @return string
+   */
+  public function beginTabsContainer(): string {
+    $this->m_tabId = uniqid('cd-tabs__container-');
+    return '<div class="cd-tabs__container">';
+  }
+
+  /**
+   * @return string
+   */
+  public function endTabsContainer(): string {
+    return '</div>';
+  }
+
+  /**
+   * This method should be called after a call to {@link beginTabsContainer()}.
+   *
+   * @param string $title
+   * @param bool $selected
+   * @return string
+   */
+  public function beginTab(string $title, bool $selected = false): string {
+    $id = uniqid('cd-tabs__tab-');
+    $html = '<input type="radio" id="'.$id.'" name="'.$this->m_tabId.'" class="cd-tabs__tab-radio" '
+      .($selected ? ' checked' : '')
+      .' />';
+    $html .= '<label class="cd-tabs__title" for="'.$id.'">'.$title.'</label>';
+    $html .= '<div class="cd-tabs__content">';
+    return $html;
+  }
+
+  /**
+   * @return string
+   */
+  public function endTab(): string {
     return '</div>';
   }
 
@@ -926,14 +993,14 @@ class StylingHelper extends Helper
    * @param mixed $cellValue
    * @return array
    */
-  private function checkTableCellValue(mixed $cellValue): array {
-    if (!is_array($cellValue))
-    {
+  private function checkTableCellValue(mixed $cellValue): array
+  {
+    if (!is_array($cellValue)) {
       return array($cellValue, []);
     }
     $attributes = [];
     $position = ContentPositionEnum::START;
-    foreach($cellValue as $key => $value) {
+    foreach ($cellValue as $key => $value) {
       if ($value instanceof ContentPositionEnum) {
         $position = $value;
       }
@@ -954,7 +1021,7 @@ class StylingHelper extends Helper
    */
   private function getCellSortType(array $cellValues): string
   {
-    foreach($cellValues as $cellValue) {
+    foreach ($cellValues as $cellValue) {
       if ($cellValue instanceof CellDataTypeEnum) {
         return match ($cellValue) {
           CellDataTypeEnum::DATE => ' data-uf-sort-type="date"',
@@ -977,10 +1044,11 @@ class StylingHelper extends Helper
   private function getCellStylingClasses(array $cellValues): string
   {
     $result = '';
-    foreach($cellValues as $cellValue) {
+    foreach ($cellValues as $cellValue) {
       if ($cellValue instanceof CellStylingEnum) {
         $result .= match ($cellValue) {
           CellStylingEnum::TIGHT => ' cd-table__cell--is-tight',
+          CellStylingEnum::DATE => ' cd-table__cell--is-date',
           default => '',
         };
       }

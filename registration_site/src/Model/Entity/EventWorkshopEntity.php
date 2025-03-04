@@ -59,7 +59,7 @@ class EventWorkshopEntity extends Entity implements IEntityWithTimestamp, IEntit
    */
   public function getWaitingPosition(ParticipantEntity $participant): int
   {
-    $participants = Tables::participants()->getAllForWorkshop($this->id);
+    $participants = Tables::participants()->getAllForWorkshop($this);
     for($index = 0; $index < count($participants); $index++) {
       if ($participants[$index]->id === $participant->id) {
         return max(0, $index + 1 - $this->place_count);
@@ -77,7 +77,7 @@ class EventWorkshopEntity extends Entity implements IEntityWithTimestamp, IEntit
    */
   public function isParticipating(string $participantId): bool
   {
-    $participants = Tables::participants()->getAllForWorkshop($this->id);
+    $participants = Tables::participants()->getAllForWorkshop($this);
     foreach($participants as $participant) {
       if ($participant->id === $participantId) {
         return true;
@@ -94,11 +94,10 @@ class EventWorkshopEntity extends Entity implements IEntityWithTimestamp, IEntit
    */
   public function getLaptopsNeededCount(): int
   {
-    $participants = Tables::participants()->getAllForWorkshop($this->id);
-    $count = min(count($participants), $this->place_count);
+    $participants = Tables::participants()->getAllParticipatingForWorkshop($this);
     $result = 0;
-    for($index = 0; $index < $count; $index++) {
-      if (!$participants[$index]->has_laptop) {
+    foreach($participants as $participant) {
+      if (!$participant->has_laptop) {
         $result++;
       }
     }

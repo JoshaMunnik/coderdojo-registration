@@ -94,7 +94,7 @@ class Language
   {
     return [
       self::ENGLISH_ID => __('English'),
-      self::DUTCH_ID => __('Nederlands'),
+      self::DUTCH_ID => __('Dutch'),
     ];
   }
 

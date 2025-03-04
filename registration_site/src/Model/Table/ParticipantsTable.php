@@ -6,6 +6,7 @@ use App\Lib\Model\Table\TableWithTimestamp;
 use App\Model\Entity\EventEntity;
 use App\Model\Entity\EventWorkshopEntity;
 use App\Model\Entity\ParticipantEntity;
+use App\Model\Entity\UserEntity;
 use App\Tool\ParticipantTool;
 use Cake\Datasource\Exception\RecordNotFoundException;
 use Cake\I18n\DateTime;
@@ -88,31 +89,33 @@ class ParticipantsTable extends TableWithTimestamp
   }
 
   /**
-   * @param string $eventId The id of the event.
+   * @param EventEntity $event
    *
    * @return ParticipantEntity[]
    */
-  public function getAllForEventWithUser(string $eventId): array
+  public function getAllForEventWithUser(EventEntity $event): array
   {
     return $this->find()
       ->contain([UsersTable::getDefaultAlias()])
-      ->where([$this->prefix(ParticipantEntity::EVENT_ID) => $eventId])
+      ->where([$this->prefix(ParticipantEntity::EVENT_ID) => $event->id])
       ->orderBy($this->prefix(ParticipantEntity::CREATED))
       ->all()
       ->toList();
   }
 
   /**
-   * @param string $eventId The id of the event.
+   * @param EventEntity $event
    *
    * @return ParticipantEntity[]
    */
-  public function getAllParticipatingForEventWithUser(string $eventId): array
+  public function getAllParticipatingForEventWithUser(EventEntity $event): array
   {
     return $this->find()
       ->contain([UsersTable::getDefaultAlias()])
       ->where([
-        $this->prefix(ParticipantEntity::EVENT_ID) => $eventId,
+        $this->prefix(ParticipantEntity::EVENT_ID) => $event->id,
+        // it is enough to check only for workshop 1, because workshop 2 is only set if workshop 1
+        // is also set.
         $this->prefix(ParticipantEntity::EVENT_WORKSHOP_1_ID).' IS NOT' => null,
       ])
       ->orderBy($this->prefix(ParticipantEntity::CREATED))
@@ -128,12 +131,12 @@ class ParticipantsTable extends TableWithTimestamp
    *
    * @return ParticipantEntity[] The participants for the user and event.
    */
-  public function getAllForUserAndEvent(string $userId, string $eventId): array
+  public function getAllForUserAndEvent(UserEntity $user, EventEntity $event): array
   {
     return $this->find()
       ->where([
-        $this->prefix(ParticipantEntity::USER_ID) => $userId,
-        $this->prefix(ParticipantEntity::EVENT_ID) => $eventId,
+        $this->prefix(ParticipantEntity::USER_ID) => $user->id,
+        $this->prefix(ParticipantEntity::EVENT_ID) => $event->id,
       ])
       ->orderBy($this->prefix(ParticipantEntity::CREATED))
       ->all()
@@ -143,18 +146,18 @@ class ParticipantsTable extends TableWithTimestamp
   /**
    * Gets the number of participants for a workshop for a certain event.
    *
-   * @param string $eventWorkshopId
+   * @param EventWorkshopEntity $eventWorkshop
    *
    * @return int
    */
-  public function getCountForWorkshop(string $eventWorkshopId): int
+  public function getCountForWorkshop(EventWorkshopEntity $eventWorkshop): int
   {
     return $this
       ->find('all')
       ->where([
         'OR' => [
-          ParticipantEntity::EVENT_WORKSHOP_1_ID => $eventWorkshopId,
-          ParticipantEntity::EVENT_WORKSHOP_2_ID => $eventWorkshopId,
+          ParticipantEntity::EVENT_WORKSHOP_1_ID => $eventWorkshop->id,
+          ParticipantEntity::EVENT_WORKSHOP_2_ID => $eventWorkshop->id,
         ],
       ])
       ->count();
@@ -164,51 +167,62 @@ class ParticipantsTable extends TableWithTimestamp
    * Gets all the participants for a workshop (either as first or second choice). The participants
    * are sorted on join date.
    *
-   * @param string $eventWorkshopId
+   * @param EventWorkshopEntity $eventWorkshop
    *
    * @return ParticipantEntity[] The participants for the workshop.
    */
-  public function getAllForWorkshop(string $eventWorkshopId): array
+  public function getAllForWorkshop(EventWorkshopEntity $eventWorkshop): array
   {
     $participants = $this
       ->find('all')
       ->where([
         'OR' => [
-          ParticipantEntity::EVENT_WORKSHOP_1_ID => $eventWorkshopId,
-          ParticipantEntity::EVENT_WORKSHOP_2_ID => $eventWorkshopId,
+          ParticipantEntity::EVENT_WORKSHOP_1_ID => $eventWorkshop->id,
+          ParticipantEntity::EVENT_WORKSHOP_2_ID => $eventWorkshop->id,
         ],
       ])
       ->all()
       ->toList();
     usort(
       $participants,
-      fn($first, $second) => ParticipantTool::compareForWorkshop($eventWorkshopId, $first, $second)
+      fn($first, $second) => ParticipantTool::compareForWorkshop(
+        $eventWorkshop->id, $first, $second
+      )
     );
     return $participants;
   }
 
   /**
-   * Removes a participant from a workshop. Note that the positions of other participants are not
-   * updated by this call.
+   * Gets all the participants for a workshop (either as first or second choice) that are
+   * participating (and not in the waiting queue).
+   *
+   * @param EventWorkshopEntity $eventWorkshop
+   *
+   * @return ParticipantEntity[]
+   */
+  public function getAllParticipatingForWorkshop(EventWorkshopEntity $eventWorkshop): array
+  {
+    $participants = $this->getAllForWorkshop($eventWorkshop);
+    return array_slice($participants, 0, $eventWorkshop->place_count);
+  }
+
+  /**
+   * Removes a participant from a workshop.
    *
    * @param ParticipantEntity $participant
    * @param string $eventWorkshopId
    *
-   * @return void
+   * @return bool
    */
-  public function removeFromWorkshop(ParticipantEntity $participant, string $eventWorkshopId): void
+  public function removeFromWorkshop(ParticipantEntity $participant, string $eventWorkshopId): bool
   {
     if ($participant->event_workshop_1_id === $eventWorkshopId) {
-      $participant->event_workshop_1_id = null;
-      $participant->event_workshop_1_join_date = null;
-      $participant->event_workshop_1_notify_date = null;
+      $participant->clearFirstWorkshop();
     }
     if ($participant->event_workshop_2_id === $eventWorkshopId) {
-      $participant->event_workshop_2_id = null;
-      $participant->event_workshop_2_join_date = null;
-      $participant->event_workshop_2_notify_date = null;
+      $participant->clearBackupWorkshop();
     }
-    $this->save($participant);
+    return $this->save($participant) !== false;
   }
 
   /**
@@ -217,19 +231,19 @@ class ParticipantsTable extends TableWithTimestamp
    * @param ParticipantEntity $participant
    * @param EventWorkshopEntity $eventWorkshop
    *
-   * @return void
+   * @return bool
    */
   public function addToFirstWorkshop(
     ParticipantEntity $participant,
     EventWorkshopEntity $eventWorkshop
-  ): void {
-    $count = $this->getCountForWorkshop($eventWorkshop->id);
+  ): bool {
+    $count = $this->getCountForWorkshop($eventWorkshop);
     $participant->event_workshop_1_id = $eventWorkshop->id;
     $participant->event_workshop_1_join_date = new DateTime();
     $participant->event_workshop_1_notify_date = $count < $eventWorkshop->place_count
       ? new DateTime()
       : null;
-    $this->save($participant);
+    return $this->save($participant) !== false;
   }
 
   /**
@@ -238,19 +252,19 @@ class ParticipantsTable extends TableWithTimestamp
    * @param ParticipantEntity $participant
    * @param EventWorkshopEntity $eventWorkshop
    *
-   * @return void
+   * @return bool
    */
   public function addToBackupWorkshop(
     ParticipantEntity $participant,
     EventWorkshopEntity $eventWorkshop
-  ): void {
-    $count = $this->getCountForWorkshop($eventWorkshop->id);
+  ): bool {
+    $count = $this->getCountForWorkshop($eventWorkshop);
     $participant->event_workshop_2_id = $eventWorkshop->id;
     $participant->event_workshop_2_join_date = new DateTime();
     $participant->event_workshop_2_notify_date = $count < $eventWorkshop->place_count
       ? new DateTime()
       : null;
-    $this->save($participant);
+    return $this->save($participant) !== false;
   }
 
   #endregion

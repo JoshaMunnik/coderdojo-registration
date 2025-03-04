@@ -44,7 +44,7 @@ class EventWorkshopsController extends AdministratorControllerBase
   public function index(string $id): ?Response
   {
     $event = Tables::events()->getForId($id);
-    $eventWorkshops = Tables::eventWorkshops()->getAllForEvent($id);
+    $eventWorkshops = Tables::eventWorkshops()->getAllForEvent($event);
     $workshops = $this->getEligibleWorkshops($eventWorkshops);
     $this->set('event', $event);
     $this->set('eventWorkshops', $eventWorkshops);
@@ -85,19 +85,22 @@ class EventWorkshopsController extends AdministratorControllerBase
    */
   public function download($id): Response {
     $event = Tables::events()->getForId($id);
-    $eventWorkshops = Tables::eventWorkshops()->getAllForEvent($id);
+    $eventWorkshops = Tables::eventWorkshops()->getAllForEvent($event);
     $headers = [
       __('Workshop'),
       __('Places'),
       __('Participants'),
-      __('Laptops'),
+      __('Waiting'),
+      __('Laptops needed'),
     ];
     $data = [];
     foreach($eventWorkshops as $eventWorkshop) {
+      $participantCount = Tables::participants()->getCountForWorkshop($eventWorkshop);
       $data[] = [
         $eventWorkshop->getName(),
         $eventWorkshop->place_count,
-        Tables::participants()->getCountForWorkshop($eventWorkshop->id),
+        min($participantCount, $eventWorkshop->place_count),
+        max(0, $participantCount - $eventWorkshop->place_count),
         $eventWorkshop->getLaptopsNeededCount(),
       ];
     }
@@ -151,7 +154,7 @@ class EventWorkshopsController extends AdministratorControllerBase
       $eventWorkshopData->copyToEntity($eventWorkshop, $event->id);
       if (Tables::eventWorkshops()->save($eventWorkshop)) {
         if ($event->hasActiveSignup()) {
-          ParticipantTool::checkParticipatingStatusForWorkshop($event, $eventWorkshop->id);
+          ParticipantTool::checkParticipatingStatusForEvent($event);
         }
         $this->redirectWithSuccess(
           [self::INDEX, $event->id],

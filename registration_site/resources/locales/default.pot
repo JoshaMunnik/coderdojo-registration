@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2025-03-03 16:19+0000\n"
+"POT-Creation-Date: 2025-03-04 11:02+0000\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
@@ -65,28 +65,34 @@ msgid "Places"
 msgstr ""
 
 #: ./src/Controller/EventWorkshopsController.php:92
+#: ./src/Controller/UsersController.php:99
 #: ./templates/EventWorkshops/index.php:63
 #: ./templates/Events/index.php:58
 #: ./templates/Participants/manage_checkins.php:50
-#: ./templates/Users/index.php:40
+#: ./templates/Users/index.php:55
 msgid "Participants"
 msgstr ""
 
 #: ./src/Controller/EventWorkshopsController.php:93
 #: ./templates/EventWorkshops/index.php:64
-msgid "Laptops"
+msgid "Waiting"
 msgstr ""
 
-#: ./src/Controller/EventWorkshopsController.php:158
+#: ./src/Controller/EventWorkshopsController.php:94
+#: ./templates/EventWorkshops/index.php:65
+msgid "Laptops needed"
+msgstr ""
+
+#: ./src/Controller/EventWorkshopsController.php:161
 msgid "The workshop {0} has been updated."
 msgstr ""
 
-#: ./src/Controller/EventWorkshopsController.php:163
-#: ./src/Controller/EventWorkshopsController.php:201
+#: ./src/Controller/EventWorkshopsController.php:166
+#: ./src/Controller/EventWorkshopsController.php:204
 msgid "The workshop could not be saved in the database."
 msgstr ""
 
-#: ./src/Controller/EventWorkshopsController.php:196
+#: ./src/Controller/EventWorkshopsController.php:199
 msgid "The workshop {0} has been added to the event for {1}."
 msgstr ""
 
@@ -111,77 +117,79 @@ msgstr ""
 msgid "The event for {0} has been added."
 msgstr ""
 
-#: ./src/Controller/ParticipantsController.php:142
+#: ./src/Controller/ParticipantsController.php:141
 msgid "Participant {0} does not belong to this event."
 msgstr ""
 
-#: ./src/Controller/ParticipantsController.php:148
+#: ./src/Controller/ParticipantsController.php:147
 msgid "Participant {0} has been removed."
 msgstr ""
 
-#: ./src/Controller/ParticipantsController.php:165
+#: ./src/Controller/ParticipantsController.php:164
 #: ./templates/Participants/index.php:49
 #: ./templates/Participants/manage_checkins.php:72
 msgid "Participant name"
 msgstr ""
 
-#: ./src/Controller/ParticipantsController.php:166
+#: ./src/Controller/ParticipantsController.php:165
 #: ./templates/Participants/index.php:50
 msgid "User email"
 msgstr ""
 
-#: ./src/Controller/ParticipantsController.php:167
+#: ./src/Controller/ParticipantsController.php:166
 #: ./templates/Participants/index.php:51
 #: ./templates/Participants/manage_checkins.php:73
 msgid "User name"
 msgstr ""
 
-#: ./src/Controller/ParticipantsController.php:168
+#: ./src/Controller/ParticipantsController.php:167
 msgid "First workshop"
 msgstr ""
 
-#: ./src/Controller/ParticipantsController.php:169
+#: ./src/Controller/ParticipantsController.php:168
 #: ./templates/Participants/index.php:53
 msgid "Backup workshop"
 msgstr ""
 
-#: ./src/Controller/ParticipantsController.php:170
+#: ./src/Controller/ParticipantsController.php:169
+#: ./src/Controller/UsersController.php:96
 #: ./templates/Participants/manage_checkins.php:74
 #: ./templates/Users/edit.php:62
-#: ./templates/Users/index.php:38
+#: ./templates/Users/index.php:52
 msgid "Language"
 msgstr ""
 
-#: ./src/Controller/ParticipantsController.php:171
+#: ./src/Controller/ParticipantsController.php:170
 #: ./templates/Participants/index.php:54
 msgid "Laptop"
 msgstr ""
 
-#: ./src/Controller/ParticipantsController.php:172
+#: ./src/Controller/ParticipantsController.php:171
 #: ./templates/Participants/index.php:55
 msgid "Participated"
 msgstr ""
 
-#: ./src/Controller/ParticipantsController.php:187
-#: ./src/Controller/ParticipantsController.php:249
+#: ./src/Controller/ParticipantsController.php:186
+#: ./src/Controller/ParticipantsController.php:248
+#: ./src/Controller/UsersController.php:116
 #: ./templates/Participants/index.php:83
 #: ./templates/Participants/manage_checkins.php:89
 msgid "yes"
 msgstr ""
 
-#: ./src/Controller/ParticipantsController.php:220
+#: ./src/Controller/ParticipantsController.php:219
 msgid "participating"
 msgstr ""
 
-#: ./src/Controller/ParticipantsController.php:223
+#: ./src/Controller/ParticipantsController.php:222
 msgid "waiting position: {0}"
 msgstr ""
 
-#: ./src/Controller/ParticipantsController.php:226
+#: ./src/Controller/ParticipantsController.php:225
 msgid "NOT participating"
 msgstr ""
 
-#: ./src/Controller/ParticipantsController.php:252
+#: ./src/Controller/ParticipantsController.php:251
 #: ./templates/Participants/index.php:87
 #: ./templates/Participants/manage_checkins.php:90
 msgid "no"
@@ -207,19 +215,59 @@ msgstr ""
 msgid "Participant could not be saved."
 msgstr ""
 
-#: ./src/Controller/UsersController.php:71
+#: ./src/Controller/UsersController.php:73
 msgid "User {0} removed"
 msgstr ""
 
-#: ./src/Controller/UsersController.php:112
+#: ./src/Controller/UsersController.php:93
+#: ./templates/Account/login.php:29
+#: ./templates/Users/edit.php:22
+#: ./templates/Users/index.php:49
+#: ./templates/element/dialog/forgot_password.php:22
+#: ./templates/element/dialog/register_user.php:19
+msgid "Email"
+msgstr ""
+
+#: ./src/Controller/UsersController.php:94
+#: ./templates/Users/edit.php:30
+#: ./templates/Users/index.php:50
+#: ./templates/Workshops/edit.php:29
+#: ./templates/Workshops/index.php:37
+#: ./templates/element/dialog/add_participant.php:23
+#: ./templates/element/dialog/edit_participant.php:27
+#: ./templates/element/dialog/edit_profile.php:20
+#: ./templates/element/dialog/register_user.php:45
+msgid "Name"
+msgstr ""
+
+#: ./src/Controller/UsersController.php:95
+#: ./templates/Users/index.php:51
+msgid "Phone"
+msgstr ""
+
+#: ./src/Controller/UsersController.php:97
+#: ./templates/Users/index.php:53
+msgid "Created"
+msgstr ""
+
+#: ./src/Controller/UsersController.php:98
+#: ./templates/Users/index.php:54
+msgid "Last visit"
+msgstr ""
+
+#: ./src/Controller/UsersController.php:100
+msgid "Mailing list"
+msgstr ""
+
+#: ./src/Controller/UsersController.php:161
 msgid "User {0} updated"
 msgstr ""
 
-#: ./src/Controller/UsersController.php:113
+#: ./src/Controller/UsersController.php:162
 msgid "User {0} created"
 msgstr ""
 
-#: ./src/Controller/UsersController.php:117
+#: ./src/Controller/UsersController.php:166
 msgid "Failed to save user to the database"
 msgstr ""
 
@@ -280,7 +328,7 @@ msgid "English"
 msgstr ""
 
 #: ./src/Model/Value/Language.php:97
-msgid "Nederlands"
+msgid "Dutch"
 msgstr ""
 
 #: ./src/Model/Value/ParticipantType.php:36
@@ -435,7 +483,7 @@ msgstr ""
 msgid "disable emails"
 msgstr ""
 
-#: ./src/Model/View/Users/EditUserViewModel.php:143
+#: ./src/Model/View/Users/EditUserViewModel.php:144
 msgid "There is already a user for the email address."
 msgstr ""
 
@@ -470,14 +518,6 @@ msgstr ""
 
 #: ./templates/Account/login.php:22
 msgid "Login"
-msgstr ""
-
-#: ./templates/Account/login.php:29
-#: ./templates/Users/edit.php:22
-#: ./templates/Users/index.php:36
-#: ./templates/element/dialog/forgot_password.php:22
-#: ./templates/element/dialog/register_user.php:19
-msgid "Email"
 msgstr ""
 
 #: ./templates/Account/login.php:37
@@ -544,7 +584,7 @@ msgid "Events"
 msgstr ""
 
 #: ./templates/Administrator/index.php:37
-#: ./templates/Users/index.php:25
+#: ./templates/Users/index.php:26
 msgid "Users"
 msgstr ""
 
@@ -610,7 +650,7 @@ msgid "Add event"
 msgstr ""
 
 #: ./templates/Events/index.php:46
-#: ./templates/Users/index.php:30
+#: ./templates/Users/index.php:31
 #: ./templates/Workshops/index.php:28
 msgid "Home"
 msgstr ""
@@ -753,17 +793,6 @@ msgstr ""
 msgid "Edit user"
 msgstr ""
 
-#: ./templates/Users/edit.php:30
-#: ./templates/Users/index.php:37
-#: ./templates/Workshops/edit.php:23
-#: ./templates/Workshops/index.php:37
-#: ./templates/element/dialog/add_participant.php:23
-#: ./templates/element/dialog/edit_participant.php:27
-#: ./templates/element/dialog/edit_profile.php:20
-#: ./templates/element/dialog/register_user.php:45
-msgid "Name"
-msgstr ""
-
 #: ./templates/Users/edit.php:40
 msgid "Password (leave empty to keep current password)"
 msgstr ""
@@ -785,12 +814,12 @@ msgid "Do not send emails to this user (user is a test user)"
 msgstr ""
 
 #: ./templates/Users/edit.php:83
-#: ./templates/Workshops/edit.php:41
+#: ./templates/Workshops/edit.php:55
 msgid "Save"
 msgstr ""
 
 #: ./templates/Users/edit.php:85
-#: ./templates/Workshops/edit.php:43
+#: ./templates/Workshops/edit.php:57
 #: ./templates/element/dialog/add_event.php:57
 #: ./templates/element/dialog/add_event_workshop.php:62
 #: ./templates/element/dialog/add_participant.php:46
@@ -805,27 +834,35 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
-#: ./templates/Users/index.php:28
+#: ./templates/Users/index.php:29
 msgid "Add user"
 msgstr ""
 
-#: ./templates/Users/index.php:39
-msgid "Created"
+#: ./templates/Users/index.php:36
+msgid "Normal"
 msgstr ""
 
-#: ./templates/Workshops/edit.php:17
+#: ./templates/Users/index.php:36
+msgid "Administrators"
+msgstr ""
+
+#: ./templates/Users/index.php:42
+msgid "No users"
+msgstr ""
+
+#: ./templates/Workshops/edit.php:18
 msgid "Create workshop"
 msgstr ""
 
-#: ./templates/Workshops/edit.php:17
+#: ./templates/Workshops/edit.php:18
 msgid "Edit workshop"
 msgstr ""
 
-#: ./templates/Workshops/edit.php:27
+#: ./templates/Workshops/edit.php:34
 msgid "Description"
 msgstr ""
 
-#: ./templates/Workshops/edit.php:37
+#: ./templates/Workshops/edit.php:51
 msgid "User can use own laptop"
 msgstr ""
 

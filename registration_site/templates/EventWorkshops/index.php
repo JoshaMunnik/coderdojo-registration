@@ -61,7 +61,8 @@ else {
     __('Workshop') => CellDataTypeEnum::TEXT,
     __('Places') => CellDataTypeEnum::NUMBER,
     __('Participants') => CellDataTypeEnum::NUMBER,
-    __('Laptops') => CellDataTypeEnum::NUMBER,
+    __('Waiting') => CellDataTypeEnum::NUMBER,
+    __('Laptops needed') => CellDataTypeEnum::NUMBER,
     null,
   ]);
   foreach ($eventWorkshops as $eventWorkshop) {
@@ -72,10 +73,12 @@ else {
         ClickAction::TARGET => '['.HtmlData::PLACE_COUNT.']',
       ]
       : [];
+    $participantCount = Tables::participants()->getCountForWorkshop($eventWorkshop);
     echo $this->Styling->sortedTableRow([
       $eventWorkshop->getName(),
       [$eventWorkshop->place_count => ContentPositionEnum::END],
-      [Tables::participants()->getCountForWorkshop($eventWorkshop->id) => ContentPositionEnum::END],
+      [min($participantCount, $eventWorkshop->place_count) => ContentPositionEnum::END],
+      [max(0, $participantCount - $eventWorkshop->place_count) => ContentPositionEnum::END],
       [$eventWorkshop->getLaptopsNeededCount() => ContentPositionEnum::END],
     ],
       [

@@ -51,14 +51,39 @@ class ParticipantEntity extends Entity implements IEntityWithTimestamp, IEntityW
 
   #region public methods
 
+  /**
+   * Copies the backup workshop to the first workshop and clears the backup workshop.
+   *
+   * @return void
+   */
   public function moveBackupToFirstWorkshop(): void
   {
     $this->event_workshop_1_id = $this->event_workshop_2_id;
     $this->event_workshop_1_join_date = $this->event_workshop_2_join_date;
     $this->event_workshop_1_notify_date = $this->event_workshop_2_notify_date;
+    $this->clearBackupWorkshop();
+  }
+
+  /**
+   * Clears all backup workshop fields.
+   *
+   * @return void
+   */
+  public function clearBackupWorkshop(): void {
     $this->event_workshop_2_id = null;
     $this->event_workshop_2_join_date = null;
     $this->event_workshop_2_notify_date = null;
+  }
+
+  /**
+   * Clears all first workshop fields.
+   *
+   * @return void
+   */
+  public function clearFirstWorkshop(): void {
+    $this->event_workshop_1_id = null;
+    $this->event_workshop_1_join_date = null;
+    $this->event_workshop_1_notify_date = null;
   }
 
   /**
@@ -80,6 +105,44 @@ class ParticipantEntity extends Entity implements IEntityWithTimestamp, IEntityW
         ($this->event_workshop_2_id != null) &&
         ($eventWorkshops[$this->event_workshop_2_id]->getWaitingPosition($this) === 0)
       );
+  }
+
+  /**
+   * Checks if the participant has not been notified yet for a certain workshop.
+   *
+   * @param EventWorkshopEntity $eventWorkshop
+   *
+   * @return bool True if the participant joined the workshop but has not been notified yet.
+   */
+  public function hasNotBeenNotified(EventWorkshopEntity $eventWorkshop): bool
+  {
+    return
+      (
+        ($this->event_workshop_1_notify_date === null) &&
+        ($this->event_workshop_1_id === $eventWorkshop->id)
+      )
+      ||
+      (
+        ($this->event_workshop_2_notify_date === null) &&
+        ($this->event_workshop_2_id === $eventWorkshop->id)
+      );
+  }
+
+  /**
+   * Updates the notify date for a workshop.
+   *
+   * @param EventWorkshopEntity $eventWorkshop
+   *
+   * @return void
+   */
+  public function notifyForWorkshop(EventWorkshopEntity $eventWorkshop): void
+  {
+    if ($this->event_workshop_1_id === $eventWorkshop->id) {
+      $this->event_workshop_1_notify_date = new DateTime();
+    }
+    if ($this->event_workshop_2_id === $eventWorkshop->id) {
+      $this->event_workshop_2_notify_date = new DateTime();
+    }
   }
 
   #endregion

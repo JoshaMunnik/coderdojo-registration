@@ -23,7 +23,6 @@ $adminMenu = $user && $user->get(UserEntity::ADMINISTRATOR);
     <?= $this->Html->meta('icon') ?>
     <?= $this->Html->css([
       'normalize.min',
-      'fonts',
       'site',
       '../fontawesome/css/fontawesome.min.css',
       '../fontawesome/css/all.min.css',

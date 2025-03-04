@@ -72,7 +72,7 @@ class ParticipantToolTest extends TestWithMailerCaseBase
     $this->assertNull($actual->event_workshop_1_notify_date);
     $this->assertMailSentTo($user->email);
     $actualEventWorkshop = Tables::eventWorkshops()->getForIdWithParticipants($eventWorkshop->id);
-    $participants = Tables::participants()->getAllForWorkshop($eventWorkshop->id);
+    $participants = Tables::participants()->getAllForWorkshop($eventWorkshop);
     $this->assertEquals(3, count($participants));
     $this->assertEquals(1, $actualEventWorkshop->getWaitingPosition($expected));
   }
@@ -86,7 +86,7 @@ class ParticipantToolTest extends TestWithMailerCaseBase
     $participant2 = $this->createParticipant($user, $event, $eventWorkshop);
     Tables::participants()->addToFirstWorkshop($participant1, $eventWorkshop);
     Tables::participants()->addToFirstWorkshop($participant2, $eventWorkshop);
-    $participants = Tables::participants()->getAllForWorkshop($eventWorkshop->id);
+    $participants = Tables::participants()->getAllForWorkshop($eventWorkshop);
     $this->assertEquals(0, ParticipantTool::getPosition($participants, $participant1));
     $this->assertEquals(1, ParticipantTool::getPosition($participants, $participant2));
     ParticipantTool::leaveFirstWorkshop($user, $participant2);
@@ -109,7 +109,7 @@ class ParticipantToolTest extends TestWithMailerCaseBase
     Tables::participants()->addToFirstWorkshop($participant1, $eventWorkshop);
     Tables::participants()->addToFirstWorkshop($participant2, $eventWorkshop);
     Tables::participants()->addToFirstWorkshop($participant3, $eventWorkshop);
-    $participants = Tables::participants()->getAllForWorkshop($eventWorkshop->id);
+    $participants = Tables::participants()->getAllForWorkshop($eventWorkshop);
     $this->assertEquals(2, ParticipantTool::getPosition($participants, $participant3));
     $this->assertEquals(1, $eventWorkshop->getWaitingPosition($participant3));
     ParticipantTool::leaveFirstWorkshop($user, $participant2);
@@ -120,7 +120,7 @@ class ParticipantToolTest extends TestWithMailerCaseBase
     $this->assertNull($actual2->event_workshop_1_notify_date);
     $actual3 = Tables::participants()->getForId($participant3->id);
     $this->assertNotNull($actual3->event_workshop_1_notify_date);
-    $participants = Tables::participants()->getAllForWorkshop($eventWorkshop->id);
+    $participants = Tables::participants()->getAllForWorkshop($eventWorkshop);
     $this->assertEquals(1, ParticipantTool::getPosition($participants, $actual3));
     $actualEventWorkshop = Tables::eventWorkshops()->getForIdWithParticipants($eventWorkshop->id);
     $this->assertEquals(2, count($participants));

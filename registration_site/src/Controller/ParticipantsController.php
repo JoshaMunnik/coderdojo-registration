@@ -55,9 +55,10 @@ class ParticipantsController extends AdministratorControllerBase
    */
   public function index(string $id): ?Response
   {
-    $this->set('event', Tables::events()->getForId($id));
-    $this->set('participants', Tables::participants()->getAllForEventWithUser($id));
-    $this->set('eventWorkshops', Tables::eventWorkshops()->getAllForEvent($id));
+    $event = Tables::events()->getForId($id);
+    $this->set('event', $event);
+    $this->set('participants', Tables::participants()->getAllForEventWithUser($event));
+    $this->set('eventWorkshops', Tables::eventWorkshops()->getAllForEvent($event));
     return null;
   }
 
@@ -70,12 +71,10 @@ class ParticipantsController extends AdministratorControllerBase
    */
   public function manageCheckins(string $id): ?Response
   {
-    $this->set('event', Tables::events()->getForId($id));
-    $this->set(
-      'participants',
-      Tables::participants()->getAllParticipatingForEventWithUser($id)
-    );
-    $this->set('eventWorkshops', Tables::eventWorkshops()->getAllForEvent($id));
+    $event = Tables::events()->getForId($id);
+    $this->set('event', $event);
+    $this->set('participants', Tables::participants()->getAllParticipatingForEventWithUser($event));
+    $this->set('eventWorkshops', Tables::eventWorkshops()->getAllForEvent($event));
     return null;
   }
 
@@ -159,8 +158,8 @@ class ParticipantsController extends AdministratorControllerBase
   public function download(string $id): Response
   {
     $event = Tables::events()->getForId($id);
-    $participants = Tables::participants()->getAllForEventWithUser($id);
-    $eventWorkshops = Tables::eventWorkshops()->getAllForEvent($id);
+    $participants = Tables::participants()->getAllForEventWithUser($event);
+    $eventWorkshops = Tables::eventWorkshops()->getAllForEvent($event);
     $headers = [
       __('Participant name'),
       __('User email'),

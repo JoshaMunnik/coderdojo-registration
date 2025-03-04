@@ -24,7 +24,7 @@ const CHANGE_PASSWORD = 'change-password';
 ?>
 <?= $this->Styling->title(__('Home for administrator')) ?>
 <?= $this->element('messages') ?>
-<nav class="cd-layout__row cd-layout__row--wrap">
+<?= $this->Styling->beginPageButtons() ?>
   <?= $this->Styling->linkButton(
     __('Workshops'),
     $this->url([WorkshopsController::INDEX])
@@ -61,7 +61,7 @@ const CHANGE_PASSWORD = 'change-password';
     UserController::INDEX,
     ButtonColorEnum::SECONDARY
   ) ?>
-</nav>
+<?= $this->Styling->endPageButtons() ?>
 <?= $this->element(
   'dialog/edit_profile', ['data' => $editProfileData, 'id' => EDIT_PROFILE]
 ) ?>

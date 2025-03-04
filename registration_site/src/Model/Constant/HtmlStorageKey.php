@@ -13,4 +13,5 @@ readonly class HtmlStorageKey
   const EVENTS_TABLE = 'events_table';
   const EVENT_WORKSHOPS_TABLE = 'event_workshops_table';
   const USERS_TABLE = 'users_table';
+  const ADMINISTRATORS_TABLE = 'administrators_table';
 }

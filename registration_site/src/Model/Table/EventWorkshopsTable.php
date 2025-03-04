@@ -69,20 +69,19 @@ class EventWorkshopsTable extends TableWithTimestamp
   #region public methods
 
   /**
-   * Finds all workshops for a event. Combine workshop information and add
-   * all participants for each workshop.
+   * Finds all workshops for an event.
    *
-   * @param string $eventId
+   * @param EventEntity $event
    *
    * @return EventWorkshopEntity[] The key is the id of the event workshop.
    */
-  public function getAllForEvent(string $eventId): array
+  public function getAllForEvent(EventEntity $event): array
   {
     return $this
-      ->find('all')
-      ->where([EventWorkshopEntity::EVENT_ID => $eventId])
+      ->find('list', valueField: fn($entity) => $entity)
+      ->where([EventWorkshopEntity::EVENT_ID => $event->id])
       ->all()
-      ->toList();
+      ->toArray();
   }
 
   /**
@@ -90,7 +89,7 @@ class EventWorkshopsTable extends TableWithTimestamp
    *
    * @param string $id
    *
-   * @return EventWorkshopEntity The key is the id of the event workshop.
+   * @return EventWorkshopEntity
    */
   public function getForIdWithParticipants(string $id): EventWorkshopEntity
   {
@@ -133,26 +132,6 @@ class EventWorkshopsTable extends TableWithTimestamp
       ])
       ->where([$this->prefix(EventWorkshopEntity::ID) => $id])
       ->first();
-  }
-
-  /**
-   * Gets the total number of participants actual participating for the event. Participants waiting
-   * in the queue are skipped.
-   * .
-   * @param string $eventId
-   *
-   * @return int
-   */
-  public function getTotalParticipating(string $eventId): int
-  {
-    $eventWorkshops = $this->getAllForEvent($eventId);
-    $result = 0;
-    foreach ($eventWorkshops as $eventWorkshop) {
-      $result += min(
-        $eventWorkshop->place_count, Tables::participants()->getCountForWorkshop($eventWorkshop->id)
-      );
-    }
-    return $result;
   }
 
   #endregion
