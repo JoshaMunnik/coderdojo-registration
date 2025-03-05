@@ -21,7 +21,8 @@ check all other participants for that workshop.
 Administrator users can also access the back office. The back office offers pages to manage 
 workshops, events and users. For events there is a page to check in participants. An administrator
 can anonymize finished events: the name of participants is cleared and the reference to the user
-is removed.
+is removed. The site also tracks the absence of participants with the users that registered them.
+The absent information is updated when an event is anonymized.
 
 The project is setup so that it can be installed on a server next to an existing website.
 
