@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2025-03-05 06:51+0000\n"
-"PO-Revision-Date: 2025-03-05 07:52+0100\n"
+"POT-Creation-Date: 2025-03-05 07:11+0000\n"
+"PO-Revision-Date: 2025-03-05 08:12+0100\n"
 "Last-Translator: \n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
 "Language: nl\n"
@@ -81,7 +81,7 @@ msgstr "Deelnemers"
 #: src/Controller/EventWorkshopsController.php:93
 #: templates/EventWorkshops/index.php:64
 msgid "Waiting"
-msgstr "Wachten"
+msgstr "Wachtende"
 
 #: src/Controller/EventWorkshopsController.php:94
 #: templates/EventWorkshops/index.php:65
@@ -625,8 +625,8 @@ msgid "Participant page"
 msgstr "Deelnemers pagina"
 
 #: templates/EventWorkshops/index.php:35
-msgid "Event for {0}"
-msgstr "Evenement voor {0}"
+msgid "Workshops for event for {0}"
+msgstr "Workshops voor evenement op {0}"
 
 #: templates/EventWorkshops/index.php:39 templates/Workshops/index.php:26
 #: templates/element/dialog/add_event_workshop.php:25
@@ -1151,6 +1151,9 @@ msgstr "{0} Registratie"
 #: templates/layout/error.php:36
 msgid "Back"
 msgstr "Terug"
+
+#~ msgid "Event for {0}"
+#~ msgstr "Evenement voor {0}"
 
 #~ msgid "Nederlands"
 #~ msgstr "Nederlands"

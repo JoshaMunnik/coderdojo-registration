@@ -32,7 +32,7 @@ const ADD = 'add';
 const REMOVE = 'remove';
 
 ?>
-<?= $this->Styling->title(__('Event for {0}', $event->getEventDateAsText())) ?>
+<?= $this->Styling->title(__('Workshops for event for {0}', $event->getEventDateAsText())) ?>
 <?= $this->element('messages') ?>
 <?= $this->Styling->beginPageButtons() ?>
 <?= $this->Styling->button(

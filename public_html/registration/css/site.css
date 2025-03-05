@@ -12,7 +12,6 @@
   --cd-gap-small: 0.2rem;
   --cd-gap-form: 1.25rem;
   --cd-gap-dialog: 2.5rem;
-  --cd-mobile-size: 1100px;
 }
 
 /*
@@ -189,7 +188,7 @@ Text
 
 .cd-text__title {
   margin: 0;
-  font-size: 2.5rem;
+  font-size: 2rem;
   font-weight: 600;
 }
 
@@ -953,7 +952,7 @@ User participant grid
     flex-direction: row;
     gap: 0.2rem;
     justify-content: center;
-    top: 0.5rem;
+    top: 0.6rem;
     height: 2.25rem;
   }
 
