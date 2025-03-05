@@ -29,6 +29,7 @@ $date = '<span '.HtmlData::EVENT_DATE.'></span>';
 <?= $this->Styling->textList(
   __('Anonymizing the participants will perform the following actions:'),
   [
+    __('Check and add absent information.'),
     __('Clear name of participant.'),
     __('Remove reference to user from the participant.')
   ]

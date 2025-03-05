@@ -14,10 +14,7 @@ use Cake\ORM\Entity;
  * @property string $workshop_id
  * @property int $place_count
  *
- * @property EventEntity $event
  * @property WorkshopEntity $workshop
- * @property ParticipantEntity[] $participants_1
- * @property ParticipantEntity[] $participants_2
  */
 class EventWorkshopEntity extends Entity implements IEntityWithTimestamp, IEntityWithId
 {

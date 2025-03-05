@@ -78,7 +78,7 @@ foreach ($eventWorkshops as $eventWorkshop) {
 <?php elseif (!$event->hasActiveSignup()) : ?>
   <?= $this->Styling->textBlock(
     __(
-      'The next {0} event will take place at {1}.',
+      'There is no active signup. The next {0} event will take place at {1}.',
       Configure::read('Custom.eventName'), $event->getEventDateAsText(),
     )
   ) ?>

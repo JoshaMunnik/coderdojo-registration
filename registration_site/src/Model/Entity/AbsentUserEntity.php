@@ -7,7 +7,7 @@ use App\Lib\Model\Entity\IEntityWithId;
 use Cake\ORM\Entity;
 
 /**
- * {@link AbsentParticipantEntity} encapsulates a single absent participant in the database.
+ * {@link AbsentUserEntity} encapsulates a single absent user in the database.
  *
  * @property string $user_id
  * @property string $event_id
@@ -15,7 +15,7 @@ use Cake\ORM\Entity;
  * @property EventEntity $event
  * @property UserEntity $user
  */
-class AbsentParticipantEntity extends Entity implements IEntityWithId, IEntityWithCreated
+class AbsentUserEntity extends Entity implements IEntityWithId, IEntityWithCreated
 {
   #region field constants
 

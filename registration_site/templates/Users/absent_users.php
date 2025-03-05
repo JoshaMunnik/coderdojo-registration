@@ -4,7 +4,8 @@ use App\Controller\UsersController;
 use App\Model\Constant\HtmlAction;
 use App\Model\Constant\HtmlData;
 use App\Model\Constant\HtmlStorageKey;
-use App\Model\Entity\AbsentParticipantEntity;
+use App\Model\Entity\AbsentUserEntity;
+use App\Model\Entity\AbsentUserWithEventEntity;
 use App\Model\Entity\UserEntity;
 use App\Model\Enum\ButtonColorEnum;
 use App\Model\Enum\ButtonIconEnum;
@@ -14,21 +15,21 @@ use App\View\ApplicationView;
 
 /**
  * @var ApplicationView $this
- * @var AbsentParticipantEntity[] $absentParticipants
+ * @var AbsentUserWithEventEntity[] $absentUsers
  * @var UserEntity $user;
  */
 
 const REMOVE_DIALOG = 'remove';
 ?>
-<?= $this->Styling->title(__('Absent participants for {0}', $user->name)) ?>
+<?= $this->Styling->title(__('Absent at events for {0}', $user->name)) ?>
 <?= $this->element('messages') ?>
 <?= $this->Styling->beginPageButtons() ?>
 <?= $this->Styling->linkButton(
   __('Back to users'), UsersController::INDEX, ButtonColorEnum::SECONDARY
 ) ?>
 <?= $this->Styling->endPageButtons() ?>
-<?php if (empty($absentParticipants)) {
-  echo $this->Styling->smallTitle(__('No absent participants'));
+<?php if (empty($absentUsers)) {
+  echo $this->Styling->smallTitle(__('No absent events'));
 }
 else {
   echo $this->Styling->beginSortedTable(HtmlStorageKey::ABSENT_PARTICIPANTS_TABLE);
@@ -36,10 +37,10 @@ else {
     __('Event') => CellDataTypeEnum::DATE,
     null,
   ]);
-  foreach ($absentParticipants as $absentParticipant) {
+  foreach ($absentUsers as $absentUser) {
     echo $this->Styling->sortedTableRow(
       [
-        $absentParticipant->event->getEventDateAsText(),
+        $absentUser->event->getEventDateAsText(),
       ],
       [
         $this->Styling->tableIconButton(
@@ -47,15 +48,15 @@ else {
           ButtonColorEnum::DANGER,
           [
             HtmlAction::SHOW_DIALOG => '#'.REMOVE_DIALOG,
-            HtmlData::ABSENT_PARTICIPANT_ID => $absentParticipant->id,
-            HtmlData::EVENT_DATE => $absentParticipant->event->getEventDateAsText(),
+            HtmlData::ABSENT_USER_ID => $absentUser->id,
+            HtmlData::EVENT_DATE => $absentUser->event->getEventDateAsText(),
           ]
         ),
       ]
     );
   }
   echo $this->element(
-    'dialog/remove_absent_participant',
+    'dialog/remove_absent_user',
     [
       'id' => REMOVE_DIALOG,
       'data' => new IdViewModel(),

@@ -35,7 +35,7 @@ class WorkshopsTable extends TableWithTimestamp
   }
 
   /**
-   * @inheritDoc
+   * Updates query before find.
    */
   public function beforeFind(
     EventInterface $event,
@@ -43,6 +43,7 @@ class WorkshopsTable extends TableWithTimestamp
     ArrayObject $options,
     $primary
   ): void {
+    // always include texts
     $query->contain(WorkshopTextsTable::getDefaultAlias());
   }
 

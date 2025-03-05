@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2025-03-04 11:02+0000\n"
-"PO-Revision-Date: 2025-03-04 23:27+0100\n"
+"POT-Creation-Date: 2025-03-05 06:51+0000\n"
+"PO-Revision-Date: 2025-03-05 07:52+0100\n"
 "Last-Translator: \n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
 "Language: nl\n"
@@ -61,6 +61,7 @@ msgstr "De workshop is verwijderd."
 #: src/Controller/EventWorkshopsController.php:90
 #: templates/EventWorkshops/index.php:61 templates/Participants/index.php:52
 #: templates/Participants/manage_checkins.php:75
+#: templates/Users/participants.php:39
 #: templates/element/dialog/add_event_workshop.php:34
 msgid "Workshop"
 msgstr "Workshop"
@@ -71,9 +72,9 @@ msgid "Places"
 msgstr "Plaatsen"
 
 #: src/Controller/EventWorkshopsController.php:92
-#: src/Controller/UsersController.php:99 templates/EventWorkshops/index.php:63
+#: src/Controller/UsersController.php:178 templates/EventWorkshops/index.php:63
 #: templates/Events/index.php:58 templates/Participants/manage_checkins.php:50
-#: templates/Users/index.php:55
+#: templates/Users/index.php:78
 msgid "Participants"
 msgstr "Deelnemers"
 
@@ -104,96 +105,99 @@ msgstr "De workshop {0} is aan het evenement voor {1} toegevoegd."
 msgid "The event for {0} has been removed."
 msgstr "Het evenement voor {0} is verwijderd."
 
-#: src/Controller/EventsController.php:85
+#: src/Controller/EventsController.php:86
 msgid "The event for {0} has been anonymized."
 msgstr "Het evenement voor {0} is geanonimiseerd."
 
-#: src/Controller/EventsController.php:112
+#: src/Controller/EventsController.php:113
 msgid "The event for {0} has been updated."
 msgstr "Het evenement voor {0} is bijgewerkt."
 
-#: src/Controller/EventsController.php:116
-#: src/Controller/EventsController.php:147
+#: src/Controller/EventsController.php:117
+#: src/Controller/EventsController.php:148
 msgid "The event could not be saved to the database."
 msgstr "Het evenement kon niet worden opgeslagen in de database."
 
-#: src/Controller/EventsController.php:142
+#: src/Controller/EventsController.php:143
 msgid "The event for {0} has been added."
 msgstr "Het evenement voor {0} is toegevoegd."
 
-#: src/Controller/ParticipantsController.php:141
+#: src/Controller/ParticipantsController.php:140
 msgid "Participant {0} does not belong to this event."
 msgstr "Deelnemer {0} maakt geen deel uit van dit evenement."
 
-#: src/Controller/ParticipantsController.php:147
+#: src/Controller/ParticipantsController.php:146
 msgid "Participant {0} has been removed."
 msgstr "Deelnemer {0} is verwijderd."
 
-#: src/Controller/ParticipantsController.php:164
+#: src/Controller/ParticipantsController.php:163
 #: templates/Participants/index.php:49
 #: templates/Participants/manage_checkins.php:72
+#: templates/Users/participants.php:37
 msgid "Participant name"
 msgstr "Naam van de deelnemer"
 
-#: src/Controller/ParticipantsController.php:165
+#: src/Controller/ParticipantsController.php:164
 #: templates/Participants/index.php:50
 msgid "User email"
 msgstr "Gebruiker E-mail"
 
-#: src/Controller/ParticipantsController.php:166
+#: src/Controller/ParticipantsController.php:165
 #: templates/Participants/index.php:51
 #: templates/Participants/manage_checkins.php:73
 msgid "User name"
 msgstr "Gebruikersnaam"
 
-#: src/Controller/ParticipantsController.php:167
+#: src/Controller/ParticipantsController.php:166
 msgid "First workshop"
 msgstr "Eerste workshop"
 
-#: src/Controller/ParticipantsController.php:168
-#: templates/Participants/index.php:53
+#: src/Controller/ParticipantsController.php:167
+#: templates/Participants/index.php:53 templates/Users/participants.php:40
 msgid "Backup workshop"
 msgstr "Reserve workshop"
 
-#: src/Controller/ParticipantsController.php:169
-#: src/Controller/UsersController.php:96
+#: src/Controller/ParticipantsController.php:168
+#: src/Controller/UsersController.php:175
 #: templates/Participants/manage_checkins.php:74 templates/Users/edit.php:62
-#: templates/Users/index.php:52
+#: templates/Users/index.php:56
 msgid "Language"
 msgstr "Taal"
 
-#: src/Controller/ParticipantsController.php:170
-#: templates/Participants/index.php:54
+#: src/Controller/ParticipantsController.php:169
+#: templates/Participants/index.php:54 templates/Users/participants.php:41
 msgid "Laptop"
 msgstr "Laptop"
 
-#: src/Controller/ParticipantsController.php:171
-#: templates/Participants/index.php:55
+#: src/Controller/ParticipantsController.php:170
+#: templates/Participants/index.php:55 templates/Users/participants.php:42
 msgid "Participated"
 msgstr "Deelgenomen"
 
-#: src/Controller/ParticipantsController.php:186
-#: src/Controller/ParticipantsController.php:248
-#: src/Controller/UsersController.php:116 templates/Participants/index.php:83
+#: src/Controller/ParticipantsController.php:185
+#: src/Controller/ParticipantsController.php:247
+#: templates/Participants/index.php:83
 #: templates/Participants/manage_checkins.php:89
+#: templates/Users/participants.php:77
 msgid "yes"
 msgstr "ja"
 
-#: src/Controller/ParticipantsController.php:219
+#: src/Controller/ParticipantsController.php:218
 msgid "participating"
 msgstr "neemt deel"
 
-#: src/Controller/ParticipantsController.php:222
+#: src/Controller/ParticipantsController.php:221
 msgid "waiting position: {0}"
 msgstr "wachtpositie: {0}"
 
-#: src/Controller/ParticipantsController.php:225
+#: src/Controller/ParticipantsController.php:224
 msgid "NOT participating"
 msgstr "Neemt NIET deel"
 
-#: src/Controller/ParticipantsController.php:251
+#: src/Controller/ParticipantsController.php:250
 #: templates/Participants/index.php:87
 #: templates/Participants/manage_checkins.php:90
+#: templates/Users/participants.php:81
 msgid "no"
 msgstr "nee"
 
@@ -214,19 +218,27 @@ msgstr "De workshop kon niet verwijderd worden."
 msgid "Participant could not be saved."
 msgstr "De deelnemer kon niet worden opgeslagen."
 
-#: src/Controller/UsersController.php:73
+#: src/Controller/UsersController.php:80
 msgid "User {0} removed"
 msgstr "Gebruiker {0} is verwijderd"
 
-#: src/Controller/UsersController.php:93 templates/Account/login.php:29
-#: templates/Users/edit.php:22 templates/Users/index.php:49
+#: src/Controller/UsersController.php:120
+msgid "Participant {0} removed"
+msgstr "Deelnemer {0} is verwijderd"
+
+#: src/Controller/UsersController.php:158
+msgid "Absent for event at {0} removed"
+msgstr "Absentie voor evenement op {0} is verwijderd"
+
+#: src/Controller/UsersController.php:172 templates/Account/login.php:29
+#: templates/Users/edit.php:22 templates/Users/index.php:53
 #: templates/element/dialog/forgot_password.php:22
 #: templates/element/dialog/register_user.php:19
 msgid "Email"
 msgstr "E-mail"
 
-#: src/Controller/UsersController.php:94 templates/Users/edit.php:30
-#: templates/Users/index.php:50 templates/Workshops/edit.php:29
+#: src/Controller/UsersController.php:173 templates/Users/edit.php:30
+#: templates/Users/index.php:54 templates/Workshops/edit.php:29
 #: templates/Workshops/index.php:37
 #: templates/element/dialog/add_participant.php:23
 #: templates/element/dialog/edit_participant.php:27
@@ -235,31 +247,44 @@ msgstr "E-mail"
 msgid "Name"
 msgstr "Naam"
 
-#: src/Controller/UsersController.php:95 templates/Users/index.php:51
+#: src/Controller/UsersController.php:174 templates/Users/index.php:55
 msgid "Phone"
 msgstr "Telefoon"
 
-#: src/Controller/UsersController.php:97 templates/Users/index.php:53
+#: src/Controller/UsersController.php:176 templates/Users/index.php:57
 msgid "Created"
 msgstr "Aangemaakt"
 
-#: src/Controller/UsersController.php:98 templates/Users/index.php:54
+#: src/Controller/UsersController.php:177 templates/Users/index.php:58
 msgid "Last visit"
 msgstr "Laatste bezoek"
 
-#: src/Controller/UsersController.php:100
+#: src/Controller/UsersController.php:179 templates/Users/index.php:87
+msgid "Absents"
+msgstr "Absenties"
+
+#: src/Controller/UsersController.php:180
 msgid "Mailing list"
 msgstr "Mailing lijst"
 
-#: src/Controller/UsersController.php:161
+#: src/Controller/UsersController.php:181
+msgid "Administrator"
+msgstr "Beheerder"
+
+#: src/Controller/UsersController.php:194
+#: src/Controller/UsersController.php:195
+msgid "Yes"
+msgstr "Ja"
+
+#: src/Controller/UsersController.php:236
 msgid "User {0} updated"
 msgstr "Gebruiker {0} is bijgewerkt"
 
-#: src/Controller/UsersController.php:162
+#: src/Controller/UsersController.php:237
 msgid "User {0} created"
 msgstr "Gebruiker {0} is aangemaakt"
 
-#: src/Controller/UsersController.php:166
+#: src/Controller/UsersController.php:241
 msgid "Failed to save user to the database"
 msgstr "Kan de gebruiker niet opslaan in de database"
 
@@ -611,6 +636,7 @@ msgid "Add workshop"
 msgstr "Voeg workshop toe"
 
 #: templates/EventWorkshops/index.php:46 templates/Participants/index.php:37
+#: templates/Users/index.php:31
 msgid "Download"
 msgstr "Download"
 
@@ -632,7 +658,7 @@ msgstr "{0} Evenementen"
 msgid "Add event"
 msgstr "Evenement toevoegen"
 
-#: templates/Events/index.php:46 templates/Users/index.php:31
+#: templates/Events/index.php:46 templates/Users/index.php:35
 #: templates/Workshops/index.php:28
 msgid "Home"
 msgstr "Home"
@@ -671,7 +697,7 @@ msgstr "Om je aan te melden of te registreren, klik:"
 msgid "Login or register"
 msgstr "Aanmelden of registreren"
 
-#: templates/Participants/index.php:30
+#: templates/Participants/index.php:30 templates/Users/participants.php:24
 msgid "Participants for {0}"
 msgstr "Deelnemers voor {0}"
 
@@ -681,6 +707,7 @@ msgstr "Inchecken"
 
 #: templates/Participants/index.php:44
 #: templates/Participants/manage_checkins.php:67
+#: templates/Users/participants.php:32
 msgid "No participants"
 msgstr "Geen deelnemers"
 
@@ -709,8 +736,10 @@ msgid "At the moment there are no planned events."
 msgstr "Op dit moment zijn er geen geplande evenementen."
 
 #: templates/User/index.php:80
-msgid "The next {0} event will take place at {1}."
-msgstr "Het volgende {0} evenement vindt plaats op {1}."
+msgid "There is no active signup. The next {0} event will take place at {1}."
+msgstr ""
+"Er is geen actieve registratie. Het volgende {0} evenement vindt plaats op "
+"{1}."
 
 #: templates/User/index.php:88
 msgid "You can now sign up your child(ren) for the {0} event at {1}."
@@ -724,11 +753,11 @@ msgstr ""
 "Je kunt je nu zelf en/of andere deelnemers aanmelden voor het {0} event op "
 "{1}."
 
-#: templates/User/index.php:167
+#: templates/User/index.php:188
 msgid "Add child"
 msgstr "Kind toevoegen"
 
-#: templates/User/index.php:168 templates/element/dialog/add_participant.php:17
+#: templates/User/index.php:189 templates/element/dialog/add_participant.php:17
 msgid "Add participant"
 msgstr "Cursist toevoegen"
 
@@ -741,10 +770,11 @@ msgid "Remove {0} from workshop {1} for {2} event at {3}."
 msgstr "Meld {0} af voor de workshop {1} voor het {2} evenement op {3}."
 
 #: templates/User/remove_from_workshop.php:36
+#: templates/element/dialog/remove_absent_user.php:30
 #: templates/element/dialog/remove_event.php:29
 #: templates/element/dialog/remove_event_workshop.php:29
 #: templates/element/dialog/remove_participant_from_event.php:33
-#: templates/element/dialog/remove_participant_from_user.php:30
+#: templates/element/dialog/remove_participant_from_user.php:31
 #: templates/element/dialog/remove_participant_workshop.php:34
 #: templates/element/dialog/remove_user.php:34
 #: templates/element/dialog/remove_workshop.php:30
@@ -769,6 +799,22 @@ msgstr "Succes"
 #: templates/User/remove_from_workshop_success.php:11
 msgid "The participant has been removed from the workshop."
 msgstr "De deelnemer is afgemeld voor de workshop."
+
+#: templates/Users/absent_users.php:24
+msgid "Absent at events for {0}"
+msgstr "Evenementen absenties voor {0}"
+
+#: templates/Users/absent_users.php:28 templates/Users/participants.php:28
+msgid "Back to users"
+msgstr "Terug naar de gebruikers"
+
+#: templates/Users/absent_users.php:32
+msgid "No absent events"
+msgstr "Geen evenementen met absenties"
+
+#: templates/Users/absent_users.php:37 templates/Users/participants.php:38
+msgid "Event"
+msgstr "Evenement"
 
 #: templates/Users/edit.php:15
 msgid "Create user"
@@ -821,17 +867,25 @@ msgstr "Annuleren"
 msgid "Add user"
 msgstr "Gebruiker toevoegen"
 
-#: templates/Users/index.php:36
+#: templates/Users/index.php:40
 msgid "Normal"
 msgstr "Normaal"
 
-#: templates/Users/index.php:36
+#: templates/Users/index.php:40
 msgid "Administrators"
 msgstr "Beheerders"
 
-#: templates/Users/index.php:42
+#: templates/Users/index.php:46
 msgid "No users"
 msgstr "Geen gebruikers"
+
+#: templates/Users/index.php:82
+msgid "Participants({0})"
+msgstr "Deelnemers({0})"
+
+#: templates/Users/index.php:91
+msgid "Absents({0})"
+msgstr "Absenties({0})"
 
 #: templates/Workshops/edit.php:18
 msgid "Create workshop"
@@ -895,26 +949,31 @@ msgid "Anonymizing the participants will perform the following actions:"
 msgstr "Anonimiseren van de deelnemers voert de volgende wijzigingen uit:"
 
 #: templates/element/dialog/anonymize_event.php:32
+msgid "Check and add absent information."
+msgstr "Controleer en voeg absenties toe."
+
+#: templates/element/dialog/anonymize_event.php:33
 msgid "Clear name of participant."
 msgstr "Wist de naam van de deelnemer."
 
-#: templates/element/dialog/anonymize_event.php:33
+#: templates/element/dialog/anonymize_event.php:34
 msgid "Remove reference to user from the participant."
 msgstr "Verwijdert de referentie van de deelnamer naar de gebruiker."
 
-#: templates/element/dialog/anonymize_event.php:36
+#: templates/element/dialog/anonymize_event.php:37
 msgid "This action can not be undone!"
 msgstr "Deze actie kan niet ongedaan gemaakt worden!"
 
-#: templates/element/dialog/anonymize_event.php:39
+#: templates/element/dialog/anonymize_event.php:40
 msgid "Yes, anonymize"
 msgstr "Ja, anonimiseer"
 
-#: templates/element/dialog/anonymize_event.php:40
+#: templates/element/dialog/anonymize_event.php:41
+#: templates/element/dialog/remove_absent_user.php:31
 #: templates/element/dialog/remove_event.php:30
 #: templates/element/dialog/remove_event_workshop.php:30
 #: templates/element/dialog/remove_participant_from_event.php:34
-#: templates/element/dialog/remove_participant_from_user.php:33
+#: templates/element/dialog/remove_participant_from_user.php:34
 #: templates/element/dialog/remove_participant_workshop.php:35
 #: templates/element/dialog/remove_user.php:35
 #: templates/element/dialog/remove_workshop.php:31
@@ -983,15 +1042,21 @@ msgstr "Ik wil graag mailing emails ontvangen."
 msgid "Agree to terms and conditions"
 msgstr "Akkoord met voorwaarden"
 
+#: templates/element/dialog/remove_absent_user.php:21
 #: templates/element/dialog/remove_event.php:20
 #: templates/element/dialog/remove_event_workshop.php:20
 #: templates/element/dialog/remove_participant_from_event.php:20
-#: templates/element/dialog/remove_participant_from_user.php:20
+#: templates/element/dialog/remove_participant_from_user.php:21
 #: templates/element/dialog/remove_participant_workshop.php:22
 #: templates/element/dialog/remove_user.php:20
 #: templates/element/dialog/remove_workshop.php:21
 msgid "Confirm remove"
 msgstr "Bevestig het verwijderen"
+
+#: templates/element/dialog/remove_absent_user.php:27
+msgid "Are you sure you want to remove the absent entry for the event at {0}?"
+msgstr ""
+"Weet je zeker dat je de absentie voor het evenement van {0} wilt verwijderen?"
 
 #: templates/element/dialog/remove_event.php:26
 msgid "Are you sure you want to remove the event for {0}?"
@@ -1002,7 +1067,7 @@ msgid "Are you sure you want to remove workshop {0} from the event?"
 msgstr "Weet je zeker dat je workshop {0} van het evenement wilt verwijderen?"
 
 #: templates/element/dialog/remove_participant_from_event.php:30
-#: templates/element/dialog/remove_participant_from_user.php:26
+#: templates/element/dialog/remove_participant_from_user.php:27
 msgid "Are you sure you want to remove {0}?"
 msgstr "Weet je zeker dat je {0} wilt verwijderen?"
 

@@ -189,10 +189,10 @@ CREATE TABLE `cd_workshop_texts`
 -- --------------------------------------------------------
 
 --
--- Table structure for table `cd_absent_participants`
+-- Table structure for table `cd_absent_users`
 --
 
-CREATE TABLE `cd_absent_participants`
+CREATE TABLE `cd_absent_users`
 (
   `id`       binary(16) NOT NULL,
   `created`  datetime NOT NULL,
@@ -265,12 +265,12 @@ ALTER TABLE `cd_workshop_texts`
   ADD KEY `workshop_text_workshop` (`workshop_id`);
 
 --
--- Indexes for table `cd_absent_participants`
+-- Indexes for table `cd_absent_users`
 --
-ALTER TABLE `cd_absent_participants`
+ALTER TABLE `cd_absent_users`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `unique_user_event` (`user_id`,`event_id`),
-  ADD KEY `absent_participant_event` (`event_id`);
+  ADD KEY `absent_user_event` (`event_id`);
 
 --
 -- Constraints for dumped tables
@@ -312,11 +312,11 @@ ALTER TABLE `cd_workshop_texts`
   ADD CONSTRAINT `workshop_text_workshop` FOREIGN KEY (`workshop_id`) REFERENCES `cd_workshops` (`id`) ON DELETE CASCADE;
 
 --
--- Constraints for table `cd_absent_participants`
+-- Constraints for table `cd_absent_users`
 --
-ALTER TABLE `cd_absent_participants`
-  ADD CONSTRAINT `absent_participant_event` FOREIGN KEY (`event_id`) REFERENCES `cd_events` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `absent_participant_user` FOREIGN KEY (`user_id`) REFERENCES `cd_users` (`id`) ON DELETE CASCADE;
+ALTER TABLE `cd_absent_users`
+  ADD CONSTRAINT `absent_user_event` FOREIGN KEY (`event_id`) REFERENCES `cd_events` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `absent_user_user` FOREIGN KEY (`user_id`) REFERENCES `cd_users` (`id`) ON DELETE CASCADE;
 
 COMMIT;
 

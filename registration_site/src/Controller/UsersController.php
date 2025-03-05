@@ -27,8 +27,8 @@ class UsersController extends AdministratorControllerBase
   public const PARTICIPANTS = [self::class, 'participants'];
   public const REMOVE_PARTICIPANT = [self::class, 'remove-participant'];
   public const DOWNLOAD = [self::class, 'download'];
-  public const ABSENT_PARTICIPANTS = [self::class, 'absent-participants'];
-  public const REMOVE_ABSENT_PARTICIPANT = [self::class, 'remove-absent-participant'];
+  public const ABSENT_USERS = [self::class, 'absent-users'];
+  public const REMOVE_ABSENT_USER = [self::class, 'remove-absent-user'];
 
   #endregion
 
@@ -128,12 +128,12 @@ class UsersController extends AdministratorControllerBase
    *
    * @return Response|null
    */
-  public function absentParticipants($id): ?Response
+  public function absentUsers($id): ?Response
   {
     $user = Tables::users()->getForId($id);
-    $absents = Tables::absentParticipants()->getAllForUserWithEvent($user);
+    $absentUsers = Tables::absentUsers()->getAllForUserWithEvent($user);
     $this->set('user', $user);
-    $this->set('absents', $absents);
+    $this->set('absentUsers', $absentUsers);
     return null;
   }
 
@@ -142,7 +142,7 @@ class UsersController extends AdministratorControllerBase
    *
    * @return Response|null
    */
-  public function removeAbsentParticipant(): ?Response
+  public function removeAbsentUser(): ?Response
   {
     if (!$this->isSubmit()) {
       return $this->redirect(self::INDEX);
@@ -151,12 +151,12 @@ class UsersController extends AdministratorControllerBase
     if (!$viewData->patch($this->getRequest()->getData())) {
       return $this->redirect(self::INDEX);
     }
-    $absent = Tables::absentParticipants()->getForId($viewData->id);
+    $absent = Tables::absentUsers()->getForId($viewData->id);
     $event = Tables::events()->getForId($absent->event_id);
-    Tables::absentParticipants()->delete($absent);
+    Tables::absentUsers()->delete($absent);
     ParticipantTool::checkParticipatingStatusForAllEvents();
     $this->success(__('Absent for event at {0} removed', $event->getEventDateAsText()));
-    return $this->redirect(self::ABSENT_PARTICIPANTS, $absent->user_id);
+    return $this->redirect([self::ABSENT_USERS, $absent->user_id]);
   }
 
   /**
@@ -190,7 +190,7 @@ class UsersController extends AdministratorControllerBase
         $user->created->format('Y-m-d H:i:s'),
         $user->last_visit_date?->format('Y-m-d H:i:s') ?? '',
         count($user->participants),
-        count($user->absent_participants),
+        count($user->absent_users),
         $user->mailing_list ? __('Yes') : '',
         $user->administrator ? __('Yes') : '',
       ];

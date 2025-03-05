@@ -6,6 +6,7 @@ use App\Lib\Model\Table\TableWithTimestamp;
 use App\Model\Entity\EventEntity;
 use App\Model\Entity\EventWorkshopEntity;
 use App\Model\Entity\ParticipantEntity;
+use App\Model\Entity\ParticipantWithEventAndWorkshopsEntity;
 use App\Model\Entity\UserEntity;
 use App\Tool\ParticipantTool;
 use Cake\Datasource\Exception\RecordNotFoundException;
@@ -148,7 +149,7 @@ class ParticipantsTable extends TableWithTimestamp
    *
    * @param UserEntity $user
    *
-   * @return ParticipantEntity[] The participants for the user and event.
+   * @return ParticipantWithEventAndWorkshopsEntity[] The participants for the user and event.
    */
   public function getAllForUserWithEventAndWorkshops(UserEntity $user): array
   {

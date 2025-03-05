@@ -82,14 +82,14 @@ foreach ($tabs as $administrator => $label) {
               __('Participants({0})', count($user->participants)),
               [UsersController::PARTICIPANTS, $user->id]
             ),
-          empty($user->absent_participants) ?
+          empty($user->absent_users) ?
             $this->Styling->tableStaticButton(
               __('Absents')
             )
             :
             $this->Styling->tableLinkButton(
-              __('Absents({0})', count($user->absent_participants)),
-              [UsersController::ABSENT_PARTICIPANTS, $user->id]
+              __('Absents({0})', count($user->absent_users)),
+              [UsersController::ABSENT_USERS, $user->id]
             ),
           $this->Styling->tableLinkIconButton(
             ButtonIconEnum::EDIT,

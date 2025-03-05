@@ -20,8 +20,8 @@ $date = '<span '.HtmlData::EVENT_DATE.'></span>';
   $id,
   __('Confirm remove'),
   $data,
-  [UsersController::REMOVE_ABSENT_PARTICIPANT],
-  [IdViewModel::ID => HtmlData::ABSENT_PARTICIPANT_ID]
+  [UsersController::REMOVE_ABSENT_USER],
+  [IdViewModel::ID => HtmlData::ABSENT_USER_ID]
 ) ?>
 <?= $this->Styling->textBlock(
   __('Are you sure you want to remove the absent entry for the event at {0}?', $date)

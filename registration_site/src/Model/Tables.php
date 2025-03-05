@@ -6,7 +6,7 @@ namespace App\Model;
 
 #region traits
 
-use App\Model\Table\AbsentParticipantsTable;
+use App\Model\Table\AbsentUsersTable;
 use App\Model\Table\EventsTable;
 use App\Model\Table\EventWorkshopsTable;
 use App\Model\Table\ParticipantsTable;
@@ -43,9 +43,9 @@ class Tables
   /**
    * Reference to singleton instance
    *
-   * @var AbsentParticipantsTable|null
+   * @var AbsentUsersTable|null
    */
-  static ?AbsentParticipantsTable $s_absentParticipants = null;
+  static ?AbsentUsersTable $s_absentUsers = null;
 
   /**
    * Reference to singleton instance
@@ -115,11 +115,11 @@ class Tables
 
   #region public static methods
 
-  public static function absentParticipants(): absentParticipantsTable
+  public static function absentUsers(): AbsentUsersTable
   {
-    return self::$s_absentParticipants
-      ?? self::$s_absentParticipants = self::instance()->fetchTable(
-        absentParticipantsTable::getDefaultAlias()
+    return self::$s_absentUsers
+      ?? self::$s_absentUsers = self::instance()->fetchTable(
+        AbsentUsersTable::getDefaultAlias()
       );
   }
 

@@ -5,6 +5,8 @@ namespace App\Model\Table;
 use App\Lib\Model\Table\TableWithTimestamp;
 use App\Model\Entity\EventEntity;
 use App\Model\Entity\EventWorkshopEntity;
+use App\Model\Entity\EventWorkshopWithEventEntity;
+use App\Model\Entity\EventWorkshopWithParticipantsEntity;
 use App\Model\Entity\ParticipantEntity;
 use App\Model\Tables;
 use ArrayObject;
@@ -55,12 +57,16 @@ class EventWorkshopsTable extends TableWithTimestamp
       ->setForeignKey(ParticipantEntity::EVENT_WORKSHOP_2_ID);
   }
 
+  /**
+   * Updates query before find.
+   */
   public function beforeFind(
     EventInterface $event,
     Query $query,
     ArrayObject $options,
     $primary
   ): void {
+    // always include workshop (which in turn will always include all texts)
     $query->contain([WorkshopsTable::getDefaultAlias()]);
   }
 
@@ -85,20 +91,6 @@ class EventWorkshopsTable extends TableWithTimestamp
   }
 
   /**
-   * Finds workshops for a event. Combine workshop information and add all participants.
-   *
-   * @param string $id
-   *
-   * @return EventWorkshopEntity
-   */
-  public function getForIdWithParticipants(string $id): EventWorkshopEntity
-  {
-    /** @var EventWorkshopEntity $eventWorkshop */
-    $eventWorkshop = $this->get($id, contain: [self::PARTICIPANTS_1, self::PARTICIPANTS_2]);
-    return $eventWorkshop;
-  }
-
-  /**
    * Gets an event workshop for an id.
    *
    * @param string $id
@@ -119,11 +111,11 @@ class EventWorkshopsTable extends TableWithTimestamp
    *
    * @param string $id
    *
-   * @return EventWorkshopEntity
+   * @return EventWorkshopWithEventEntity
    *
    * @throws RecordNotFoundException
    */
-  public function getForIdWithEvent(string $id): EventWorkshopEntity
+  public function getForIdWithEvent(string $id): EventWorkshopWithEventEntity
   {
     return $this
       ->find('all')

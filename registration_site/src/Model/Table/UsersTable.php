@@ -4,10 +4,11 @@ namespace App\Model\Table;
 
 use App\Lib\Model\Entity\IEntityWithId;
 use App\Lib\Model\Table\TableWithTimestamp;
-use App\Model\Entity\AbsentParticipantEntity;
+use App\Model\Entity\AbsentUserEntity;
 use App\Model\Entity\EventEntity;
 use App\Model\Entity\ParticipantEntity;
 use App\Model\Entity\UserEntity;
+use App\Model\Entity\UserWithParticipantsAndAbsentUsersEntity;
 use App\Model\Tables;
 use Cake\Validation\Validator;
 
@@ -32,8 +33,8 @@ class UsersTable extends TableWithTimestamp
       ->hasMany(ParticipantsTable::getDefaultAlias())
       ->setForeignKey(ParticipantEntity::USER_ID);
     $this
-      ->hasMany(AbsentParticipantsTable::getDefaultAlias())
-      ->setForeignKey(AbsentParticipantEntity::USER_ID);
+      ->hasMany(AbsentUsersTable::getDefaultAlias())
+      ->setForeignKey(AbsentUserEntity::USER_ID);
   }
 
   /**
@@ -168,7 +169,7 @@ class UsersTable extends TableWithTimestamp
   /**
    * Gets all user entities with related participants.
    *
-   * @return UserEntity[]
+   * @return UserWithParticipantsAndAbsentUsersEntity[]
    */
   public function getAllWithParticipantsAndAbsentParticipants(): array
   {
@@ -176,7 +177,7 @@ class UsersTable extends TableWithTimestamp
       ->find('all')
       ->contain([
         ParticipantsTable::getDefaultAlias(),
-        AbsentParticipantsTable::getDefaultAlias()
+        AbsentUsersTable::getDefaultAlias()
       ])
       ->all()
       ->toList();

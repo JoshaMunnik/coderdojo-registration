@@ -4,7 +4,7 @@ use App\Controller\UsersController;
 use App\Model\Constant\HtmlAction;
 use App\Model\Constant\HtmlData;
 use App\Model\Constant\HtmlStorageKey;
-use App\Model\Entity\ParticipantEntity;
+use App\Model\Entity\ParticipantWithEventAndWorkshopsEntity;
 use App\Model\Entity\UserEntity;
 use App\Model\Enum\ButtonColorEnum;
 use App\Model\Enum\ButtonIconEnum;
@@ -15,7 +15,7 @@ use App\View\ApplicationView;
 
 /**
  * @var ApplicationView $this
- * @var ParticipantEntity[] $participants
+ * @var ParticipantWithEventAndWorkshopsEntity[] $participants
  * @var UserEntity $user;
  */
 

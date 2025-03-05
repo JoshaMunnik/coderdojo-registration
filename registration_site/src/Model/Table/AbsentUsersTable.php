@@ -3,11 +3,12 @@
 namespace App\Model\Table;
 
 use App\Lib\Model\Table\TableWithTimestamp;
-use App\Model\Entity\AbsentParticipantEntity;
+use App\Model\Entity\AbsentUserEntity;
+use App\Model\Entity\AbsentUserWithEventEntity;
 use App\Model\Entity\EventEntity;
 use App\Model\Entity\UserEntity;
 
-class AbsentParticipantsTable extends TableWithTimestamp
+class AbsentUsersTable extends TableWithTimestamp
 {
   #region cakephp callbacks
 
@@ -17,13 +18,13 @@ class AbsentParticipantsTable extends TableWithTimestamp
   public function initialize(array $config): void
   {
     parent::initialize($config);
-    $this->setEntityClass(AbsentParticipantEntity::class);
+    $this->setEntityClass(AbsentUserEntity::class);
     $this
       ->belongsTo(EventsTable::getDefaultAlias())
-      ->setForeignKey(EventEntity::ID);
+      ->setForeignKey(AbsentUserEntity::EVENT_ID);
     $this
       ->belongsTo(UsersTable::getDefaultAlias())
-      ->setForeignKey(UserEntity::ID);
+      ->setForeignKey(AbsentUserEntity::USER_ID);
   }
 
   #endregion
@@ -42,33 +43,42 @@ class AbsentParticipantsTable extends TableWithTimestamp
   {
     $count = $this->find('all')
       ->where([
-        AbsentParticipantEntity::USER_ID => $user->id,
-        AbsentParticipantEntity::EVENT_ID => $event->id
+        AbsentUserEntity::USER_ID => $user->id,
+        AbsentUserEntity::EVENT_ID => $event->id
       ])
       ->count();
     if ($count > 0) {
       return;
     }
-    /** @var AbsentParticipantEntity $entity */
+    /** @var AbsentUserEntity $entity */
     $entity = $this->newEmptyEntity();
     $entity->user_id = $user->id;
     $entity->event_id = $event->id;
     $this->saveOrFail($entity);
   }
 
-  public function getForId(string $id): AbsentParticipantEntity
+  /**
+   * @param string $id
+   * @return AbsentUserEntity
+   */
+  public function getForId(string $id): AbsentUserEntity
   {
-    /** @var AbsentParticipantEntity $result */
+    /** @var AbsentUserEntity $result */
     $result = $this->get($id);
     return $result;
   }
 
+  /**
+   * @param UserEntity $user
+   *
+   * @return AbsentUserWithEventEntity[]
+   */
   public function getAllForUserWithEvent(UserEntity $user): array
   {
     return $this->find('all')
       ->contain(EventsTable::getDefaultAlias())
       ->where([
-        AbsentParticipantEntity::USER_ID => $user->id,
+        AbsentUserEntity::USER_ID => $user->id,
       ])
       ->all()
       ->toList();

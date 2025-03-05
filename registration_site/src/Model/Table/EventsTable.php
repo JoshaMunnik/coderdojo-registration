@@ -4,6 +4,7 @@ namespace App\Model\Table;
 
 use App\Lib\Model\Table\TableWithTimestamp;
 use App\Model\Data\EventWithCountsData;
+use App\Model\Entity\AbsentUserEntity;
 use App\Model\Entity\EventEntity;
 use App\Model\Entity\EventWorkshopEntity;
 use App\Model\Entity\ParticipantEntity;
@@ -42,6 +43,9 @@ class EventsTable extends TableWithTimestamp
     $this
       ->hasMany(ParticipantsTable::getDefaultAlias())
       ->setForeignKey(ParticipantEntity::EVENT_ID);
+    $this
+      ->hasMany(AbsentUsersTable::getDefaultAlias())
+      ->setForeignKey(AbsentUserEntity::EVENT_ID);
   }
 
   #endregion
@@ -199,7 +203,7 @@ class EventsTable extends TableWithTimestamp
     }
     $users = Tables::users()->getAllUsersWithAbsentParticipants($event);
     foreach($users as $user) {
-      Tables::absentParticipants()->addUserAndEvent($user, $event);
+      Tables::absentUsers()->addUserAndEvent($user, $event);
     }
   }
 

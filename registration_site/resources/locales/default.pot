@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2025-03-04 11:02+0000\n"
+"POT-Creation-Date: 2025-03-05 06:51+0000\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
@@ -54,6 +54,7 @@ msgstr ""
 #: ./templates/EventWorkshops/index.php:61
 #: ./templates/Participants/index.php:52
 #: ./templates/Participants/manage_checkins.php:75
+#: ./templates/Users/participants.php:39
 #: ./templates/element/dialog/add_event_workshop.php:34
 msgid "Workshop"
 msgstr ""
@@ -65,11 +66,11 @@ msgid "Places"
 msgstr ""
 
 #: ./src/Controller/EventWorkshopsController.php:92
-#: ./src/Controller/UsersController.php:99
+#: ./src/Controller/UsersController.php:178
 #: ./templates/EventWorkshops/index.php:63
 #: ./templates/Events/index.php:58
 #: ./templates/Participants/manage_checkins.php:50
-#: ./templates/Users/index.php:55
+#: ./templates/Users/index.php:78
 msgid "Participants"
 msgstr ""
 
@@ -100,98 +101,103 @@ msgstr ""
 msgid "The event for {0} has been removed."
 msgstr ""
 
-#: ./src/Controller/EventsController.php:85
+#: ./src/Controller/EventsController.php:86
 msgid "The event for {0} has been anonymized."
 msgstr ""
 
-#: ./src/Controller/EventsController.php:112
+#: ./src/Controller/EventsController.php:113
 msgid "The event for {0} has been updated."
 msgstr ""
 
-#: ./src/Controller/EventsController.php:116
-#: ./src/Controller/EventsController.php:147
+#: ./src/Controller/EventsController.php:117
+#: ./src/Controller/EventsController.php:148
 msgid "The event could not be saved to the database."
 msgstr ""
 
-#: ./src/Controller/EventsController.php:142
+#: ./src/Controller/EventsController.php:143
 msgid "The event for {0} has been added."
 msgstr ""
 
-#: ./src/Controller/ParticipantsController.php:141
+#: ./src/Controller/ParticipantsController.php:140
 msgid "Participant {0} does not belong to this event."
 msgstr ""
 
-#: ./src/Controller/ParticipantsController.php:147
+#: ./src/Controller/ParticipantsController.php:146
 msgid "Participant {0} has been removed."
 msgstr ""
 
-#: ./src/Controller/ParticipantsController.php:164
+#: ./src/Controller/ParticipantsController.php:163
 #: ./templates/Participants/index.php:49
 #: ./templates/Participants/manage_checkins.php:72
+#: ./templates/Users/participants.php:37
 msgid "Participant name"
 msgstr ""
 
-#: ./src/Controller/ParticipantsController.php:165
+#: ./src/Controller/ParticipantsController.php:164
 #: ./templates/Participants/index.php:50
 msgid "User email"
 msgstr ""
 
-#: ./src/Controller/ParticipantsController.php:166
+#: ./src/Controller/ParticipantsController.php:165
 #: ./templates/Participants/index.php:51
 #: ./templates/Participants/manage_checkins.php:73
 msgid "User name"
 msgstr ""
 
-#: ./src/Controller/ParticipantsController.php:167
+#: ./src/Controller/ParticipantsController.php:166
 msgid "First workshop"
 msgstr ""
 
-#: ./src/Controller/ParticipantsController.php:168
+#: ./src/Controller/ParticipantsController.php:167
 #: ./templates/Participants/index.php:53
+#: ./templates/Users/participants.php:40
 msgid "Backup workshop"
 msgstr ""
 
-#: ./src/Controller/ParticipantsController.php:169
-#: ./src/Controller/UsersController.php:96
+#: ./src/Controller/ParticipantsController.php:168
+#: ./src/Controller/UsersController.php:175
 #: ./templates/Participants/manage_checkins.php:74
 #: ./templates/Users/edit.php:62
-#: ./templates/Users/index.php:52
+#: ./templates/Users/index.php:56
 msgid "Language"
 msgstr ""
 
-#: ./src/Controller/ParticipantsController.php:170
+#: ./src/Controller/ParticipantsController.php:169
 #: ./templates/Participants/index.php:54
+#: ./templates/Users/participants.php:41
 msgid "Laptop"
 msgstr ""
 
-#: ./src/Controller/ParticipantsController.php:171
+#: ./src/Controller/ParticipantsController.php:170
 #: ./templates/Participants/index.php:55
+#: ./templates/Users/participants.php:42
 msgid "Participated"
 msgstr ""
 
-#: ./src/Controller/ParticipantsController.php:186
-#: ./src/Controller/ParticipantsController.php:248
-#: ./src/Controller/UsersController.php:116
+#: ./src/Controller/ParticipantsController.php:185
+#: ./src/Controller/ParticipantsController.php:247
 #: ./templates/Participants/index.php:83
 #: ./templates/Participants/manage_checkins.php:89
+#: ./templates/Users/participants.php:77
 msgid "yes"
 msgstr ""
 
-#: ./src/Controller/ParticipantsController.php:219
+#: ./src/Controller/ParticipantsController.php:218
 msgid "participating"
 msgstr ""
 
-#: ./src/Controller/ParticipantsController.php:222
+#: ./src/Controller/ParticipantsController.php:221
 msgid "waiting position: {0}"
 msgstr ""
 
-#: ./src/Controller/ParticipantsController.php:225
+#: ./src/Controller/ParticipantsController.php:224
 msgid "NOT participating"
 msgstr ""
 
-#: ./src/Controller/ParticipantsController.php:251
+#: ./src/Controller/ParticipantsController.php:250
 #: ./templates/Participants/index.php:87
 #: ./templates/Participants/manage_checkins.php:90
+#: ./templates/Users/participants.php:81
 msgid "no"
 msgstr ""
 
@@ -215,22 +221,30 @@ msgstr ""
 msgid "Participant could not be saved."
 msgstr ""
 
-#: ./src/Controller/UsersController.php:73
+#: ./src/Controller/UsersController.php:80
 msgid "User {0} removed"
 msgstr ""
 
-#: ./src/Controller/UsersController.php:93
+#: ./src/Controller/UsersController.php:120
+msgid "Participant {0} removed"
+msgstr ""
+
+#: ./src/Controller/UsersController.php:158
+msgid "Absent for event at {0} removed"
+msgstr ""
+
+#: ./src/Controller/UsersController.php:172
 #: ./templates/Account/login.php:29
 #: ./templates/Users/edit.php:22
-#: ./templates/Users/index.php:49
+#: ./templates/Users/index.php:53
 #: ./templates/element/dialog/forgot_password.php:22
 #: ./templates/element/dialog/register_user.php:19
 msgid "Email"
 msgstr ""
 
-#: ./src/Controller/UsersController.php:94
+#: ./src/Controller/UsersController.php:173
 #: ./templates/Users/edit.php:30
-#: ./templates/Users/index.php:50
+#: ./templates/Users/index.php:54
 #: ./templates/Workshops/edit.php:29
 #: ./templates/Workshops/index.php:37
 #: ./templates/element/dialog/add_participant.php:23
@@ -240,34 +254,48 @@ msgstr ""
 msgid "Name"
 msgstr ""
 
-#: ./src/Controller/UsersController.php:95
-#: ./templates/Users/index.php:51
+#: ./src/Controller/UsersController.php:174
+#: ./templates/Users/index.php:55
 msgid "Phone"
 msgstr ""
 
-#: ./src/Controller/UsersController.php:97
-#: ./templates/Users/index.php:53
+#: ./src/Controller/UsersController.php:176
+#: ./templates/Users/index.php:57
 msgid "Created"
 msgstr ""
 
-#: ./src/Controller/UsersController.php:98
-#: ./templates/Users/index.php:54
+#: ./src/Controller/UsersController.php:177
+#: ./templates/Users/index.php:58
 msgid "Last visit"
 msgstr ""
 
-#: ./src/Controller/UsersController.php:100
+#: ./src/Controller/UsersController.php:179
+#: ./templates/Users/index.php:87
+msgid "Absents"
+msgstr ""
+
+#: ./src/Controller/UsersController.php:180
 msgid "Mailing list"
 msgstr ""
 
-#: ./src/Controller/UsersController.php:161
+#: ./src/Controller/UsersController.php:181
+msgid "Administrator"
+msgstr ""
+
+#: ./src/Controller/UsersController.php:194
+#: ./src/Controller/UsersController.php:195
+msgid "Yes"
+msgstr ""
+
+#: ./src/Controller/UsersController.php:236
 msgid "User {0} updated"
 msgstr ""
 
-#: ./src/Controller/UsersController.php:162
+#: ./src/Controller/UsersController.php:237
 msgid "User {0} created"
 msgstr ""
 
-#: ./src/Controller/UsersController.php:166
+#: ./src/Controller/UsersController.php:241
 msgid "Failed to save user to the database"
 msgstr ""
 
@@ -625,6 +653,7 @@ msgstr ""
 
 #: ./templates/EventWorkshops/index.php:46
 #: ./templates/Participants/index.php:37
+#: ./templates/Users/index.php:31
 msgid "Download"
 msgstr ""
 
@@ -650,7 +679,7 @@ msgid "Add event"
 msgstr ""
 
 #: ./templates/Events/index.php:46
-#: ./templates/Users/index.php:31
+#: ./templates/Users/index.php:35
 #: ./templates/Workshops/index.php:28
 msgid "Home"
 msgstr ""
@@ -693,6 +722,7 @@ msgid "Login or register"
 msgstr ""
 
 #: ./templates/Participants/index.php:30
+#: ./templates/Users/participants.php:24
 msgid "Participants for {0}"
 msgstr ""
 
@@ -702,6 +732,7 @@ msgstr ""
 
 #: ./templates/Participants/index.php:44
 #: ./templates/Participants/manage_checkins.php:67
+#: ./templates/Users/participants.php:32
 msgid "No participants"
 msgstr ""
 
@@ -730,7 +761,7 @@ msgid "At the moment there are no planned events."
 msgstr ""
 
 #: ./templates/User/index.php:80
-msgid "The next {0} event will take place at {1}."
+msgid "There is no active signup. The next {0} event will take place at {1}."
 msgstr ""
 
 #: ./templates/User/index.php:88
@@ -741,11 +772,11 @@ msgstr ""
 msgid "You can now sign up yourself and/or other participants for the {0} event at {1}."
 msgstr ""
 
-#: ./templates/User/index.php:167
+#: ./templates/User/index.php:188
 msgid "Add child"
 msgstr ""
 
-#: ./templates/User/index.php:168
+#: ./templates/User/index.php:189
 #: ./templates/element/dialog/add_participant.php:17
 msgid "Add participant"
 msgstr ""
@@ -759,10 +790,11 @@ msgid "Remove {0} from workshop {1} for {2} event at {3}."
 msgstr ""
 
 #: ./templates/User/remove_from_workshop.php:36
+#: ./templates/element/dialog/remove_absent_user.php:30
 #: ./templates/element/dialog/remove_event.php:29
 #: ./templates/element/dialog/remove_event_workshop.php:29
 #: ./templates/element/dialog/remove_participant_from_event.php:33
-#: ./templates/element/dialog/remove_participant_from_user.php:30
+#: ./templates/element/dialog/remove_participant_from_user.php:31
 #: ./templates/element/dialog/remove_participant_workshop.php:34
 #: ./templates/element/dialog/remove_user.php:34
 #: ./templates/element/dialog/remove_workshop.php:30
@@ -783,6 +815,24 @@ msgstr ""
 
 #: ./templates/User/remove_from_workshop_success.php:11
 msgid "The participant has been removed from the workshop."
+msgstr ""
+
+#: ./templates/Users/absent_users.php:24
+msgid "Absent at events for {0}"
+msgstr ""
+
+#: ./templates/Users/absent_users.php:28
+#: ./templates/Users/participants.php:28
+msgid "Back to users"
+msgstr ""
+
+#: ./templates/Users/absent_users.php:32
+msgid "No absent events"
+msgstr ""
+
+#: ./templates/Users/absent_users.php:37
+#: ./templates/Users/participants.php:38
+msgid "Event"
 msgstr ""
 
 #: ./templates/Users/edit.php:15
@@ -838,16 +888,24 @@ msgstr ""
 msgid "Add user"
 msgstr ""
 
-#: ./templates/Users/index.php:36
+#: ./templates/Users/index.php:40
 msgid "Normal"
 msgstr ""
 
-#: ./templates/Users/index.php:36
+#: ./templates/Users/index.php:40
 msgid "Administrators"
 msgstr ""
 
-#: ./templates/Users/index.php:42
+#: ./templates/Users/index.php:46
 msgid "No users"
+msgstr ""
+
+#: ./templates/Users/index.php:82
+msgid "Participants({0})"
+msgstr ""
+
+#: ./templates/Users/index.php:91
+msgid "Absents({0})"
 msgstr ""
 
 #: ./templates/Workshops/edit.php:18
@@ -910,26 +968,31 @@ msgid "Anonymizing the participants will perform the following actions:"
 msgstr ""
 
 #: ./templates/element/dialog/anonymize_event.php:32
-msgid "Clear name of participant."
+msgid "Check and add absent information."
 msgstr ""
 
 #: ./templates/element/dialog/anonymize_event.php:33
+msgid "Clear name of participant."
+msgstr ""
+
+#: ./templates/element/dialog/anonymize_event.php:34
 msgid "Remove reference to user from the participant."
 msgstr ""
 
-#: ./templates/element/dialog/anonymize_event.php:36
+#: ./templates/element/dialog/anonymize_event.php:37
 msgid "This action can not be undone!"
 msgstr ""
 
-#: ./templates/element/dialog/anonymize_event.php:39
+#: ./templates/element/dialog/anonymize_event.php:40
 msgid "Yes, anonymize"
 msgstr ""
 
-#: ./templates/element/dialog/anonymize_event.php:40
+#: ./templates/element/dialog/anonymize_event.php:41
+#: ./templates/element/dialog/remove_absent_user.php:31
 #: ./templates/element/dialog/remove_event.php:30
 #: ./templates/element/dialog/remove_event_workshop.php:30
 #: ./templates/element/dialog/remove_participant_from_event.php:34
-#: ./templates/element/dialog/remove_participant_from_user.php:33
+#: ./templates/element/dialog/remove_participant_from_user.php:34
 #: ./templates/element/dialog/remove_participant_workshop.php:35
 #: ./templates/element/dialog/remove_user.php:35
 #: ./templates/element/dialog/remove_workshop.php:31
@@ -994,14 +1057,19 @@ msgstr ""
 msgid "Agree to terms and conditions"
 msgstr ""
 
+#: ./templates/element/dialog/remove_absent_user.php:21
 #: ./templates/element/dialog/remove_event.php:20
 #: ./templates/element/dialog/remove_event_workshop.php:20
 #: ./templates/element/dialog/remove_participant_from_event.php:20
-#: ./templates/element/dialog/remove_participant_from_user.php:20
+#: ./templates/element/dialog/remove_participant_from_user.php:21
 #: ./templates/element/dialog/remove_participant_workshop.php:22
 #: ./templates/element/dialog/remove_user.php:20
 #: ./templates/element/dialog/remove_workshop.php:21
 msgid "Confirm remove"
+msgstr ""
+
+#: ./templates/element/dialog/remove_absent_user.php:27
+msgid "Are you sure you want to remove the absent entry for the event at {0}?"
 msgstr ""
 
 #: ./templates/element/dialog/remove_event.php:26
@@ -1013,7 +1081,7 @@ msgid "Are you sure you want to remove workshop {0} from the event?"
 msgstr ""
 
 #: ./templates/element/dialog/remove_participant_from_event.php:30
-#: ./templates/element/dialog/remove_participant_from_user.php:26
+#: ./templates/element/dialog/remove_participant_from_user.php:27
 msgid "Are you sure you want to remove {0}?"
 msgstr ""
 
