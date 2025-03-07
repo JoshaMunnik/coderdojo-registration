@@ -586,6 +586,8 @@ class StylingHelper extends Helper
     $html = '<dialog id="'.$id.'" class="cd-dialog__container"';
     if ($data->hasErrors()) {
       $html .= ' data-uf-load-action="show-modal"';
+      $html .= ' data-uf-event-action="reload"';
+      $html .= ' data-uf-event-events="close"';
     }
     $html .= '>';
     $options = [
