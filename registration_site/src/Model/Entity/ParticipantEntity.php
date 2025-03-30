@@ -23,6 +23,8 @@ use Cake\ORM\Entity;
  * @property bool $can_leave
  * @property bool $has_laptop
  * @property DateTime|null $checkin_date
+ *
+ * @property UserEntity|null $user
  */
 class ParticipantEntity extends Entity implements IEntityWithTimestamp, IEntityWithId
 {
