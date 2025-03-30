@@ -28,6 +28,7 @@ use Random\RandomException;
  * @property bool $mailing_list
  * @property int $language_id
  * @property bool $disable_email
+ * @property string $public_id
  */
 class UserEntity extends Entity implements IEntityWithId, IEntityWithTimestamp
 {
@@ -45,6 +46,7 @@ class UserEntity extends Entity implements IEntityWithId, IEntityWithTimestamp
   public const MAILING_LIST = 'mailing_list';
   public const LANGUAGE = 'language_id';
   public const DISABLE_EMAIL = 'disable_email';
+  public const PUBLIC_ID = 'public_id';
 
   #endregion
 
