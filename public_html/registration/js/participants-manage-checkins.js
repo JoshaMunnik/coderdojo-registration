@@ -1,17 +1,23 @@
 /**
+ * Module to handle the participants manage checkin page.
+ */
+
+// region types
+
+/**
+ * @typedef {Object} CheckinResponse
+ * @property {boolean} success
+ * @property {boolean} checked_in
+ */
+
+// endregion
+
+// region class
+
+/**
  * Scripts for the user index page.
  */
-const app = (function () {
-  // region types
-
-  /**
-   * @typedef {Object} CheckinResponse
-   * @property {boolean} success
-   * @property {boolean} checked_in
-   */
-
-  // endregion
-
+class ParticipantsManageCheckins {
   // region variables
 
   /**
@@ -19,26 +25,40 @@ const app = (function () {
    *
    * @type {NodeListOf<HTMLInputElement>}
    */
-  const m_checkinInputs = document.querySelectorAll('[data-checkin-button]');
+  #m_checkinInputs = document.querySelectorAll('[data-checkin-button]');
 
   /**
    * CSRF token for form submissions.
    *
    * @type {string}
    */
-  let m_csrfToken;
+  #m_csrfToken;
 
   /**
    * @type {string}
    */
-  let m_checkinUrl;
+  #m_checkinUrl;
 
   // endregion
 
-  // region initialization
+  // region public methods
 
-  for (const checkinInput of m_checkinInputs) {
-    checkinInput.addEventListener('change', () => handleCheckinInputChange(checkinInput));
+  /**
+   * Initializes the app.
+   *
+   * @param checkinUrl
+   *   Url to send checkin request to.
+   * @param csrfToken
+   *   Csrf token for form submissions.
+   */
+  init(checkinUrl, csrfToken) {
+    this.#m_checkinUrl = checkinUrl;
+    this.#m_csrfToken = csrfToken;
+    for (let checkinInput of this.#m_checkinInputs) {
+      checkinInput.addEventListener(
+        'change', () => this.#handleCheckinInputChange(checkinInput)
+      );
+    }
   }
 
   // endregion
@@ -53,21 +73,21 @@ const app = (function () {
    *
    * @returns {Promise<boolean>}
    */
-  async function processCheckin(checkin, participantId) {
-    const formData = new FormData;
+  async #processCheckin(checkin, participantId) {
+    let formData = new FormData;
     formData.append('checked_in', checkin ? '1' : '0');
     formData.append('participant_id', participantId);
     // Send the form data using fetch
-    const response = await fetch(m_checkinUrl, {
+    let response = await fetch(this.#m_checkinUrl, {
       method: 'POST',
       headers: {
-        'X-CSRF-Token': m_csrfToken
+        'X-CSRF-Token': this.#m_csrfToken
       },
       body: formData
     });
     if (response.ok) {
       /** @type {CheckinResponse} */
-      const result = await response.json();
+      let result = await response.json();
       return result.checked_in;
     }
     console.error('Checkin submission failed:', response.statusText);
@@ -83,31 +103,22 @@ const app = (function () {
    *
    * @param {HTMLInputElement} checkinInput
    */
-  async function handleCheckinInputChange(checkinInput) {
+  async #handleCheckinInputChange(checkinInput) {
     checkinInput.disabled = true;
-    checkinInput.checked = await processCheckin(
+    checkinInput.checked = await this.#processCheckin(
       checkinInput.checked,
       checkinInput.getAttribute('data-participant-id')
     );
-    const td = checkinInput.closest('td');
+    let td = checkinInput.closest('td');
     td.setAttribute('data-uf-sort-value', checkinInput.checked ? '1' : '0');
     checkinInput.disabled = false;
   }
+}
 
-  // endregion
+// endregion
 
-  return {
-    /**
-     * Initializes the app.
-     *
-     * @param checkinUrl
-     *   Url to send checkin request to.
-     * @param csrfToken
-     *   Csrf token for form submissions.
-     */
-    init(checkinUrl, csrfToken) {
-      m_checkinUrl = checkinUrl;
-      m_csrfToken = csrfToken;
-    }
-  };
-})();
+// region exports
+
+export const participantsManageCheckins = new ParticipantsManageCheckins();
+
+// endregion
