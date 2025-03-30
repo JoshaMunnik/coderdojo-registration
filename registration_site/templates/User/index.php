@@ -40,10 +40,13 @@ const REMOVE_PARTICIPANT = 'remove-participant';
 const ADD_WORKSHOP = 'add-workshop';
 const REMOVE_WORKSHOP = 'remove-workshop';
 
-$this->Html->script('user-index', ['block' => 'scriptBottom']);
 $this->Html->scriptBlock(
-  'app.init("'.ADD_WORKSHOP.'","'.$this->Url->build($this->url(UserController::WORKSHOPS)).'");',
-  ['block' => 'scriptBottom']
+  'import {userIndex} from "./js/user-index.js";'.
+  'userIndex.init("'.ADD_WORKSHOP.'","'.$this->Url->build($this->url(UserController::WORKSHOPS)).'");',
+  [
+    'block' => 'scriptBottom',
+    'type' => 'module',
+  ]
 );
 foreach ($eventWorkshops as $eventWorkshop) {
   $eventWorkshops[$eventWorkshop->id] = $eventWorkshop;
@@ -114,6 +117,7 @@ foreach ($eventWorkshops as $eventWorkshop) {
               HtmlData::PARTICIPANT_ID => $participant->id,
               HtmlData::PARTICIPANT_NAME => $participant->name,
               HtmlData::PARTICIPANT_HAS_LAPTOP => $participant->has_laptop ? '1' : '0',
+              HtmlData::PARTICIPANT_CAN_LEAVE => $participant->can_leave ? '1' : '0',
             ]
           ) ?>
           <?= $this->Styling->iconButton(
@@ -166,6 +170,7 @@ foreach ($eventWorkshops as $eventWorkshop) {
             HtmlData::PARTICIPANT_ID => $participant->id,
             HtmlData::PARTICIPANT_NAME => $participant->name,
             HtmlData::PARTICIPANT_HAS_LAPTOP => $participant->has_laptop ? '1' : '0',
+            HtmlData::PARTICIPANT_CAN_LEAVE => $participant->can_leave ? '1' : '0',
           ]
         ) ?>
         <?= $this->Styling->iconButton(
@@ -192,6 +197,7 @@ foreach ($eventWorkshops as $eventWorkshop) {
         HtmlAction::SHOW_DIALOG => '#'.ADD_PARTICIPANT,
         HtmlData::PARTICIPANT_NAME => '',
         HtmlData::PARTICIPANT_HAS_LAPTOP => false,
+        HtmlData::PARTICIPANT_CAN_LEAVE => false,
       ],
     ) ?>
   </div>
