@@ -10,12 +10,14 @@ use Cake\I18n\I18n;
 
 $user = $this->request->getAttribute('identity');
 $adminMenu = $user && $user->get(UserEntity::ADMINISTRATOR);
+$baseUrl = dirname($_SERVER['SCRIPT_NAME']) . '/';
 
 ?>
 <!DOCTYPE html>
 <html lang="<?= I18n::getLocale() ?>">
   <head>
     <?= $this->Html->charset() ?>
+    <base href="<?= htmlspecialchars($baseUrl, ENT_QUOTES, 'UTF-8') ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>
       <?= __('{0} Signup', Configure::read('Custom.eventName')) ?> | <?= $this->fetch('title') ?>
