@@ -1,126 +1,142 @@
 /**
- * Scripts for the user index page.
+ * Module to handle the user index page.
  */
-const app = (function() {
-  // region types
 
-  /**
-   * @typedef {Object} Workshop
-   * @property {string} id
-   * @property {string} name
-   * @property {string} description
-   * @property {number} available
-   * @property {number} waiting
-   */
+// region types
 
-  /**
-   * @typedef {Object} WorkshopResponse
-   * @property {Workshop[]} workshops
-   */
+/**
+ * @typedef {Object} Workshop
+ * @property {string} id
+ * @property {string} name
+ * @property {string} description
+ * @property {number} available
+ * @property {number} waiting
+ */
 
-  // endregion
+/**
+ * @typedef {Object} WorkshopResponse
+ * @property {Workshop[]} workshops
+ */
 
-  // region constants
+// endregion
 
-  const DATA_WORKSHOP_ID = 'data-workshop-id';
-  const DATA_WORKSHOP_NAME = 'data-workshop-name';
-  const DATA_WORKSHOP_DESCRIPTION = 'data-workshop-description';
-  const DATA_WORKSHOP_AVAILABLE = 'data-workshop-available';
-  const DATA_WORKSHOP_FULL = 'data-workshop-full';
-  const DATA_WORKSHOP_WAITING = 'data-workshop-waiting';
-  const DATA_WORKSHOP_WAITING_VALUE = 'data-workshop-waiting-value';
+// region constants
 
-  const CSS_CENTERED_TEXT_HIDDEN = 'cd-workshop-card__centered-text--is-hidden';
+const DATA_WORKSHOP_ID = 'data-workshop-id';
+const DATA_WORKSHOP_NAME = 'data-workshop-name';
+const DATA_WORKSHOP_DESCRIPTION = 'data-workshop-description';
+const DATA_WORKSHOP_AVAILABLE = 'data-workshop-available';
+const DATA_WORKSHOP_FULL = 'data-workshop-full';
+const DATA_WORKSHOP_WAITING = 'data-workshop-waiting';
+const DATA_WORKSHOP_WAITING_VALUE = 'data-workshop-waiting-value';
 
-  // endregion
+const CSS_CENTERED_TEXT_HIDDEN = 'cd-workshop-card__centered-text--is-hidden';
 
+// endregion
+
+// region class
+
+class UserIndex {
   // region variables
 
   /**
    * @type {HTMLButtonElement}
    */
-  const m_previousButton = document.getElementById('workshop-cards-previous-button');
+  #m_previousButton = document.getElementById('workshop-cards-previous-button');
 
   /**
    * @type {HTMLButtonElement}
    */
-  const m_nextButton = document.getElementById('workshop-cards-next-button');
+  #m_nextButton = document.getElementById('workshop-cards-next-button');
 
   /**
    * @type {HTMLButtonElement}
    */
-  const m_submitButton = document.getElementById('workshop-card-submit-button');
+  #m_submitButton = document.getElementById('workshop-card-submit-button');
 
   /**
    * @type {HTMLDivElement}
    */
-  const m_container = document.getElementById('workshop-cards-container');
+  #m_container = document.getElementById('workshop-cards-container');
 
   /**
    * @type {HTMLTemplateElement}
    */
-  const m_template = document.getElementById('workshop-card-template');
+  #m_template = document.getElementById('workshop-card-template');
 
   /**
    * @type {HTMLInputElement}
    */
-  const m_workshopIdInput = document.getElementById('workshop-card-workshop-id');
+  #m_workshopIdInput = document.getElementById('workshop-card-workshop-id');
 
   /**
    * @type {HTMLInputElement}
    */
-  const m_participantIdInput = document.getElementById('workshop-card-participant-id');
+  #m_participantIdInput = document.getElementById('workshop-card-participant-id');
 
   /**
    * @type {HTMLDivElement}
    */
-  const m_loading = document.getElementById('workshop-card-loading');
+  #m_loading = document.getElementById('workshop-card-loading');
 
   /**
    * @type {HTMLDivElement}
    */
-  const m_none = document.getElementById('workshop-card-none');
+  #m_none = document.getElementById('workshop-card-none');
 
   /**
    * @type {HTMLDialogElement}
    */
-  let m_dialog;
+  #m_dialog;
 
   /**
    * @type {boolean}
    */
-  let m_busy = true;
+  #m_busy = true;
 
   /**
    * @type {boolean}
    */
-  let m_dragging = false;
+  #m_dragging = false;
 
   /**
    * @type {number}
    */
-  let m_dragStartX = 0;
+  #m_dragStartX = 0;
 
   /**
    * @type {number}
    */
-  let m_dragStartScrollLeft = 0;
+  #m_dragStartScrollLeft = 0;
 
   /**
    * @type string
    */
-  let m_workshopUrl;
+  #m_workshopUrl;
 
   // endregion
 
-  // region initialization
+  // region public methods
 
-  m_previousButton.addEventListener('click', handlePreviousClick);
-  m_nextButton.addEventListener('click', handleNextClick);
-  m_container.addEventListener('mousedown', handleMouseDown);
-  document.addEventListener('mouseup', handleMouseUp, true);
-  document.addEventListener('mousemove', handleMouseMove, true);
-  m_container.addEventListener('scroll', handleScroll);
+  /**
+   * Initializes the app.
+   *
+   * @param dialogId
+   *   Id of dialog
+   * @param workshopUrl
+   *   Url to get workshops from (the code will add / + participant id).
+   */
+  init(dialogId, workshopUrl) {
+    this.#m_dialog = document.getElementById(dialogId);
+    this.#m_dialog.addEventListener('toggle', () => this.#handleToggleDialog());
+    this.#m_workshopUrl = workshopUrl;
+    this.#m_previousButton.addEventListener('click', () => this.#handlePreviousClick);
+    this.#m_nextButton.addEventListener('click', () => this.#handleNextClick());
+    this.#m_container.addEventListener('mousedown', () => this.#handleMouseDown());
+    document.addEventListener('mouseup', () => this.#handleMouseUp(), true);
+    document.addEventListener('mousemove', () => this.#handleMouseMove(), true);
+    this.#m_container.addEventListener('scroll', () => this.#handleScroll());
+  }
 
   // endregion
 
@@ -129,11 +145,12 @@ const app = (function() {
   /**
    * Updates the workshop id input field based on the current scroll position.
    */
-  function updateWorkshopId() {
-    const index = Math.floor(m_container.scrollLeft / m_container.clientWidth) + 2;
-    const card = m_container.children[index];
+  #updateWorkshopId() {
+    const index = Math.floor(this.#m_container.scrollLeft / this.#m_container.clientWidth)
+      + 2;
+    const card = this.#m_container.children[index];
     if (card) {
-      m_workshopIdInput.value = card.getAttribute(DATA_WORKSHOP_ID);
+      this.#m_workshopIdInput.value = card.getAttribute(DATA_WORKSHOP_ID);
     }
   }
 
@@ -142,15 +159,15 @@ const app = (function() {
    *
    * @returns {Promise<void>}
    */
-  async function startLoading() {
-    const participantId = m_participantIdInput.value;
-    const result = await fetch(`${m_workshopUrl}/${participantId}`)
+  async #startLoading() {
+    const participantId = this.#m_participantIdInput.value;
+    const result = await fetch(`${this.#m_workshopUrl}/${participantId}`)
     const json = await result.json();
-    m_loading.classList.add(CSS_CENTERED_TEXT_HIDDEN);
-    processWorkshopsResponse(json);
-    m_busy = false;
-    updateWorkshopId();
-    updateButtons();
+    this.#m_loading.classList.add(CSS_CENTERED_TEXT_HIDDEN);
+    this.#processWorkshopsResponse(json);
+    this.#m_busy = false;
+    this.#updateWorkshopId();
+    this.#updateButtons();
   }
 
   /**
@@ -158,14 +175,14 @@ const app = (function() {
    *
    * @param {WorkshopResponse} workshopResponse
    */
-  function processWorkshopsResponse(workshopResponse) {
+  #processWorkshopsResponse(workshopResponse) {
     if (workshopResponse.workshops.length === 0) {
-      m_none.classList.remove(CSS_CENTERED_TEXT_HIDDEN);
+      this.#m_none.classList.remove(CSS_CENTERED_TEXT_HIDDEN);
       return;
     }
-    for(const workshop of workshopResponse.workshops) {
-      const card = createWorkshopCard(workshop);
-      m_container.appendChild(card);
+    for (const workshop of workshopResponse.workshops) {
+      const card = this.#createWorkshopCard(workshop);
+      this.#m_container.appendChild(card);
     }
   }
 
@@ -174,8 +191,8 @@ const app = (function() {
    *
    * @param {Workshop} workshop
    */
-  function createWorkshopCard(workshop) {
-    const card = m_template.content.cloneNode(true);
+  #createWorkshopCard(workshop) {
+    const card = this.#m_template.content.cloneNode(true);
     card.firstElementChild.setAttribute(DATA_WORKSHOP_ID, workshop.id);
     const name = card.querySelector(`[${DATA_WORKSHOP_NAME}]`);
     name.innerText = workshop.name;
@@ -187,12 +204,10 @@ const app = (function() {
     if (workshop.available !== 0) {
       waiting.remove();
       full.remove();
-    }
-    else if (workshop.waiting === 0) {
+    } else if (workshop.waiting === 0) {
       available.remove();
       waiting.remove();
-    }
-    else {
+    } else {
       available.remove();
       full.remove();
       const value = waiting.querySelector(`[${DATA_WORKSHOP_WAITING_VALUE}]`);
@@ -204,105 +219,99 @@ const app = (function() {
   /**
    * Updates the scroll buttons.
    */
-  function updateButtons() {
-    m_previousButton.disabled =
-      (m_container.scrollLeft < 50) ||
-      m_busy ||
-      (m_container.childElementCount < 3);
-    m_nextButton.disabled =
-      (m_container.scrollLeft + m_container.clientWidth >= m_container.scrollWidth - 50) ||
-      m_busy ||
-      (m_container.childElementCount < 3);
-    m_submitButton.disabled = m_busy || (m_container.childElementCount < 3);
+  #updateButtons() {
+    this.#m_previousButton.disabled =
+      (this.#m_container.scrollLeft < 50) ||
+      this.#m_busy ||
+      (this.#m_container.childElementCount < 3);
+    this.#m_nextButton.disabled =
+      (
+        this.#m_container.scrollLeft + this.#m_container.clientWidth >=
+        this.#m_container.scrollWidth - 50
+      ) ||
+      this.#m_busy ||
+      (this.#m_container.childElementCount < 3);
+    this.#m_submitButton.disabled = this.#m_busy || (this.#m_container.childElementCount < 3);
   }
 
   // endregion
 
   // region event handlers
 
-  function handlePreviousClick() {
-    m_container.scrollBy({
-      left: -m_container.clientWidth,
+  #handlePreviousClick() {
+    this.#m_container.scrollBy({
+      left: -this.#m_container.clientWidth,
       behavior: 'smooth'
     });
   }
 
-  function handleNextClick() {
-    m_container.scrollBy({
-      left: m_container.clientWidth,
+  #handleNextClick() {
+    this.#m_container.scrollBy({
+      left: this.#m_container.clientWidth,
       behavior: 'smooth'
     });
   }
 
-  function handleMouseDown(event) {
-    if (m_dragging || m_busy) {
+  #handleMouseDown(event) {
+    if (this.#m_dragging || this.#m_busy) {
       return;
     }
     event.preventDefault();
-    m_dragging = true;
-    m_container.classList.add('cd-workshop-card__container--is-dragging');
-    m_dragStartX = event.pageX;
-    m_dragStartScrollLeft = m_container.scrollLeft;
+    this.#m_dragging = true;
+    this.#m_container.classList.add('cd-workshop-card__container--is-dragging');
+    this.#m_dragStartX = event.pageX;
+    this.#m_dragStartScrollLeft = this.#m_container.scrollLeft;
   }
 
-  function handleMouseUp() {
-    if (!m_dragging) {
+  #handleMouseUp() {
+    if (!this.#m_dragging) {
       return;
     }
-    m_dragging = false;
-    m_container.classList.remove('cd-workshop-card__container--is-dragging');
+    this.#m_dragging = false;
+    this.#m_container.classList.remove('cd-workshop-card__container--is-dragging');
   }
 
-  function handleMouseMove(event) {
-    if (!m_dragging) {
+  #handleMouseMove(event) {
+    if (!this.#m_dragging) {
       return;
     }
     event.preventDefault();
-    const delta = event.pageX - m_dragStartX;
-    m_container.scrollLeft = m_dragStartScrollLeft - delta;
+    const delta = event.pageX - this.#m_dragStartX;
+    this.#m_container.scrollLeft = this.#m_dragStartScrollLeft - delta;
   }
 
-  function handleScroll() {
-    updateWorkshopId();
-    updateButtons();
+  #handleScroll() {
+    this.#updateWorkshopId();
+    this.#updateButtons();
   }
 
-  function handleToggleDialog() {
-    if (!m_dialog.open) {
+  #handleToggleDialog() {
+    if (!this.#m_dialog.open) {
       return;
     }
-    m_busy = true;
-    m_dragging = false;
-    m_previousButton.disabled = true;
-    m_nextButton.disabled = true;
-    Array.from(m_container.children).forEach(child => {
-      if ((child.id !== m_loading.id) && (child.id !== m_none.id)) {
-        m_container.removeChild(child);
+    this.#m_busy = true;
+    this.#m_dragging = false;
+    this.#m_previousButton.disabled = true;
+    this.#m_nextButton.disabled = true;
+    Array.from(this.#m_container.children).forEach(child => {
+      if ((child.id !== this.#m_loading.id) && (child.id !== this.#m_none.id)) {
+        this.#m_container.removeChild(child);
       }
     });
-    m_loading.classList.remove(CSS_CENTERED_TEXT_HIDDEN);
-    m_none.classList.add(CSS_CENTERED_TEXT_HIDDEN);
-    m_container.scrollLeft = 0;
-    updateButtons();
+    this.#m_loading.classList.remove(CSS_CENTERED_TEXT_HIDDEN);
+    this.#m_none.classList.add(CSS_CENTERED_TEXT_HIDDEN);
+    this.#m_container.scrollLeft = 0;
+    this.#updateButtons();
     // load with next update, to be sure participant id has been set by other scripts
-    setTimeout(startLoading, 0);
+    setTimeout(() => this.#startLoading(), 0);
   }
-
   // endregion
+}
 
-  return {
-    /**
-     * Initializes the app.
-     *
-     * @param dialogId
-     *   Id of dialog
-     * @param workshopUrl
-     *   Url to get workshops from (the code will add / + participant id).
-     */
-    init(dialogId, workshopUrl) {
-      m_dialog = document.getElementById(dialogId);
-      m_dialog.addEventListener('toggle', handleToggleDialog);
-      m_workshopUrl = workshopUrl;
-    }
-  };
-})();
+// endregion
+
+// region exports
+
+export const userIndex = new UserIndex();
+
+// endregion
