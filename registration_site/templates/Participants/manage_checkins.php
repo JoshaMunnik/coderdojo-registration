@@ -28,14 +28,17 @@ use App\View\ApplicationView;
 const REMOVE_DIALOG = 'remove';
 const TABLE = 'participants-table';
 
-$this->Html->script('participants-manage-checkins', ['block' => 'scriptBottom']);
 $this->Html->scriptBlock(
-  'app.init("'
+  'import {participantsManageCheckins} from "./js/participants-manage-checkins.js";' .
+  'participantsManageCheckins.init("'
   .$this->Url->build($this->url([ParticipantsController::CHECKIN]))
   .'", "'
   .$this->getRequest()->getAttribute('csrfToken')
   .'");',
-  ['block' => 'scriptBottom']
+  [
+    'block' => 'scriptBottom',
+    'type' => 'module',
+  ]
 );
 foreach ($eventWorkshops as $eventWorkshopId) {
   $eventWorkshops[$eventWorkshopId->id] = $eventWorkshopId;
@@ -69,10 +72,12 @@ foreach ($eventWorkshops as $eventWorkshopId) {
 else {
   echo $this->Styling->beginSortedTable(HtmlStorageKey::CHECKIN_TABLE, true);
   echo $this->Styling->sortedTableHeader([
-    __('Participant name') => CellDataTypeEnum::TEXT,
-    __('User name') => CellDataTypeEnum::TEXT,
-    __('Language') => CellDataTypeEnum::TEXT,
+    __('Participant') => CellDataTypeEnum::TEXT,
     __('Workshop') => CellDataTypeEnum::TEXT,
+    __('Leave') => CellDataTypeEnum::TEXT,
+    __('Language') => CellDataTypeEnum::TEXT,
+    __('User') => CellDataTypeEnum::TEXT,
+    __('Code') => CellDataTypeEnum::TEXT,
     __('Checkin') => [CellDataTypeEnum::NUMBER, CellStylingEnum::TIGHT],
     null,
   ]);
@@ -93,17 +98,22 @@ else {
         HtmlData::CHECKIN_BUTTON,
       ]
     );
+    $leave = $participant->can_leave ? __('Yes') : __('No');
     echo $this->Styling->sortedTableRow(
       [
         $participant->name,
-        $participant->user?->name ?? '',
-        $participant->user ? Language::getName($participant->user->language_id) : '',
         [
           $workshop => [
             ContentPositionEnum::CENTER,
             'data-uf-sort-value' => $eventWorkshop->getName(),
           ]
         ],
+        [
+          $leave => ContentPositionEnum::CENTER,
+        ],
+        $participant->user ? Language::getName($participant->user->language_id) : '',
+        $participant->user?->name ?? '',
+        $participant->user?->public_id ?? '',
         [
           $toggleButton => [
             ContentPositionEnum::END,
