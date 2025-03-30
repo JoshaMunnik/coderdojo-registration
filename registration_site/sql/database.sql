@@ -152,7 +152,8 @@ CREATE TABLE `cd_users`
   `password_reset_token` datetime    DEFAULT NULL,
   `last_visit_date`      datetime    DEFAULT NULL,
   `mailing_list`         tinyint(1) NOT NULL DEFAULT 0,
-  `language_id`          int(11) NOT NULL DEFAULT 1
+  `language_id`          int(11) NOT NULL DEFAULT 1,
+  `public_id`            varchar(32) NOT NULL DEFAULT '',
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
