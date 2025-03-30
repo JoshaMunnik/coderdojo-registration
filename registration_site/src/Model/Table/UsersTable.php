@@ -2,7 +2,6 @@
 
 namespace App\Model\Table;
 
-use App\Lib\Model\Entity\IEntityWithId;
 use App\Lib\Model\Table\TableWithTimestamp;
 use App\Model\Entity\AbsentUserEntity;
 use App\Model\Entity\EventEntity;
@@ -10,6 +9,9 @@ use App\Model\Entity\ParticipantEntity;
 use App\Model\Entity\UserEntity;
 use App\Model\Entity\UserWithParticipantsAndAbsentUsersEntity;
 use App\Model\Tables;
+use ArrayObject;
+use Cake\Datasource\EntityInterface;
+use Cake\Event\EventInterface;
 use Cake\Validation\Validator;
 
 /**
@@ -20,6 +22,24 @@ use Cake\Validation\Validator;
  */
 class UsersTable extends TableWithTimestamp
 {
+  #region configuration
+
+  /**
+   * The number of characters in the public id.
+   *
+   * @var string
+   */
+  private const PUBLIC_ID_SIZE = 8;
+
+  /**
+   * The characters that can be used in the public id.
+   *
+   * @var string
+   */
+  private const PUBLIC_ID_ALPHABET = '0123456789';
+
+  #endregion
+
   #region cakephp callbacks
 
   /**
@@ -47,6 +67,28 @@ class UsersTable extends TableWithTimestamp
       ->notEmptyString(UserEntity::NAME)
       ->email(UserEntity::EMAIL);
     return $validator;
+  }
+
+  /**
+   * @inheritDoc
+   */
+  public function beforeSave(
+    EventInterface $event,
+    EntityInterface $entity,
+    ArrayObject $options
+  ): bool {
+    if (!parent::beforeSave($event, $entity, $options)) {
+      return false;
+    }
+    // make sure a public id is set
+    if (!empty($entity->get(UserEntity::PUBLIC_ID))) {
+      return true;
+    }
+    do {
+      $code = $this->createPublicId();
+    } while ($this->isUsedPublicId($code));
+    $entity->set(UserEntity::PUBLIC_ID, $code);
+    return true;
   }
 
   #endregion
@@ -138,7 +180,21 @@ class UsersTable extends TableWithTimestamp
   public function findForId(string $id): UserEntity|null
   {
     return $this->find()
-      ->where([IEntityWithId::ID => $id])
+      ->where([UserEntity::ID => $id])
+      ->first();
+  }
+
+  /**
+   * Tries to find a user by an id.
+   *
+   * @param string $id
+   *
+   * @return UserEntity|null
+   */
+  public function findForPublicId(string $id): UserEntity|null
+  {
+    return $this->find()
+      ->where([UserEntity::PUBLIC_ID => $id])
       ->first();
   }
 
@@ -250,6 +306,36 @@ class UsersTable extends TableWithTimestamp
       ))
       ->all()
       ->toList();
+  }
+
+  #endregion
+
+  #region private methods
+
+  /**
+   * Tries to find a user by an id.
+   *
+   * @param string $id
+   *
+   * @return bool True if the id is used
+   */
+  private function isUsedPublicId(string $id): bool
+  {
+    return $this->find()
+        ->where([UserEntity::PUBLIC_ID => $id])
+        ->count() > 0;
+  }
+
+  /**
+   * @return string Public id code
+   */
+  private function createPublicId(): string
+  {
+    $id = '';
+    for ($index = 0; $index < self::PUBLIC_ID_SIZE; $index++) {
+      $id .= self::PUBLIC_ID_ALPHABET[mt_rand(0, strlen(self::PUBLIC_ID_ALPHABET) - 1)];
+    }
+    return $id;
   }
 
   #endregion
