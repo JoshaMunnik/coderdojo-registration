@@ -54,6 +54,7 @@ The project uses the following technologies:
 2. [Fontawesome 6.x (free version)](https://fontawesome.com/)
 3. [Ultra Force Html helper](https://github.com/JoshaMunnik/uf-html-helpers/)
 4. [Tinymce 5.x](https://www.tiny.cloud/)
+5. [QR-scanner](https://github.com/nimiq/qr-scanner)
 
 The project uses local copies of the libraries.
 
