@@ -39,8 +39,11 @@ class TableWithTimestamp extends Table
    *
    * @return bool
    */
-  public function beforeSave(EventInterface $event, EntityInterface $entity, ArrayObject $options): bool
-  {
+  public function beforeSave(
+    EventInterface $event,
+    EntityInterface $entity,
+    ArrayObject $options
+  ): bool {
     if ($entity->isNew()) {
       // all entities use uuid ids, generate a new one when saving a new entity
       $entity->set('id', Text::uuid());
