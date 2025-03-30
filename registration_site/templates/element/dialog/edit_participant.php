@@ -40,6 +40,15 @@ use App\View\ApplicationView;
     'id' => false,
   ],
 ) ?>
+<?= $this->Form->control(
+  EditParticipantViewModel::CAN_LEAVE,
+  [
+    'label' => __('Can leave the event by themselves'),
+    'type' => 'checkbox',
+    HtmlData::PARTICIPANT_CAN_LEAVE,
+    'id' => false,
+  ],
+) ?>
 <?= $this->Styling->endFormContainer() ?>
 <?= $this->Styling->beginDialogButtons() ?>
 <?= $this->Form->submit(
