@@ -14,6 +14,7 @@ class EditParticipantViewModel extends IdViewModel
 
   public const NAME = 'name';
   public const HAS_LAPTOP = 'has_laptop';
+  public const CAN_LEAVE = 'can_leave';
 
   #endregion
 
@@ -22,6 +23,8 @@ class EditParticipantViewModel extends IdViewModel
   public string $name = '';
 
   public bool $has_laptop = false;
+
+  public bool $can_leave = false;
 
   #endregion
 
@@ -38,6 +41,7 @@ class EditParticipantViewModel extends IdViewModel
   {
     $entity->name = $this->name;
     $entity->has_laptop = $this->has_laptop;
+    $entity->can_leave = $this->can_leave;
   }
 
   /**
@@ -48,6 +52,7 @@ class EditParticipantViewModel extends IdViewModel
     parent::clear();
     $this->name = '';
     $this->has_laptop = false;
+    $this->can_leave = false;
   }
 
   #endregion
