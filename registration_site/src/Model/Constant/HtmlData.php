@@ -18,6 +18,7 @@ readonly class HtmlData
   const PARTICIPANT_ID = 'data-participant-id';
   const PARTICIPANT_TYPE = 'data-participant-type';
   const PARTICIPANT_HAS_LAPTOP = 'data-participant-has-laptop';
+  const PARTICIPANT_CAN_LEAVE = 'data-participant-can-leave-laptop';
   const WORKSHOP_INDEX = 'data-workshop-index';
   const USER_EMAIL = 'data-user-email';
   const USER_ID = 'data-user-id';
