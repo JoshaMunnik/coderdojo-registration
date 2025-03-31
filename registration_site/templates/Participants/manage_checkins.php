@@ -1,6 +1,5 @@
 <?php
 
-use App\Controller\AdministratorController;
 use App\Controller\EventsController;
 use App\Controller\ParticipantsController;
 use App\Model\Constant\HtmlAction;
@@ -40,9 +39,6 @@ $this->Html->scriptBlock(
     'type' => 'module',
   ]
 );
-foreach ($eventWorkshops as $eventWorkshopId) {
-  $eventWorkshops[$eventWorkshopId->id] = $eventWorkshopId;
-}
 
 ?>
 <?= $this->Styling->title(__('Checkin manager for {0}', $event->getEventDateAsText())) ?>

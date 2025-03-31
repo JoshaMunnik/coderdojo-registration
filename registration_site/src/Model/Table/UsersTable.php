@@ -8,10 +8,13 @@ use App\Model\Entity\EventEntity;
 use App\Model\Entity\ParticipantEntity;
 use App\Model\Entity\UserEntity;
 use App\Model\Entity\UserWithParticipantsAndAbsentUsersEntity;
+use App\Model\Entity\UserWithParticipantsEntity;
 use App\Model\Tables;
 use ArrayObject;
 use Cake\Datasource\EntityInterface;
+use Cake\Datasource\Exception\RecordNotFoundException;
 use Cake\Event\EventInterface;
+use Cake\ORM\Query\SelectQuery;
 use Cake\Validation\Validator;
 
 /**
@@ -185,20 +188,6 @@ class UsersTable extends TableWithTimestamp
   }
 
   /**
-   * Tries to find a user by an id.
-   *
-   * @param string $id
-   *
-   * @return UserEntity|null
-   */
-  public function findForPublicId(string $id): UserEntity|null
-  {
-    return $this->find()
-      ->where([UserEntity::PUBLIC_ID => $id])
-      ->first();
-  }
-
-  /**
    * Gets a user entity for an id.
    *
    * @param string $id
@@ -299,11 +288,40 @@ class UsersTable extends TableWithTimestamp
   {
     return $this
       ->find('all')
+      ->distinct($this->prefix($this->getPrimaryKey()))
       ->matching(ParticipantsTable::getDefaultAlias(), fn($query) => $query->where([
           ParticipantEntity::CHECKIN_DATE.' IS' => null,
           ParticipantEntity::EVENT_ID => $event->id
         ]
       ))
+      ->all()
+      ->toList();
+  }
+
+  /**
+   * Gets all users that have one or more participants for the event.
+   *
+   * @param EventEntity $event
+   *
+   * @return UserWithParticipantsEntity[]
+   */
+  public function getAllUsersWithParticipants(EventEntity $event): array
+  {
+    return $this
+      ->find()
+      ->distinct($this->prefix($this->getPrimaryKey()))
+      ->innerJoinWith(
+        ParticipantsTable::getDefaultAlias(),
+        fn($query) => $query->where([
+          ParticipantEntity::EVENT_ID => $event->id
+        ]
+      ))
+      ->contain(
+        ParticipantsTable::getDefaultAlias(),
+        fn(SelectQuery $query) => $query->where([
+          ParticipantEntity::EVENT_ID => $event->id
+        ])
+      )
       ->all()
       ->toList();
   }

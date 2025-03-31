@@ -69,6 +69,7 @@ class TestCaseBase extends TestCase
     array $actualEntities,
     ?Closure $testCallback = null
   ): void {
+    $this->assertEquals(count($expectedEntities), count($actualEntities), 'Count of entities does not match');
     foreach ($expectedEntities as $expectedEntity) {
       $found = false;
       foreach ($actualEntities as $actualEntity) {

@@ -10,6 +10,7 @@ use App\Model\Tables;
 use App\Model\Value\Language;
 use App\Model\View\Participants\CheckinViewModel;
 use App\Model\View\Participants\RemoveParticipantViewModel;
+use App\Model\View\Participants\ScanViewModel;
 use App\Tool\FileTool;
 use App\Tool\ParticipantTool;
 use Cake\Event\EventInterface;
@@ -29,7 +30,7 @@ class ParticipantsController extends AdministratorControllerBase
   public const CHECKIN = [self::class, 'checkin'];
   public const DOWNLOAD = [self::class, 'download'];
   public const REMOVE = [self::class, 'remove'];
-
+  public const SCAN = [self::class, 'scan'];
   #endregion
 
   #region cakephp callbacks
@@ -175,10 +176,10 @@ class ParticipantsController extends AdministratorControllerBase
         $participant->name,
         $participant->user?->email ?? '-',
         $participant->user?->name ?? '-',
-        $this->getWorkshopInformation(
+        $this->getWorkshopParticipatingInformation(
           $participant, $participant->event_workshop_1_id, $eventWorkshops
         ),
-        $this->getWorkshopInformation(
+        $this->getWorkshopParticipatingInformation(
           $participant, $participant->event_workshop_2_id, $eventWorkshops
         ),
         $participant->user != null ? Language::getName($participant->user->language_id) : '',
@@ -189,6 +190,24 @@ class ParticipantsController extends AdministratorControllerBase
     return $this->exportCsv(
       FileTool::addDate('participants.csv', $event->event_date->toNative()), $data, $headers
     );
+  }
+
+  /**
+   * Shows a page to scan visitors QR codes for an event.
+   *
+   * @param string $id The id of the event.
+   *
+   * @return Response|null
+   */
+  public function scan(string $id): ?Response
+  {
+    $event = Tables::events()->getForId($id);
+    $users = Tables::users()->getAllUsersWithParticipants($event);
+    $eventWorkshops = Tables::eventWorkshops()->getAllForEvent($event);
+    $this->set('event', $event);
+    $this->set('workshops', $eventWorkshops);
+    $this->set('users', $users);
+    return null;
   }
 
   #endregion
@@ -204,7 +223,7 @@ class ParticipantsController extends AdministratorControllerBase
    *
    * @return string
    */
-  private function getWorkshopInformation(
+  private function getWorkshopParticipatingInformation(
     ParticipantEntity $participant,
     string|null $workshopId,
     array $eventWorkshops
@@ -250,6 +269,57 @@ class ParticipantsController extends AdministratorControllerBase
       return __('no');
     }
     return '';
+  }
+
+  /**
+   * Groups the participants by their user and determine the workshop they are participating in.
+   *
+   * The returned array has the following structure:
+   * ````php
+   * [user->id] => [
+   *   'name' => string,
+   *   'phone' => string,
+   *   'public_id' => string,
+   *   'participants' => [
+   *     [
+   *       'id' => string,
+   *       'name' => string,
+   *       'workshop' => string,
+   *       'checked_in' => bool,
+   *     ],
+   *   ],
+   * ]
+   * ````
+   *
+   * @param array $participants
+   * @param array $eventWorkshops
+   *
+   * @return array
+   */
+  private function getParticipatingUsers(array $participants, array $eventWorkshops): array
+  {
+    $result = [];
+    foreach ($participants as $participant) {
+      if ($participant->user === null) {
+        continue;
+      }
+      $workshop = $this->getWorkshopDescription($participant, $eventWorkshops);
+      if (!isset($result[$participant->user->id])) {
+        $result[$participant->user->id] = [
+          'name' => $participant->user->name,
+          'phone' => $participant->user->phone,
+          'public_id' => $participant->user->public_id,
+          'participants' => [],
+        ];
+      }
+      $result[$participant->user->public_id]['participants'][] = [
+        'id' => $participant->id,
+        'name' => $participant->name,
+        'workshop' => $workshop,
+        'checked_in' => $participant->checkin_date !== null,
+      ];
+    }
+    return $result;
   }
 
   #endregion

@@ -4,6 +4,7 @@ namespace App\Model\Entity;
 
 use App\Lib\Model\Entity\IEntityWithId;
 use App\Lib\Model\Entity\IEntityWithTimestamp;
+use App\Model\Table\ParticipantsTable;
 use App\Model\Tables;
 use Cake\ORM\Entity;
 
@@ -26,6 +27,17 @@ class EventWorkshopEntity extends Entity implements IEntityWithTimestamp, IEntit
 
   #endregion
 
+  #region private fields
+
+  /**
+   * Cached participants for this workshop.
+   *
+   * @var ParticipantEntity[]|null
+   */
+  private array|null $m_participants = null;
+
+  #endregion
+
   #region public methods
 
   /**
@@ -44,25 +56,6 @@ class EventWorkshopEntity extends Entity implements IEntityWithTimestamp, IEntit
   public function getDescription(): string
   {
     return $this->workshop?->getDescription() ?? '';
-  }
-
-  /**
-   * Gets the participants position in the waiting list.
-   *
-   * @param ParticipantEntity $participant
-   *
-   * @return int The position in the waiting list (1, 2, etc.). 0 if the participant has a place.
-   *   -1 if the participant is not in the list.
-   */
-  public function getWaitingPosition(ParticipantEntity $participant): int
-  {
-    $participants = Tables::participants()->getAllForWorkshop($this);
-    for($index = 0; $index < count($participants); $index++) {
-      if ($participants[$index]->id === $participant->id) {
-        return max(0, $index + 1 - $this->place_count);
-      }
-    }
-    return -1;
   }
 
   /**
@@ -101,9 +94,41 @@ class EventWorkshopEntity extends Entity implements IEntityWithTimestamp, IEntit
     return $result;
   }
 
-  #endregion
+  /**
+   * Gets all the participants for this workshop. The first time this method is called,
+   * it will load all the participants from the database using
+   * {@link ParticipantsTable::getAllForWorkshop()}. The result is cached and returned on subsequent
+   * calls.
+   *
+   * @return ParticipantEntity[]
+   */
+  public function getParticipants(): array {
+    if ($this->m_participants === null) {
+      $this->m_participants = Tables::participants()->getAllForWorkshop($this);
+    }
+    return $this->m_participants;
+  }
 
-  #region private methods
+  /**
+   * Gets the participants position in the waiting list.
+   *
+   * @param ParticipantEntity $participant
+   *
+   * @return int The position in the waiting list (1, 2, etc.). 0 if the participant has a place.
+   *   -1 if the participant is not in the list.
+   */
+  public function getWaitingPosition(
+    ParticipantEntity $participant
+  ): int
+  {
+    $participants = $this->getParticipants();
+    for($index = 0; $index < count($participants); $index++) {
+      if ($participants[$index]->id === $participant->id) {
+        return max(0, $index + 1 - $this->place_count);
+      }
+    }
+    return -1;
+  }
 
   #endregion
 }

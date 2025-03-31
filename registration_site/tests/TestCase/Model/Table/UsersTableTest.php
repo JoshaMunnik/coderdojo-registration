@@ -3,6 +3,8 @@
 namespace App\Test\TestCase\Model\Table;
 
 use App\Model\Entity\ParticipantEntity;
+use App\Model\Entity\UserEntity;
+use App\Model\Entity\UserWithParticipantsEntity;
 use App\Model\Tables;
 use App\Test\Lib\TestCaseBase;
 
@@ -154,4 +156,48 @@ class UsersTableTest extends TestCaseBase
       $actualParticipants
     );
   }
+
+  public function testGetUserWithParticipantsForEvent()
+  {
+    $user1 = $this->createUser();
+    $user2 = $this->createUser();
+    $user3 = $this->createUser();
+    $event1 = $this->createActiveEvent();
+    $event2 = $this->createActiveEvent();
+    $workshop1 = $this->createWorkshop();
+    $workshop2 = $this->createWorkshop();
+    $eventWorkshop1_1 = $this->createEventWorkshop($event1, $workshop1);
+    $eventWorkshop1_2 = $this->createEventWorkshop($event1, $workshop2);
+    $eventWorkshop2_1 = $this->createEventWorkshop($event2, $workshop1);
+    $eventWorkshop2_2 = $this->createEventWorkshop($event2, $workshop2);
+    $participant1_1_1 = $this->createParticipant($user1, $event1, $eventWorkshop1_1);
+    $participant1_1_2 = $this->createParticipant($user1, $event1, $eventWorkshop1_2);
+    $participant1_2_1 = $this->createParticipant($user1, $event2, $eventWorkshop2_1);
+    $participant1_2_2 = $this->createParticipant($user1, $event2, $eventWorkshop2_2);
+    $participant2_1_1 = $this->createParticipant($user2, $event1, $eventWorkshop1_1);
+    $participant2_1_2 = $this->createParticipant($user2, $event1, $eventWorkshop1_2);
+    $participant2_2_1 = $this->createParticipant($user2, $event2, $eventWorkshop2_1);
+    $participant2_2_2 = $this->createParticipant($user2, $event2, $eventWorkshop2_2);
+    $participant3_2_1 = $this->createParticipant($user3, $event2, $eventWorkshop2_1);
+    $participant3_2_2 = $this->createParticipant($user3, $event2, $eventWorkshop2_2);
+    $actualUsers = Tables::users()->getAllUsersWithParticipants($event1);
+    $this->assertEqualEntities(
+      [$user1, $user2],
+      $actualUsers,
+      function($expected, $actual) use ($participant1_1_1, $participant1_1_2, $participant2_1_1, $participant2_1_2, $user1, $user2) {
+        /** @var UserEntity $expected */
+        /** @var UserWithParticipantsEntity $actual */
+        if ($actual->id === $user1->id) {
+          $this->assertEqualEntities([$participant1_1_1, $participant1_1_2], $actual->participants);
+          return;
+        }
+        if ($actual->id === $user2->id) {
+          $this->assertEqualEntities([$participant2_1_1, $participant2_1_2], $actual->participants);
+          return;
+        }
+      }
+    );
+  }
+
+
 }

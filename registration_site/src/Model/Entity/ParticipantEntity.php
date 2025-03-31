@@ -142,6 +142,38 @@ class ParticipantEntity extends Entity implements IEntityWithTimestamp, IEntityW
     }
   }
 
+  /**
+   * Gets the name of the workshop for a participant. If the participant is not participating in any
+   * workshop, the method will return 'queued for: ' with the workshop names the participant is
+   * queued for.
+   *
+   * @param EventWorkshopEntity[] $eventWorkshops The key should be the id of the event workshop.
+   *
+   * @return string Workshop name or 'queued for: ' with the workshop names.
+   */
+  public function getWorkshopDescription(
+    array $eventWorkshops
+  ): string {
+    if ($this->event_workshop_1_id !== null) {
+      $workshop1 = $eventWorkshops[$this->event_workshop_1_id];
+      if ($workshop1->getWaitingPosition($this) === 0) {
+        return $workshop1->getName();
+      }
+    }
+    if ($this->event_workshop_2_id !== null) {
+      $workshop2 = $eventWorkshops[$this->event_workshop_2_id];
+      if ($workshop2->getWaitingPosition($this) === 0) {
+        return $workshop2->getName();
+      }
+    }
+    $result = 'queued for: '.
+      $eventWorkshops[$this->event_workshop_1_id]->getName();
+    if ($this->event_workshop_2_id !== null) {
+      $result .= ' and '.$eventWorkshops[$this->event_workshop_2_id]->getName();
+    }
+    return $result;
+  }
+
   #endregion
 
 }

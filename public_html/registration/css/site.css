@@ -192,9 +192,15 @@ Text
   font-weight: 600;
 }
 
-@media (max-width: 1100px) {
+@media (min-width: 768px) and  (max-width: 1100px) {
   .cd-text__title {
     font-size: 2rem;
+  }
+}
+
+@media (max-width: 767px) {
+  .cd-text__title {
+    font-size: 1.6rem;
   }
 }
 
@@ -965,3 +971,98 @@ User participant grid
   }
 }
 
+/**
+ * Checkin scan
+ */
+
+.cd-scan__section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.cd-scan__section--is-hidden {
+  display: none;
+}
+
+.cd-scan__webcam-video {
+  background: var(--cd-color-dark);
+}
+
+.cd-scan__message {
+  text-align: center;
+  font-size: 1.2rem;
+  font-weight: 500;
+}
+
+.cd-scan__message--is-hidden {
+  display: none;
+}
+
+.cd-scan__message--is-error {
+  color: var(--cd-color-danger);
+}
+
+.cd-scan__user-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  justify-content: flex-start;
+}
+
+.cd-scan__user-information {
+  padding: 0.5rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.cd-scan__user-container--is-hidden {
+  display: none;
+}
+
+.cd-scan__user-name {
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.cd-scan__participants-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.cd-scan__participant-container {
+  padding: 0.5rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+
+  &:nth-child(odd) {
+    background-color: var(--cd-color-half-light);
+  }
+}
+
+.cd-scan__participant-information {
+  display: flex;
+  flex-direction: column;
+}
+
+.cd-scan__participant-name {
+  font-size: 1.4rem;
+  font-weight: 600;
+}
+
+.cd-scan__participant-workshop {
+  font-size: 1.25rem;
+  font-weight: 500;
+}
+
+.cd-scan__participant-status {
+}
+
+.cd-scan__buttons {
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+  justify-content: center;
+}

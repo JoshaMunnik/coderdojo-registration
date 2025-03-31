@@ -34,6 +34,9 @@ foreach ($eventWorkshops as $eventWorkshop) {
   __('Checkins'), [ParticipantsController::MANAGE_CHECKIN, $event->id]
 ) ?>
 <?= $this->Styling->linkButton(
+  __('Scanner'), [ParticipantsController::SCAN, $event->id]
+) ?>
+<?= $this->Styling->linkButton(
   __('Download'), [ParticipantsController::DOWNLOAD, $event->id]
 ) ?>
 <?= $this->Styling->linkButton(
