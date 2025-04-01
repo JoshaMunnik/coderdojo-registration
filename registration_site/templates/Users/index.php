@@ -95,6 +95,10 @@ foreach ($tabs as $administrator => $label) {
             ButtonIconEnum::EDIT,
             [UsersController::EDIT, $user->id]
           ),
+          $this->Styling->tableLinkIconButton(
+            ButtonIconEnum::QR_CODE,
+            [UsersController::QR_CODE, $user->id]
+          ),
           $this->Styling->tableIconButton(
             ButtonIconEnum::REMOVE,
             ButtonColorEnum::DANGER,
