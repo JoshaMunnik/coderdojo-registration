@@ -16,13 +16,16 @@ available in the workshop for the participant, the system will send a notificati
 the user.
 
 If there was a second backup workshop selected, the system will remove that workshop and again 
-check all other participants for that workshop.
+check all other participants on the waiting list for that workshop.
 
 Administrator users can also access the back office. The back office offers pages to manage 
 workshops, events and users. For events there is a page to check in participants. An administrator
 can anonymize finished events: the name of participants is cleared and the reference to the user
 is removed. The site also tracks the absence of participants with the users that registered them.
 The absent information is updated when an event is anonymized.
+
+There is a checkin page to help with the checkin of participants. There is also a QR scanner
+to scan the users to get all participants for that user.
 
 The project is setup so that it can be installed on a server next to an existing website.
 
@@ -50,11 +53,12 @@ The project is setup so that it can be installed on a server next to an existing
 ## Technologies
 
 The project uses the following technologies:
-1. [CakePhp 5.x](https://cakephp.org/)
-2. [Fontawesome 6.x (free version)](https://fontawesome.com/)
-3. [Ultra Force Html helper](https://github.com/JoshaMunnik/uf-html-helpers/)
-4. [Tinymce 5.x](https://www.tiny.cloud/)
-5. [QR-scanner](https://github.com/nimiq/qr-scanner)
+- [CakePhp 5.x](https://cakephp.org/)
+- [chillerlan/php-qrcode](https://github.com/chillerlan/php-qrcode)
+- [Fontawesome 6.x (free version)](https://fontawesome.com/)
+- [Ultra Force Html helper](https://github.com/JoshaMunnik/uf-html-helpers/)
+- [Tinymce 5.x](https://www.tiny.cloud/)
+- [QR-scanner](https://github.com/nimiq/qr-scanner)
 
 The project uses local copies of the libraries.
 
