@@ -49,13 +49,13 @@ foreach ($eventWorkshops as $eventWorkshop) {
 else {
   echo $this->Styling->beginSortedTable(HtmlStorageKey::EVENT_PARTICIPANTS_TABLE, true);
   echo $this->Styling->sortedTableHeader([
-    __('Participant name') => CellDataTypeEnum::TEXT,
-    __('User email') => CellDataTypeEnum::TEXT,
-    __('User name') => CellDataTypeEnum::TEXT,
-    __('Workshop') => CellDataTypeEnum::TEXT,
-    __('Backup workshop') => CellDataTypeEnum::TEXT,
-    __('Laptop') => CellDataTypeEnum::TEXT,
-    __('Participated') => CellDataTypeEnum::TEXT,
+    [__('Participant name'), CellDataTypeEnum::TEXT],
+    [__('User email'), CellDataTypeEnum::TEXT],
+    [__('User name'), CellDataTypeEnum::TEXT],
+    [__('Workshop'), CellDataTypeEnum::TEXT],
+    [__('Backup workshop'), CellDataTypeEnum::TEXT],
+    [__('Laptop'), CellDataTypeEnum::TEXT],
+    [__('Participated'), CellDataTypeEnum::TEXT],
     null,
   ]);
   foreach ($participants as $participant) {
@@ -97,10 +97,10 @@ else {
         $participant->name,
         $participant->user?->email ?? '-',
         $participant->user?->name ?? '-',
-        [$workshop1 => ContentPositionEnum::CENTER],
-        [$workshop2 => ContentPositionEnum::CENTER],
-        [$this->Styling->checkedCheckbox($participant->has_laptop) => ContentPositionEnum::CENTER],
-        [$finished => ContentPositionEnum::CENTER],
+        [$workshop1, ContentPositionEnum::CENTER],
+        [$workshop2, ContentPositionEnum::CENTER],
+        [$this->Styling->checkedCheckbox($participant->has_laptop), ContentPositionEnum::CENTER],
+        [$finished, ContentPositionEnum::CENTER],
       ],
       [
         $this->Styling->tableIconButton(

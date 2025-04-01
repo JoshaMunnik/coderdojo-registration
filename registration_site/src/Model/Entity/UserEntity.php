@@ -10,6 +10,10 @@ use App\Model\View\EditProfileViewModel;
 use Authentication\PasswordHasher\DefaultPasswordHasher;
 use Cake\I18n\I18n;
 use Cake\ORM\Entity;
+use chillerlan\QRCode\Common\EccLevel;
+use chillerlan\QRCode\Output\QROutputInterface;
+use chillerlan\QRCode\QRCode;
+use chillerlan\QRCode\QROptions;
 use DateTime;
 use Random\RandomException;
 
@@ -47,6 +51,15 @@ class UserEntity extends Entity implements IEntityWithId, IEntityWithTimestamp
   public const LANGUAGE = 'language_id';
   public const DISABLE_EMAIL = 'disable_email';
   public const PUBLIC_ID = 'public_id';
+
+  #endregion
+
+  #region private variables
+
+  /**
+   * Cached QRCode instance.
+   */
+  private QRCode $m_qrcode;
 
   #endregion
 
@@ -124,6 +137,25 @@ class UserEntity extends Entity implements IEntityWithId, IEntityWithTimestamp
     $this->password_reset_token = bin2hex(random_bytes(16));
     $this->password_reset_date = new DateTime();
   }
+
+  /**
+   * Gets a base64 encoded QR code image for the user.
+   *
+   * @return string
+   */
+  public function getQRCodeImage(): string
+  {
+    if (!isset($this->m_qrcode)) {
+      $options = new QROptions([
+        'version'    => 2,
+        'outputType' => QROutputInterface::GDIMAGE_PNG, //QRCode::OUTPUT_IMAGE_PNG,
+        'eccLevel'   => EccLevel::H,
+      ]);
+      $this->m_qrcode = new QRCode($options);
+    }
+    return $this->m_qrcode->render($this->public_id);
+  }
+
 
   #endregion
 

@@ -29,6 +29,7 @@ class UsersController extends AdministratorControllerBase
   public const DOWNLOAD = [self::class, 'download'];
   public const ABSENT_USERS = [self::class, 'absent-users'];
   public const REMOVE_ABSENT_USER = [self::class, 'remove-absent-user'];
+  public const QR_CODE = [self::class, 'qr-code'];
 
   #endregion
 
@@ -134,6 +135,20 @@ class UsersController extends AdministratorControllerBase
     $absentUsers = Tables::absentUsers()->getAllForUserWithEvent($user);
     $this->set('user', $user);
     $this->set('absentUsers', $absentUsers);
+    return null;
+  }
+
+  /**
+   * Shows the qr code for the user.
+   *
+   * @param $id
+   *
+   * @return Response|null
+   */
+  public function qrCode($id): ?Response
+  {
+    $user = Tables::users()->getForId($id);
+    $this->set('user', $user);
     return null;
   }
 

@@ -25,42 +25,46 @@ const CHANGE_PASSWORD = 'change-password';
 <?= $this->Styling->title(__('Home for administrator')) ?>
 <?= $this->element('messages') ?>
 <?= $this->Styling->beginPageButtons() ?>
-  <?= $this->Styling->linkButton(
-    __('Workshops'),
-    $this->url([WorkshopsController::INDEX])
-  ) ?>
-  <?= $this->Styling->linkButton(
-    __('Events'),
-    $this->url([EventsController::INDEX])
-  ) ?>
-  <?= $this->Styling->linkButton(
-    __('Users'),
-    $this->url([UsersController::INDEX])
-  ) ?>
-  <?= $this->Styling->linkButton(
-    __('Clear caches'),
-    $this->url([AdministratorController::CLEAR_CACHE])
-  ) ?>
-  <?= $this->Styling->button(
-    __('Edit profile'),
-    ButtonColorEnum::PRIMARY,
-    [
-      HtmlAction::SHOW_DIALOG => '#'.EDIT_PROFILE,
-    ],
-  ) ?>
-  <?= $this->Styling->button(
-    __('Change password'),
-    ButtonColorEnum::PRIMARY,
-    [
-      HtmlAction::SHOW_DIALOG => '#'.CHANGE_PASSWORD,
-    ],
-  ) ?>
-  <?= $this->Styling->linkButton(__('Logout'), AccountController::LOGOUT) ?>
-  <?= $this->Styling->linkButton(
-    __('Participant page'),
-    UserController::INDEX,
-    ButtonColorEnum::SECONDARY
-  ) ?>
+<?= $this->Styling->linkButton(
+  __('Workshops'),
+  $this->url([WorkshopsController::INDEX]),
+  ButtonColorEnum::PRIMARY,
+  true,
+) ?>
+<?= $this->Styling->linkButton(
+  __('Events'),
+  $this->url([EventsController::INDEX])
+) ?>
+<?= $this->Styling->linkButton(
+  __('Users'),
+  $this->url([UsersController::INDEX]),
+  ButtonColorEnum::PRIMARY,
+  true,
+) ?>
+<?= $this->Styling->linkButton(
+  __('Clear caches'),
+  $this->url([AdministratorController::CLEAR_CACHE])
+) ?>
+<?= $this->Styling->button(
+  __('Edit profile'),
+  ButtonColorEnum::PRIMARY,
+  [
+    HtmlAction::SHOW_DIALOG => '#'.EDIT_PROFILE,
+  ],
+) ?>
+<?= $this->Styling->button(
+  __('Change password'),
+  ButtonColorEnum::PRIMARY,
+  [
+    HtmlAction::SHOW_DIALOG => '#'.CHANGE_PASSWORD,
+  ],
+) ?>
+<?= $this->Styling->linkButton(__('Logout'), AccountController::LOGOUT) ?>
+<?= $this->Styling->linkButton(
+  __('Participant page'),
+  UserController::INDEX,
+  ButtonColorEnum::SECONDARY,
+) ?>
 <?= $this->Styling->endPageButtons() ?>
 <?= $this->element(
   'dialog/edit_profile', ['data' => $editProfileData, 'id' => EDIT_PROFILE]

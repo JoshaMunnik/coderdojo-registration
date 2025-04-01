@@ -58,11 +58,11 @@ const REMOVE = 'remove';
 else {
   echo $this->Styling->beginSortedTable(HtmlStorageKey::EVENT_WORKSHOPS_TABLE);
   echo $this->Styling->sortedTableHeader([
-    __('Workshop') => CellDataTypeEnum::TEXT,
-    __('Places') => CellDataTypeEnum::NUMBER,
-    __('Participants') => CellDataTypeEnum::NUMBER,
-    __('Waiting') => CellDataTypeEnum::NUMBER,
-    __('Laptops needed') => CellDataTypeEnum::NUMBER,
+    [__('Workshop'), CellDataTypeEnum::TEXT],
+    [__('Places'), CellDataTypeEnum::NUMBER],
+    [__('Participants'), CellDataTypeEnum::NUMBER],
+    [__('Waiting'), CellDataTypeEnum::NUMBER],
+    [__('Laptops needed'), CellDataTypeEnum::NUMBER],
     null,
   ]);
   foreach ($eventWorkshops as $eventWorkshop) {
@@ -74,13 +74,14 @@ else {
       ]
       : [];
     $participantCount = Tables::participants()->getCountForWorkshop($eventWorkshop);
-    echo $this->Styling->sortedTableRow([
-      $eventWorkshop->getName(),
-      [$eventWorkshop->place_count => ContentPositionEnum::END],
-      [min($participantCount, $eventWorkshop->place_count) => ContentPositionEnum::END],
-      [max(0, $participantCount - $eventWorkshop->place_count) => ContentPositionEnum::END],
-      [$eventWorkshop->getLaptopsNeededCount() => ContentPositionEnum::END],
-    ],
+    echo $this->Styling->sortedTableRow(
+      [
+        $eventWorkshop->getName(),
+        [$eventWorkshop->place_count, ContentPositionEnum::END],
+        [min($participantCount, $eventWorkshop->place_count), ContentPositionEnum::END],
+        [max(0, $participantCount - $eventWorkshop->place_count), ContentPositionEnum::END],
+        [$eventWorkshop->getLaptopsNeededCount(), ContentPositionEnum::END],
+      ],
       [
         $this->Styling->tableIconButton(
           ButtonIconEnum::EDIT,

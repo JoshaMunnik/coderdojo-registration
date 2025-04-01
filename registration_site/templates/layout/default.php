@@ -18,7 +18,7 @@ $baseUrl = dirname($_SERVER['SCRIPT_NAME']) . '/';
   <head>
     <?= $this->Html->charset() ?>
     <base href="<?= htmlspecialchars($baseUrl, ENT_QUOTES, 'UTF-8') ?>">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <title>
       <?= __('{0} Signup', Configure::read('Custom.eventName')) ?> | <?= $this->fetch('title') ?>
     </title>

@@ -34,7 +34,7 @@ const REMOVE_DIALOG = 'remove';
 else {
   echo $this->Styling->beginSortedTable(HtmlStorageKey::ABSENT_PARTICIPANTS_TABLE);
   echo $this->Styling->sortedTableHeader([
-    __('Event') => CellDataTypeEnum::DATE,
+    [__('Event'), CellDataTypeEnum::DATE],
     null,
   ]);
   foreach ($absentUsers as $absentUser) {

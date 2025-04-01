@@ -34,7 +34,7 @@ use App\View\ApplicationView;
 else {
   echo $this->Styling->beginSortedTable(HtmlStorageKey::WORKSHOPS_TABLE);
   echo $this->Styling->sortedTableHeader([
-    __('Name') => CellDataTypeEnum::TEXT,
+    [__('Name') => CellDataTypeEnum::TEXT],
     null,
   ]);
   foreach ($workshops as $workshop) {

@@ -178,6 +178,24 @@ Dialog
   justify-content: center;
 }
 
+@media (max-width: 767px) {
+  .cd-dialog__container {
+    max-width: calc(100% - 0.5rem);
+    margin: 0.25rem;
+    width: unset;
+  }
+
+  .cd-dialog__layout {
+    gap: 1rem;
+  }
+
+  .cd-dialog__buttons {
+    gap: 2rem;
+  }
+}
+
+
+
 /**
 Text
  */
@@ -396,6 +414,13 @@ Forms
   gap: var(--cd-gap-form);
 }
 
+@media (max-width: 767px) {
+  .cd-form__container {
+    width: unset;
+    max-width: unset;
+  }
+}
+
 .cd-form__buttons {
   display: flex;
   gap: 1rem;
@@ -564,7 +589,7 @@ Table
 .cd-table__container {
   border-collapse: collapse;
   width: fit-content;
-  min-width: 500px;
+  min-width: 100%;
   border: none;
 }
 
@@ -978,7 +1003,7 @@ User participant grid
 .cd-scan__section {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 1.5rem;
 }
 
 .cd-scan__section--is-hidden {
@@ -1066,3 +1091,17 @@ User participant grid
   gap: 0.5rem;
   justify-content: center;
 }
+
+/**
+ * Utilities
+ */
+
+@media (max-width: 767px) {
+  .cd--hide-on-mobile {
+    display: none;
+    width: 0;
+    height: 0;
+  }
+}
+
+

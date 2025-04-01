@@ -16,4 +16,9 @@ enum CellStylingEnum
    * Style text as date.
    */
   case DATE;
+
+  /**
+   * Hide the cell on mobile.
+   */
+  case HIDE_ON_MOBILE;
 }

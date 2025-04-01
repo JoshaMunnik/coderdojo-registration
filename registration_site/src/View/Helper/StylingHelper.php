@@ -41,18 +41,22 @@ class StylingHelper extends Helper
    * @param string $title
    * @param string|array $url
    * @param ButtonColorEnum $color
+   * @param bool $hideOnMobile
    * @return string
    */
   public function linkButton(
     string $title,
     string|array $url,
-    ButtonColorEnum $color = ButtonColorEnum::PRIMARY
+    ButtonColorEnum $color = ButtonColorEnum::PRIMARY,
+    bool $hideOnMobile = false,
   ): string {
     return $this->Html->link(
       $title,
       UrlTool::Url($url),
       [
-        'class' => 'cd-button__normal '.$this->getButtonColorClass($color),
+        'class' => 'cd-button__normal '
+          .$this->getButtonColorClass($color)
+          .$this->getHideOnMobileCssClass($hideOnMobile),
         'escape' => false,
       ]
     );
@@ -79,18 +83,22 @@ class StylingHelper extends Helper
    * @param string $title
    * @param ButtonColorEnum $color
    * @param array $attributes
+   * @param bool $hideOnMobile
    * @return string
    */
   public function button(
     string $title,
     ButtonColorEnum $color = ButtonColorEnum::PRIMARY,
-    array $attributes = []
+    array $attributes = [],
+    bool $hideOnMobile = false,
   ): string {
     return $this->Html->tag(
       'button',
       $title,
       [
-        'class' => 'cd-button__normal '.$this->getButtonColorClass($color),
+        'class' => 'cd-button__normal '
+          .$this->getButtonColorClass($color)
+          .$this->getHideOnMobileCssClass($hideOnMobile),
         'type' => 'button',
         'escape' => false,
         ...$attributes
@@ -102,18 +110,22 @@ class StylingHelper extends Helper
    * @param ButtonIconEnum $icon
    * @param ButtonColorEnum $color
    * @param array $attributes
+   * @param bool $hideOnMobile
    * @return string
    */
   public function iconButton(
     ButtonIconEnum $icon,
     ButtonColorEnum $color = ButtonColorEnum::PRIMARY,
-    array $attributes = []
+    array $attributes = [],
+    bool $hideOnMobile = false,
   ): string {
     return $this->Html->tag(
       'button',
       $this->getButtonIconHtml($icon),
       [
-        'class' => 'cd-button__normal cd-button__normal--is-icon '.$this->getButtonColorClass($color),
+        'class' => 'cd-button__normal cd-button__normal--is-icon '
+          .$this->getButtonColorClass($color)
+          .$this->getHideOnMobileCssClass($hideOnMobile),
         'type' => 'button',
         'escape' => false,
         ...$attributes
@@ -125,18 +137,22 @@ class StylingHelper extends Helper
    * @param string $title
    * @param ButtonColorEnum $color
    * @param array $attributes
+   * @param bool $hideOnMobile
    * @return string
    */
   public function bigButton(
     string $title,
     ButtonColorEnum $color = ButtonColorEnum::PRIMARY,
-    array $attributes = []
+    array $attributes = [],
+    bool $hideOnMobile = false,
   ): string {
     return $this->Html->tag(
       'button',
       $title,
       [
-        'class' => 'cd-button__normal cd-button__normal--is-big '.$this->getButtonColorClass($color),
+        'class' => 'cd-button__normal cd-button__normal--is-big '
+          .$this->getButtonColorClass($color)
+          .$this->getHideOnMobileCssClass($hideOnMobile),
         'type' => 'button',
         'escape' => false,
         ...$attributes
@@ -148,18 +164,22 @@ class StylingHelper extends Helper
    * @param ButtonIconEnum $icon
    * @param ButtonColorEnum $color
    * @param array $attributes
+   * @param bool $hideOnMobile
    * @return string
    */
   public function bigIconButton(
     ButtonIconEnum $icon,
     ButtonColorEnum $color = ButtonColorEnum::PRIMARY,
-    array $attributes = []
+    array $attributes = [],
+    bool $hideOnMobile = false,
   ): string {
     return $this->Html->tag(
       'button',
       $this->getButtonIconHtml($icon),
       [
-        'class' => 'cd-button__normal cd-button__normal--is-big cd-button__normal--is-icon '.$this->getButtonColorClass($color),
+        'class' => 'cd-button__normal cd-button__normal--is-big cd-button__normal--is-icon '
+          .$this->getButtonColorClass($color)
+          .$this->getHideOnMobileCssClass($hideOnMobile),
         'type' => 'button',
         'escape' => false,
         ...$attributes
@@ -170,17 +190,21 @@ class StylingHelper extends Helper
   /**
    * @param string $title
    * @param ButtonColorEnum $color
+   * @param bool $hideOnMobile
    * @return string
    */
   public function staticButton(
     string $title,
     ButtonColorEnum $color = ButtonColorEnum::DISABLED,
+    bool $hideOnMobile = false,
   ): string {
     return $this->Html->tag(
       'div',
       $title,
       [
-        'class' => 'cd-button__normal '.$this->getButtonColorClass($color),
+        'class' => 'cd-button__normal '
+          .$this->getButtonColorClass($color)
+          .$this->getHideOnMobileCssClass($hideOnMobile),
         'escape' => false,
       ]
     );
@@ -189,17 +213,20 @@ class StylingHelper extends Helper
   /**
    * @param string $title
    * @param array $attributes
+   * @param bool $hideOnMobile
    * @return string
    */
   public function textButton(
     string $title,
-    array $attributes = []
+    array $attributes = [],
+    bool $hideOnMobile = false,
   ): string {
     return $this->Html->tag(
       'button',
       $title,
       [
-        'class' => 'cd-button__link',
+        'class' => 'cd-button__link'
+          .$this->getHideOnMobileCssClass($hideOnMobile),
         'type' => 'button',
         ...$attributes
       ]
@@ -262,18 +289,22 @@ class StylingHelper extends Helper
    * @param string $title
    * @param ButtonColorEnum $color
    * @param array $attributes
+   * @param bool $hideOnMobile
    * @return string
    */
   public function tableButton(
     string $title,
     ButtonColorEnum $color = ButtonColorEnum::PRIMARY,
-    array $attributes = []
+    array $attributes = [],
+    bool $hideOnMobile = false,
   ): string {
     return $this->Html->tag(
       'button',
       $title,
       [
-        'class' => 'cd-button__normal cd-button__normal--is-table '.$this->getButtonColorClass($color),
+        'class' => 'cd-button__normal cd-button__normal--is-table '
+          .$this->getButtonColorClass($color)
+          .$this->getHideOnMobileCssClass($hideOnMobile),
         'type' => 'button',
         'escape' => false,
         ...$attributes
@@ -285,18 +316,22 @@ class StylingHelper extends Helper
    * @param string $title
    * @param ButtonColorEnum $color
    * @param array $attributes
+   * @param bool $hideOnMobile
    * @return string
    */
   public function tableStaticButton(
     string $title,
     ButtonColorEnum $color = ButtonColorEnum::DISABLED,
-    array $attributes = []
+    array $attributes = [],
+    bool $hideOnMobile = false,
   ): string {
     return $this->Html->tag(
       'div',
       $title,
       [
-        'class' => 'cd-button__normal cd-button__normal--is-table '.$this->getButtonColorClass($color),
+        'class' => 'cd-button__normal cd-button__normal--is-table '
+          .$this->getButtonColorClass($color)
+          .$this->getHideOnMobileCssClass($hideOnMobile),
         'escape' => false,
         ...$attributes
       ]
@@ -307,19 +342,50 @@ class StylingHelper extends Helper
    * @param string $title
    * @param string|array $url
    * @param ButtonColorEnum $color
+   * @param bool $hideOnMobile
    * @return string
    */
   public function tableLinkButton(
     string $title,
     string|array $url,
-    ButtonColorEnum $color = ButtonColorEnum::PRIMARY
+    ButtonColorEnum $color = ButtonColorEnum::PRIMARY,
+    bool $hideOnMobile = false,
   ): string {
     return $this->Html->link(
       $title,
       UrlTool::Url($url),
       [
-        'class' => 'cd-button__normal cd-button__normal--is-table '.$this->getButtonColorClass($color),
+        'class' => 'cd-button__normal cd-button__normal--is-table '
+          .$this->getButtonColorClass($color)
+          .$this->getHideOnMobileCssClass($hideOnMobile),
         'escape' => false,
+      ]
+    );
+  }
+
+  /**
+   * @param ButtonIconEnum $icon
+   * @param ButtonColorEnum $color
+   * @param array $attributes
+   * @param bool $hideOnMobile
+   * @return string
+   */
+  public function tableIconButton(
+    ButtonIconEnum $icon,
+    ButtonColorEnum $color = ButtonColorEnum::PRIMARY,
+    array $attributes = [],
+    bool $hideOnMobile = false,
+  ): string {
+    return $this->Html->tag(
+      'button',
+      $this->GetButtonIconHtml($icon),
+      [
+        'class' => 'cd-button__normal cd-button__normal--is-icon cd-button__normal--is-table '
+          .$this->getButtonColorClass($color)
+          .$this->getHideOnMobileCssClass($hideOnMobile),
+        'type' => 'button',
+        'escape' => false,
+        ...$attributes
       ]
     );
   }
@@ -330,17 +396,19 @@ class StylingHelper extends Helper
    * @param array $attributes
    * @return string
    */
-  public function tableIconButton(
+  public function tableStaticIconButton(
     ButtonIconEnum $icon,
-    ButtonColorEnum $color = ButtonColorEnum::PRIMARY,
-    array $attributes = []
+    ButtonColorEnum $color = ButtonColorEnum::DISABLED,
+    array $attributes = [],
+    bool $hideOnMobile = false,
   ): string {
     return $this->Html->tag(
-      'button',
+      'div',
       $this->GetButtonIconHtml($icon),
       [
-        'class' => 'cd-button__normal cd-button__normal--is-icon cd-button__normal--is-table '.$this->getButtonColorClass($color),
-        'type' => 'button',
+        'class' => 'cd-button__normal cd-button__normal--is-icon cd-button__normal--is-table '
+          .$this->getButtonColorClass($color)
+          .$this->getHideOnMobileCssClass($hideOnMobile),
         'escape' => false,
         ...$attributes
       ]
@@ -351,18 +419,23 @@ class StylingHelper extends Helper
    * @param ButtonIconEnum $icon
    * @param string|array $url
    * @param ButtonColorEnum $color
+   * @param bool $hideOnMobile
+   *
    * @return string
    */
   public function tableLinkIconButton(
     ButtonIconEnum $icon,
     string|array $url,
-    ButtonColorEnum $color = ButtonColorEnum::PRIMARY
+    ButtonColorEnum $color = ButtonColorEnum::PRIMARY,
+    bool $hideOnMobile = false,
   ): string {
     return $this->Html->link(
       $this->GetButtonIconHtml($icon),
       UrlTool::Url($url),
       [
-        'class' => 'cd-button__normal cd-button__normal--is-icon cd-button__normal--is-table '.$this->getButtonColorClass($color),
+        'class' => 'cd-button__normal cd-button__normal--is-icon cd-button__normal--is-table '
+          .$this->getButtonColorClass($color)
+          .$this->getHideOnMobileCssClass($hideOnMobile),
         'escape' => false,
       ]
     );
@@ -750,9 +823,11 @@ class StylingHelper extends Helper
   /**
    * Creates a table header row with cell elements containing sorting buttons.
    *
-   * Each entry in a column is a key and value pair. The key is the column name and the value
-   * is either a {@link CellDataTypeEnum} or a {@link CellStylingEnum} or an array containing a
-   * combination of those values.
+   * Each entry in the array is either a null, string or an array. If it is a string, it is used
+   * as the header text.
+   *
+   * If it is an array, the values are processed. The first value that is not an
+   * instance of {@link CellDataTypeEnum} or {@link CellStylingEnum} is used as the header text.
    *
    * If the value is a null value, the header is rendered as actions column that can not be sorted
    * upon.
@@ -764,7 +839,7 @@ class StylingHelper extends Helper
   public function sortedTableHeader(array $columns): string
   {
     $html = '<tr class="cd-table__row cd-table__row--is-header" data-uf-header-row>';
-    foreach ($columns as $key => $value) {
+    foreach ($columns as $value) {
       if ($value == null) {
         $html .= '<th class="cd-table__cell cd-table__cell--is-header cd-table__cell--is-tight">
           &nbsp;
@@ -777,8 +852,9 @@ class StylingHelper extends Helper
         }
         $sortType = $this->getCellSortType($value);
         $classes = $this->getCellStylingClasses($value);
+        $text = $this->getCellText($value);
         $html .= '<th class="cd-table__cell cd-table__cell--is-header '.$classes.'" '.$sortType.'>';
-        $html .= '<button class="cd-button__table-header">'.$key.'</button>';
+        $html .= '<button class="cd-button__table-header">'.$text.'</button>';
         $html .= '</th>';
       }
     }
@@ -787,19 +863,16 @@ class StylingHelper extends Helper
   }
 
   /**
-   * The columns either contains a value entry or key and value pair. With a key and value pair,
-   * the value contains the position and attributes and the key the content.
-   * Else the value is the content.
+   * Each entry in the columns is either contains a value or an array. If it is a value, it is used
+   * as the content of the cell.
    *
-   * If the content is not unique, wrap it in an array with one element. The element inside can
-   * again be a content value or a key and value pair where the key is the content and the value
-   * a position and attributes.
+   * If it is array, the array gets processed. The first value that is not an instance of
+   * {@link CellDataTypeEnum} or {@link CellStylingEnum} or {@link ContentPositionEnum} is used as
+   * the content of the cell. If the value is an instance of {@link DateTimeInterface} it is
+   * formatted as 'Y-m-d H:i'.
    *
-   * The position and attributes is either a single value which should be a value of the type
-   * {@link ContentPositionEnum} or an array with the position and additional attributes added
-   * to the cell tag.
-   *
-   * If the content is a {@link DateTimeInterface} the date is formatted as 'Y-m-d H:i'.
+   * To specify custom attributes for the cell, add a key and value pair to the array. The key is
+   * the attribute name and the value its value.
    *
    * @param array $columns See comment.
    * @param array $buttons When not empty, add a table column with buttons.
@@ -814,13 +887,18 @@ class StylingHelper extends Helper
   ): string {
     $activeRow = $isActive ? ' cd-table__row--is-active' : '';
     $html = '<tr class="cd-table__row cd-table__row--is-data'.$activeRow.'">';
-    foreach ($columns as $key => $value) {
-      list($key, $value) = $this->checkTableCellEntry($key, $value);
-      list($position, $attributes) = $this->checkTableCellValue($value);
-      $cssClasses = 'cd-table__cell cd-table__cell--is-data';
-      $cssClasses .= $this->getCellStylingClasses(is_array($value) ? $value : [$value]);
-      if ($key instanceof DateTimeInterface) {
+    foreach ($columns as $value) {
+      if (!is_array($value)) {
+        $value = [$value];
+      }
+      $position = $this->getCellPosition($value);
+      $cssClasses = 'cd-table__cell cd-table__cell--is-data'.$this->getCellStylingClasses($value);
+      $attributes = $this->getAttributes($value);
+      $cellValue = $this->getCellValue($value);
+      $cellText = $this->getCellText($value);
+      if ($cellValue instanceof DateTimeInterface) {
         $cssClasses .= ' cd-table__cell--is-date';
+        $cellText = str_replace(' ', '&nbsp;', $cellText);
       }
       if ($isActive) {
         $cssClasses .= ' cd-table__cell--is-active';
@@ -831,14 +909,7 @@ class StylingHelper extends Helper
         default => '',
       };
       $attributes = ' '.$this->Html->templater()->formatAttributes($attributes);
-      $html .= '<td class="'.$cssClasses.'"'.$attributes.'>';
-      if ($key instanceof DateTimeInterface) {
-        $html .= str_replace(' ', '&nbsp;', $key->format('Y-m-d H:i'));
-      }
-      else {
-        $html .= $key;
-      }
-      $html .= '</td>';
+      $html .= '<td class="'.$cssClasses.'"'.$attributes.'>'.$cellText.'</td>';
     }
     if (!empty($buttons)) {
       $html .= '<td class="cd-table__cell cd-table__cell--is-data">';
@@ -888,7 +959,8 @@ class StylingHelper extends Helper
   /**
    * @return string
    */
-  public function beginTabsContainer(): string {
+  public function beginTabsContainer(): string
+  {
     $this->m_tabId = uniqid('cd-tabs__container-');
     return '<div class="cd-tabs__container">';
   }
@@ -896,7 +968,8 @@ class StylingHelper extends Helper
   /**
    * @return string
    */
-  public function endTabsContainer(): string {
+  public function endTabsContainer(): string
+  {
     return '</div>';
   }
 
@@ -907,7 +980,8 @@ class StylingHelper extends Helper
    * @param bool $selected
    * @return string
    */
-  public function beginTab(string $title, bool $selected = false): string {
+  public function beginTab(string $title, bool $selected = false): string
+  {
     $id = uniqid('cd-tabs__tab-');
     $html = '<input type="radio" id="'.$id.'" name="'.$this->m_tabId.'" class="cd-tabs__tab-radio" '
       .($selected ? ' checked' : '')
@@ -920,7 +994,8 @@ class StylingHelper extends Helper
   /**
    * @return string
    */
-  public function endTab(): string {
+  public function endTab(): string
+  {
     return '</div>';
   }
 
@@ -956,6 +1031,7 @@ class StylingHelper extends Helper
       ButtonIconEnum::REMOVE => '<i class="fas fa-trash-can"></i>',
       ButtonIconEnum::PARTICIPANTS => '<i class="fas fa-users"></i>',
       ButtonIconEnum::WORKSHOP => '<i class="fas fa-computer"></i>',
+      ButtonIconEnum::QR_CODE => '<i class="fas fa-qrcode"></i>',
       default => '',
     };
   }
@@ -967,7 +1043,11 @@ class StylingHelper extends Helper
    */
   private function checkContentPosition(int|string $key, mixed $value): array
   {
-    if (is_int($key) && !($value instanceof ContentPositionEnum)) {
+    if (
+      is_int($key) &&
+      !($value instanceof ContentPositionEnum) &&
+      !($value instanceof CellStylingEnum)
+    ) {
       $key = $value;
       $value = ContentPositionEnum::START;
     }
@@ -998,13 +1078,26 @@ class StylingHelper extends Helper
   private function checkTableCellValue(mixed $cellValue): array
   {
     if (!is_array($cellValue)) {
-      return array($cellValue, []);
+      if ($cellValue instanceof ContentPositionEnum) {
+        return array($cellValue, []);
+      }
+      else {
+        if ($cellValue instanceof CellStylingEnum) {
+          return array(ContentPositionEnum::START, []);
+        }
+        else {
+          return array(ContentPositionEnum::START, [$cellValue]);
+        }
+      }
     }
     $attributes = [];
     $position = ContentPositionEnum::START;
     foreach ($cellValue as $key => $value) {
       if ($value instanceof ContentPositionEnum) {
         $position = $value;
+      }
+      elseif ($value instanceof CellStylingEnum) {
+        continue;
       }
       else {
         $attributes[$key] = $value;
@@ -1051,11 +1144,111 @@ class StylingHelper extends Helper
         $result .= match ($cellValue) {
           CellStylingEnum::TIGHT => ' cd-table__cell--is-tight',
           CellStylingEnum::DATE => ' cd-table__cell--is-date',
+          CellStylingEnum::HIDE_ON_MOBILE => ' cd--hide-on-mobile',
           default => '',
         };
       }
     }
     return $result;
+  }
+
+  /**
+   * Processes the values in an array and returns the first value that is not an instance of
+   * {@link CellDataTypeEnum} or {@link CellStylingEnum} or {@link ContentPositionEnum}.
+   *
+   * If the value is a {@link DateTimeInterface} the date is formatted as 'Y-m-d H:i' else the
+   * value is returned as is.
+   *
+   * @param array $values
+   *
+   * @return string
+   */
+  private function getCellText(array $values): string
+  {
+    foreach ($values as $value) {
+      if ($value instanceof CellDataTypeEnum) {
+        continue;
+      }
+      if ($value instanceof CellStylingEnum) {
+        continue;
+      }
+      if ($value instanceof ContentPositionEnum) {
+        continue;
+      }
+      if ($value instanceof DateTimeInterface) {
+        return $value->format('Y-m-d H:i');
+      }
+      return $value;
+    }
+    return '';
+  }
+
+  /**
+   * Processes the values in an array and returns the first value that is not an instance of
+   * {@link CellDataTypeEnum} or {@link CellStylingEnum} or {@link ContentPositionEnum}.
+   *
+   * @param array $values
+   *
+   * @return mixed
+   */
+  private function getCellValue(array $values): mixed
+  {
+    foreach ($values as $value) {
+      if ($value instanceof CellDataTypeEnum) {
+        continue;
+      }
+      if ($value instanceof CellStylingEnum) {
+        continue;
+      }
+      if ($value instanceof ContentPositionEnum) {
+        continue;
+      }
+      return $value;
+    }
+    return null;
+  }
+
+  /**
+   * Gets the first value that is an instance of {@link ContentPositionEnum}.
+   *
+   * @param array $values
+   *
+   * @return ContentPositionEnum Found value or {@link ContentPositionEnum::START} if none is found.
+   */
+  private function getCellPosition(array $values): ContentPositionEnum
+  {
+    foreach ($values as $value) {
+      if ($value instanceof ContentPositionEnum) {
+        return $value;
+      }
+    }
+    return ContentPositionEnum::START;
+  }
+
+  /**
+   * Returns all entries that use string keys.
+   *
+   * @param array $values
+   *
+   * @return array
+   */
+  private function getAttributes(array $values): array
+  {
+    return array_filter($values, function ($key) {
+      return is_string($key);
+    }, ARRAY_FILTER_USE_KEY);
+  }
+
+  /**
+   * Returns the css class for the hide on mobile state.
+   *
+   * @param bool $hideOnMobile
+   *
+   * @return string
+   */
+  private function getHideOnMobileCssClass(bool $hideOnMobile): string
+  {
+    return $hideOnMobile ? ' cd--hide-on-mobile' : '';
   }
 
   #endregion

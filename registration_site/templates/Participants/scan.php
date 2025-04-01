@@ -17,7 +17,7 @@ use App\View\ApplicationView;
  */
 
 $this->Html->scriptBlock(
-  'import {participantsManageCheckins} from "./js/participants-manage-checkins.js";'.
+  'import {participantsManageCheckins} from "./js/participants-manage-checkins.js?v2";'.
   'participantsManageCheckins.init("'
   .$this->Url->build($this->url([ParticipantsController::CHECKIN]))
   .'", "'
@@ -29,7 +29,7 @@ $this->Html->scriptBlock(
   ]
 );
 $this->Html->scriptBlock(
-  'import {participantsScan} from "./js/participants-scan.js";'.
+  'import {participantsScan} from "./js/participants-scan.js?v2";'.
   'participantsScan.init();',
   [
     'block' => 'scriptBottom',

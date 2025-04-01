@@ -50,14 +50,14 @@ foreach ($tabs as $administrator => $label) {
       $administrator ? HtmlStorageKey::ADMINISTRATORS_TABLE : HtmlStorageKey::USERS_TABLE, true
     );
     echo $this->Styling->sortedTableHeader([
-      __('Email') => CellDataTypeEnum::TEXT,
-      __('Name') => CellDataTypeEnum::TEXT,
-      __('Phone') => CellDataTypeEnum::TEXT,
-      __('Language') => [CellDataTypeEnum::TEXT, CellStylingEnum::TIGHT],
-      __('Created') => [CellDataTypeEnum::DATE, CellStylingEnum::TIGHT],
-      __('Last visit') => [CellDataTypeEnum::DATE, CellStylingEnum::TIGHT],
-      //__('Participants') => [CellDataTypeEnum::NUMBER, CellStylingEnum::TIGHT],
-      //__('Absents') => [CellDataTypeEnum::NUMBER, CellStylingEnum::TIGHT],
+      [__('Email'), CellDataTypeEnum::TEXT],
+      [__('Name'), CellDataTypeEnum::TEXT],
+      [__('Phone'), CellDataTypeEnum::TEXT],
+      [__('Language'), CellDataTypeEnum::TEXT, CellStylingEnum::TIGHT],
+      [__('Created'), CellDataTypeEnum::DATE, CellStylingEnum::TIGHT],
+      [__('Last visit'), CellDataTypeEnum::DATE, CellStylingEnum::TIGHT],
+      //[__('Participants'), CellDataTypeEnum::NUMBER, CellStylingEnum::TIGHT],
+      //[__('Absents'), CellDataTypeEnum::NUMBER, CellStylingEnum::TIGHT],
       null,
     ]);
     foreach ($filteredUsers as $user) {
@@ -68,9 +68,9 @@ foreach ($tabs as $administrator => $label) {
           $user->phone,
           Language::getName($user->language_id),
           $user->created,
-          [$user->last_visit_date?->format('Y-m-d') ?? '' => CellStylingEnum::DATE],
-          //[count($user->participants) => ContentPositionEnum::END],
-          //[count($user->absent_participants) => ContentPositionEnum::END],
+          [$user->last_visit_date?->format('Y-m-d') ?? '', CellStylingEnum::DATE],
+          //[count($user->participants), ContentPositionEnum::END],
+          //[count($user->absent_participants), ContentPositionEnum::END],
         ],
         [
           empty($user->participants) ?

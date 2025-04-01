@@ -58,7 +58,7 @@ class UserController extends ApplicationControllerBase
       ? Tables::participants()->getAllForUserAndEvent($this->user(), $event)
       : [];
     $eventWorkshops = $event != null
-      ? Tables::eventWorkshops()->getAllForEventWithParticipants($event)
+      ? Tables::eventWorkshops()->getAllForEvent($event)
       : [];
     $this->set('editProfileData', $this->processEditProfile(self::INDEX));
     $this->set('changePasswordData', $this->processChangePassword(self::INDEX));

@@ -34,12 +34,12 @@ const REMOVE_DIALOG = 'remove';
 else {
   echo $this->Styling->beginSortedTable(HtmlStorageKey::USER_PARTICIPANTS_TABLE, true);
   echo $this->Styling->sortedTableHeader([
-    __('Participant name') => CellDataTypeEnum::TEXT,
-    __('Event') => CellDataTypeEnum::DATE,
-    __('Workshop') => CellDataTypeEnum::TEXT,
-    __('Backup workshop') => CellDataTypeEnum::TEXT,
-    __('Laptop') => CellDataTypeEnum::TEXT,
-    __('Participated') => CellDataTypeEnum::TEXT,
+    [__('Participant name'), CellDataTypeEnum::TEXT],
+    [__('Event'), CellDataTypeEnum::DATE],
+    [__('Workshop'), CellDataTypeEnum::TEXT],
+    [__('Backup workshop'), CellDataTypeEnum::TEXT],
+    [__('Laptop'), CellDataTypeEnum::TEXT],
+    [__('Participated'), CellDataTypeEnum::TEXT],
     null,
   ]);
   foreach ($participants as $participant) {
@@ -87,10 +87,10 @@ else {
       [
         $participant->name,
         $participant->event->event_date,
-        [$workshop1 => ContentPositionEnum::CENTER],
-        [$workshop2 => ContentPositionEnum::CENTER],
-        [$this->Styling->checkedCheckbox($participant->has_laptop) => ContentPositionEnum::CENTER],
-        [$finished => ContentPositionEnum::CENTER],
+        [$workshop1, ContentPositionEnum::CENTER],
+        [$workshop2, ContentPositionEnum::CENTER],
+        [$this->Styling->checkedCheckbox($participant->has_laptop), ContentPositionEnum::CENTER],
+        [$finished, ContentPositionEnum::CENTER],
       ],
       [
         $this->Styling->tableIconButton(

@@ -12,7 +12,7 @@ import QrScanner from './qr-scanner.min.js';
 
 const MESSAGE_HIDE_CSS_CLASS = 'cd-scan__message--is-hidden';
 
-const USER_HIDE_CSS_CLASS = 'cd-scan__user--is-hidden';
+const USER_HIDE_CSS_CLASS = 'cd-scan__user-container--is-hidden';
 
 const SECTION_HIDE_CSS_CLASS = 'cd-scan__section--is-hidden';
 
@@ -90,11 +90,6 @@ class ParticipantsScan {
   #m_selectedUser= null;
 
   /**
-   * @type {string}
-   */
-  #m_lastScannedCode = '';
-
-  /**
    * @type {boolean}
    */
   #m_scanning = false;
@@ -116,6 +111,7 @@ class ParticipantsScan {
     await this.#setCameras();
     this.#m_nextButton.addEventListener('click', () => this.#handleNextClick());
     this.#m_webcamSelect.addEventListener('change', () => this.#handleWebcamChange());
+    this.#m_scanning = true;
   }
 
   // endregion
@@ -132,8 +128,8 @@ class ParticipantsScan {
       this.#m_webcamView,
       result => this.#handleScannerCode(result),
       {
-        /* your options or returnDetailedScanResult: true if you're not specifying any other options */
-        returnDetailedScanResult: true
+        returnDetailedScanResult: true,
+        highlightScanRegion: true,
       },
     );
     await this.#m_qrScanner.start();
@@ -262,10 +258,7 @@ class ParticipantsScan {
     }
     if (result.hasOwnProperty('data')) {
       const newScannedCode = result.data;
-      if (newScannedCode !== this.#m_lastScannedCode) {
-        this.#m_lastScannedCode = newScannedCode;
-        this.#processCode(newScannedCode);
-      }
+      this.#processCode(newScannedCode);
     }
   }
 

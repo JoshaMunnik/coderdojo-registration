@@ -28,7 +28,7 @@ const REMOVE_DIALOG = 'remove';
 const TABLE = 'participants-table';
 
 $this->Html->scriptBlock(
-  'import {participantsManageCheckins} from "./js/participants-manage-checkins.js";' .
+  'import {participantsManageCheckins} from "./js/participants-manage-checkins.js";'.
   'participantsManageCheckins.init("'
   .$this->Url->build($this->url([ParticipantsController::CHECKIN]))
   .'", "'
@@ -68,13 +68,13 @@ $this->Html->scriptBlock(
 else {
   echo $this->Styling->beginSortedTable(HtmlStorageKey::CHECKIN_TABLE, true);
   echo $this->Styling->sortedTableHeader([
-    __('Participant') => CellDataTypeEnum::TEXT,
-    __('Workshop') => CellDataTypeEnum::TEXT,
-    __('Leave') => CellDataTypeEnum::TEXT,
-    __('Language') => CellDataTypeEnum::TEXT,
-    __('User') => CellDataTypeEnum::TEXT,
-    __('Code') => CellDataTypeEnum::TEXT,
-    __('Checkin') => [CellDataTypeEnum::NUMBER, CellStylingEnum::TIGHT],
+    [__('Participant'), CellDataTypeEnum::TEXT],
+    [__('Workshop'), CellDataTypeEnum::TEXT],
+    [__('Leave'), CellDataTypeEnum::TEXT],
+    [__('Language'), CellDataTypeEnum::TEXT],
+    [__('User'), CellDataTypeEnum::TEXT],
+    [__('Code'), CellDataTypeEnum::TEXT],
+    [__('Checkin'), CellDataTypeEnum::NUMBER, CellStylingEnum::TIGHT],
     null,
   ]);
   foreach ($participants as $participant) {
@@ -99,23 +99,22 @@ else {
       [
         $participant->name,
         [
-          $workshop => [
-            ContentPositionEnum::CENTER,
-            'data-uf-sort-value' => $eventWorkshop->getName(),
-          ]
+          $workshop,
+          ContentPositionEnum::CENTER,
+          'data-uf-sort-value' => $eventWorkshop->getName(),
         ],
         [
-          $leave => ContentPositionEnum::CENTER,
+          $leave,
+          ContentPositionEnum::CENTER,
         ],
         $participant->user ? Language::getName($participant->user->language_id) : '',
         $participant->user?->name ?? '',
         $participant->user?->public_id ?? '',
         [
-          $toggleButton => [
-            ContentPositionEnum::END,
-            'data-uf-sort-value' => $participant->checkin_date ? 1 : 0,
-            'data-uf-sort-no-caching'
-          ]
+          $toggleButton,
+          ContentPositionEnum::END,
+          'data-uf-sort-value' => $participant->checkin_date ? 1 : 0,
+          'data-uf-sort-no-caching' => '',
         ],
       ],
       [

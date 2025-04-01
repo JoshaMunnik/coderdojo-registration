@@ -41,7 +41,7 @@ const ADD_WORKSHOP = 'add-workshop';
 const REMOVE_WORKSHOP = 'remove-workshop';
 
 $this->Html->scriptBlock(
-  'import {userIndex} from "./js/user-index.js";'.
+  'import {userIndex} from "./js/user-index.js?v3";'.
   'userIndex.init("'.ADD_WORKSHOP.'","'.$this->Url->build($this->url(UserController::WORKSHOPS)).'");',
   [
     'block' => 'scriptBottom',

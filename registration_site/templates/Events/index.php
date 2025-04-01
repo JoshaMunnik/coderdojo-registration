@@ -10,6 +10,7 @@ use App\Model\Data\EventWithCountsData;
 use App\Model\Enum\ButtonColorEnum;
 use App\Model\Enum\ButtonIconEnum;
 use App\Model\Enum\CellDataTypeEnum;
+use App\Model\Enum\CellStylingEnum;
 use App\Model\Enum\ContentPositionEnum;
 use App\Model\Value\ParticipantType;
 use App\Model\View\Events\EditEventViewModel;
@@ -41,7 +42,9 @@ const ANONYMIZE = 'anonymize';
     HtmlData::EVENT_DATE => '',
     HtmlData::SIGNUP_DATE => '',
     HtmlData::PARTICIPANT_TYPE => '',
-  ]) ?>
+  ],
+  true
+) ?>
 <?= $this->Styling->linkButton(
   __('Home'), AdministratorController::INDEX, ButtonColorEnum::SECONDARY
 ) ?>
@@ -52,24 +55,42 @@ const ANONYMIZE = 'anonymize';
 else {
   echo $this->Styling->beginSortedTable(HtmlStorageKey::EVENTS_TABLE);
   echo $this->Styling->sortedTableHeader([
-    __('Event date') => CellDataTypeEnum::DATE,
-    __('Signup date') => CellDataTypeEnum::DATE,
-    __('Audience') => CellDataTypeEnum::NUMBER,
-    __('Participants') => CellDataTypeEnum::NUMBER,
-    __('Workshops') => CellDataTypeEnum::NUMBER,
-    __('Places') => CellDataTypeEnum::NUMBER,
+    [__('Event date'), CellDataTypeEnum::DATE],
+    [__('Signup date'), CellDataTypeEnum::DATE, CellStylingEnum::HIDE_ON_MOBILE],
+    [__('Audience'), CellDataTypeEnum::NUMBER, CellStylingEnum::HIDE_ON_MOBILE],
+    [__('Participants'), CellDataTypeEnum::NUMBER, CellStylingEnum::HIDE_ON_MOBILE],
+    [__('Workshops'), CellDataTypeEnum::NUMBER, CellStylingEnum::HIDE_ON_MOBILE],
+    [__('Places'), CellDataTypeEnum::NUMBER, CellStylingEnum::HIDE_ON_MOBILE],
     null,
   ]);
   foreach ($events as $eventInfo) {
     echo $this->Styling->sortedTableRow(
       [
         $eventInfo->event->event_date,
-        $eventInfo->event->signup_date,
-        ParticipantType::getName($eventInfo->event->participant_type)
-        => ContentPositionEnum::CENTER,
-        $eventInfo->participatingCount.' / '.$eventInfo->waitingCount => ContentPositionEnum::END,
-        [$eventInfo->workshopsCount => ContentPositionEnum::END],
-        [$eventInfo->placesCount => ContentPositionEnum::END],
+        [
+          $eventInfo->event->signup_date,
+          CellStylingEnum::HIDE_ON_MOBILE
+        ],
+        [
+          ParticipantType::getName($eventInfo->event->participant_type),
+          ContentPositionEnum::CENTER,
+          CellStylingEnum::HIDE_ON_MOBILE
+        ],
+        [
+          $eventInfo->participatingCount.' / '.$eventInfo->waitingCount,
+          ContentPositionEnum::END,
+          CellStylingEnum::HIDE_ON_MOBILE
+        ],
+        [
+          $eventInfo->workshopsCount,
+          ContentPositionEnum::END,
+          CellStylingEnum::HIDE_ON_MOBILE
+        ],
+        [
+          $eventInfo->placesCount,
+          ContentPositionEnum::END,
+          CellStylingEnum::HIDE_ON_MOBILE
+        ],
       ],
       [
         $this->Styling->tableIconButton(
@@ -81,16 +102,27 @@ else {
             HtmlData::EVENT_DATE => $eventInfo->event->event_date->format('Y-m-d H:i'),
             HtmlData::SIGNUP_DATE => $eventInfo->event->signup_date->format('Y-m-d H:i'),
             HtmlData::PARTICIPANT_TYPE => $eventInfo->event->participant_type,
-          ]
+          ],
+          true,
         ),
         $this->Styling->tableLinkButton(
           __('Workshops'),
           [EventWorkshopsController::INDEX, $eventInfo->event->id],
+          ButtonColorEnum::PRIMARY,
+          true,
         ),
         $this->Styling->tableLinkIconButton(
           ButtonIconEnum::PARTICIPANTS,
           [ParticipantsController::INDEX, $eventInfo->event->id],
+          ButtonColorEnum::PRIMARY,
+          true,
         ),
+        $eventInfo->event->hasActiveSignup()
+          ? $this->Styling->tableLinkIconButton(
+          ButtonIconEnum::QR_CODE,
+          [ParticipantsController::SCAN, $eventInfo->event->id],
+        )
+          : $this->Styling->tableStaticIconButton(ButtonIconEnum::QR_CODE),
         $eventInfo->event->isFinished()
           ? $this->Styling->tableButton(
           __('Anonymize'),
@@ -99,9 +131,10 @@ else {
             HtmlAction::SHOW_DIALOG => '#'.ANONYMIZE,
             HtmlData::EVENT_ID => $eventInfo->event->id,
             HtmlData::EVENT_DATE => $eventInfo->event->event_date->format('Y-m-d H:i'),
-          ]
+          ],
+          true
         )
-          : $this->Styling->tableStaticButton(__('Anonymize')),
+          : $this->Styling->tableStaticButton(__('Anonymize'), ButtonColorEnum::DISABLED, [], true),
         $this->Styling->tableIconButton(
           ButtonIconEnum::REMOVE,
           ButtonColorEnum::DANGER,
@@ -109,7 +142,8 @@ else {
             HtmlAction::SHOW_DIALOG => '#'.REMOVE,
             HtmlData::EVENT_ID => $eventInfo->event->id,
             HtmlData::EVENT_DATE => $eventInfo->event->event_date->format('Y-m-d H:i'),
-          ]
+          ],
+          true
         ),
       ],
       $eventInfo->event->hasActiveSignup()

@@ -109,8 +109,10 @@ class ParticipantsManageCheckins {
       checkinInput.checked,
       checkinInput.getAttribute('data-participant-id')
     );
-    let td = checkinInput.closest('td');
-    td.setAttribute('data-uf-sort-value', checkinInput.checked ? '1' : '0');
+    const td = checkinInput.closest('td');
+    if (td) {
+      td.setAttribute('data-uf-sort-value', checkinInput.checked ? '1' : '0');
+    }
     checkinInput.disabled = false;
   }
 }
