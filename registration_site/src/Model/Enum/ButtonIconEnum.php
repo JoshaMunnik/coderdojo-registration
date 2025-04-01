@@ -11,4 +11,5 @@ enum ButtonIconEnum
   case EDIT;
   case PARTICIPANTS;
   case WORKSHOP;
+  case QR_CODE;
 }
