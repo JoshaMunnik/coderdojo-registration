@@ -13,5 +13,11 @@ use App\View\ApplicationView;
 <h2>Best <?= $user->name ?></h2>
 <p>Welkom op de registratie site.</p>
 <p>
+  Persoonlijk QR code:
+</p>
+<p>
+  <img src="<?= $user->getQRCodeImage()?>" alt="QR Code">
+</p>
+<p>
   <?= $this->Html->link("Bezoek site", $this->url([UserController::INDEX, '_full' => true])) ?>
 </p>
