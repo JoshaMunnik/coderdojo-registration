@@ -114,6 +114,8 @@ class UserIndex {
    */
   #m_workshopUrl;
 
+  #m_dialogObserver;
+
   // endregion
 
   // region public methods
@@ -128,7 +130,16 @@ class UserIndex {
    */
   init(dialogId, workshopUrl) {
     this.#m_dialog = document.getElementById(dialogId);
-    this.#m_dialog.addEventListener('toggle', () => this.#handleToggleDialog());
+    //this.#m_dialog.addEventListener('toggle', () => this.#handleToggleDialog());
+    // use observer instead of toggle event, because it is not supported in all browsers
+    this.#m_dialogObserver = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.attributeName === 'open') {
+          this.#handleToggleDialog();
+        }
+      });
+    });
+    this.#m_dialogObserver.observe(this.#m_dialog, { attributes: true });
     this.#m_workshopUrl = workshopUrl;
     this.#m_previousButton.addEventListener('click', () => this.#handlePreviousClick);
     this.#m_nextButton.addEventListener('click', () => this.#handleNextClick());
