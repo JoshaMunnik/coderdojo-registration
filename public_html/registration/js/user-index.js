@@ -114,6 +114,9 @@ class UserIndex {
    */
   #m_workshopUrl;
 
+  /**
+   * @type MutationObserver
+   */
   #m_dialogObserver;
 
   // endregion
@@ -141,7 +144,7 @@ class UserIndex {
     });
     this.#m_dialogObserver.observe(this.#m_dialog, { attributes: true });
     this.#m_workshopUrl = workshopUrl;
-    this.#m_previousButton.addEventListener('click', () => this.#handlePreviousClick);
+    this.#m_previousButton.addEventListener('click', () => this.#handlePreviousClick());
     this.#m_nextButton.addEventListener('click', () => this.#handleNextClick());
     this.#m_container.addEventListener('mousedown', () => this.#handleMouseDown());
     document.addEventListener('mouseup', () => this.#handleMouseUp(), true);
